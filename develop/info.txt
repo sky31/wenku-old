@@ -1,0 +1,11 @@
+
+--
+http://www.cnblogs.com/penbox/archive/2011/09/02/2163646.html
+
+http://www.blogjava.net/jforeverg/archive/2011/07/06/353813.html
+
+http://www.laruence.com/2012/05/02/2613.html
+
+
+-- 转换为分页的swf
+pdf2swf.exe Paper.pdf -o Paper%.swf -f -T 9 -t -s storeallcharacters
