@@ -21,6 +21,16 @@ class Welcome extends CI_Controller {
 	{
 		$this->load->view('welcome_message');
 	}
+	
+	function test () {
+		
+		$this->load->library("mongo");
+		//echo FCPATH;
+		//echo __FILE__.'b.doc';
+		//exit();file_ge
+		//echo $this->mongo->put(FCPATH.'b.doc');
+		var_dump($this->mongo->remove('5356653b319ccc481400002f'));
+	}
 }
 
 /* End of file welcome.php */
