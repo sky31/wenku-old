@@ -36,7 +36,7 @@ public class ConvertServer {
 			startService();
 			System.out.println("进行文档转换转换:" + inputFile + " --> " + pdfFile);
 			OfficeDocumentConverter converter = new OfficeDocumentConverter(officeManager);
-			converter.convert(new File(inputFile),new File(pdfFile));
+			System.out.println("DEBUG +++++ "+converter.convert(new File(inputFile),new File(pdfFile)));
 			stopService();
 			System.out.println();
         }
@@ -80,6 +80,12 @@ public class ConvertServer {
 
 
 /***
+
+// linux :Linux windows: Windows
+Properties props=System.getProperties();
+System.out.println(props.getProperty("os.name").toLowerCase().startsWith("win"));
+
+
 
 windows下：
 javac -encoding "utf-8" -classpath "%CLASSPATH%;./lib/commons-cli-1.1.jar;./lib/commons-io-1.4.jar;./lib/jodconverter-core-3.0-beta-4.jar;./lib/json-20090211.jar;./lib/juh-3.2.1.jar;./lib/jurt-3.2.1.jar;./lib/ridl-3.2.1.jar;./lib/unoil-3.2.1.jar" ConvertServer.java
