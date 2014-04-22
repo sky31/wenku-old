@@ -6,7 +6,12 @@ import org.artofsolving.jodconverter.office.OfficeManager;
 
 public class ConvertServer {
 		private static  OfficeManager officeManager;
-		private static String OFFICE_HOME = "C:\\Program Files (x86)\\OpenOffice.org 3";
+		//windows
+		//private static String OFFICE_HOME = "C:\\Program Files (x86)\\OpenOffice.org 3";
+		
+		//linux
+		private static String OFFICE_HOME = "/opt/openoffice.org3";
+		
 		private static int port[] = {8100};
 		
 		/**
@@ -75,7 +80,16 @@ public class ConvertServer {
 
 
 /***
+
+windows下：
 javac -encoding "utf-8" -classpath "%CLASSPATH%;./lib/commons-cli-1.1.jar;./lib/commons-io-1.4.jar;./lib/jodconverter-core-3.0-beta-4.jar;./lib/json-20090211.jar;./lib/juh-3.2.1.jar;./lib/jurt-3.2.1.jar;./lib/ridl-3.2.1.jar;./lib/unoil-3.2.1.jar" ConvertServer.java
 
 java -classpath "%CLASSPATH%;./lib/commons-cli-1.1.jar;./lib/commons-io-1.4.jar;./lib/jodconverter-core-3.0-beta-4.jar;./lib/json-20090211.jar;./lib/juh-3.2.1.jar;./lib/jurt-3.2.1.jar;./lib/ridl-3.2.1.jar;./lib/unoil-3.2.1.jar" ConvertServer
+
+
+linux 下
+javac -encoding "utf-8" -classpath ".:/usr/lib/jvm/java-1.6.0-openjdk.x86_64/lib/tools.jar:./lib/commons-cli-1.1.jar:./lib/commons-io-1.4.jar:./lib/jodconverter-core-3.0-beta-4.jar:./lib/json-20090211.jar:./lib/juh-3.2.1.jar:./lib/jurt-3.2.1.jar:./lib/ridl-3.2.1.jar:./lib/unoil-3.2.1.jar" ConvertServer.java
+
+java -classpath ".:/usr/lib/jvm/java-1.6.0-openjdk.x86_64/lib/tools.jar:./lib/commons-cli-1.1.jar:./lib/commons-io-1.4.jar:./lib/jodconverter-core-3.0-beta-4.jar:./lib/json-20090211.jar:./lib/juh-3.2.1.jar:./lib/jurt-3.2.1.jar:./lib/ridl-3.2.1.jar:./lib/unoil-3.2.1.jar" ConvertServer b.doc
+
 ***/
