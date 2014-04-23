@@ -2,7 +2,7 @@
 
 
 /**
- * 自己写的Mongodb类库
+ * 自己写的Mongodb类库，只用于gridfs文件操作
  */
 class MY_Mongo{
 	

@@ -48,6 +48,25 @@ class Welcome extends CI_Controller {
 		echo $this->mongo->get('53572bf35f896d8c27000030');
 		//var_dump($this->mongo->remove('5356653b319ccc481400002f'));
 	}
+	
+	function xuntest() {
+		$this->load->library('xun');
+		$doc = array(
+			'pid'=>'1001',
+			'subject'=>'2012湘潭大学三翼校园',
+			'message'=>'这里是三翼校园，这里是三翼校园'
+		);
+		//var_dump($this->xun->del('1001'));
+		//var_dump($this->xun->add($doc));
+		$search = $this->xun->getSearch();
+		$docs = $search->search('三翼');
+		foreach($docs as $doc) {
+			$subject = $search->highlight($doc->subject);
+			echo $subject.'<br/>';
+			$message = $search->highlight($doc->message);
+			echo $message.'<br/>';
+		}
+	}
 }
 
 /* End of file welcome.php */
