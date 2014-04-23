@@ -37,8 +37,10 @@ class MY_Mongo{
 	/**
 	 * 下载文件
 	 */
-	public function get() {
-		
+	public function get($id) {
+		$oid = new MongoId($id);
+		$files = $this->gridfs->findOne(array('_id'=>$oid));
+		return $files->getBytes();
 	}
 	/**
 	 * 移除文件

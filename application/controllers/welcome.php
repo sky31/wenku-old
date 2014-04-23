@@ -28,8 +28,25 @@ class Welcome extends CI_Controller {
 		//echo FCPATH;
 		//echo __FILE__.'b.doc';
 		//exit();file_ge
+		//exit();
 		//echo $this->mongo->put(FCPATH.'b.doc');
-		var_dump($this->mongo->remove('5356653b319ccc481400002f'));
+		// octet-stream 表示任意二进制数据
+		header("Content-Type: application/octet-stream");
+		
+		//处理中文文件名
+		$filename = "你们好.doc";
+		$ua = $_SERVER["HTTP_USER_AGENT"];
+		$encoded_filename = rawurlencode($filename);
+		if (preg_match("/MSIE/", $ua)) {
+			header('Content-Disposition: attachment; filename="' . $encoded_filename . '"');
+		} else if (preg_match("/Firefox/", $ua)) {
+			header("Content-Disposition: attachment; filename*=\"utf8''" . $filename . '"');
+		} else {
+			header('Content-Disposition: attachment; filename="' . $filename . '"');
+		}
+		
+		echo $this->mongo->get('53572bf35f896d8c27000030');
+		//var_dump($this->mongo->remove('5356653b319ccc481400002f'));
 	}
 }
 
