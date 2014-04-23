@@ -7,10 +7,10 @@ import org.artofsolving.jodconverter.office.OfficeManager;
 public class ConvertServer {
 		private static  OfficeManager officeManager;
 		//windows
-		//private static String OFFICE_HOME = "C:\\Program Files (x86)\\OpenOffice.org 3";
+		private static String OFFICE_HOME = "C:\\Program Files\\OpenOffice.org 3";
 		
 		//linux
-		private static String OFFICE_HOME = "/opt/openoffice.org3";
+		//private static String OFFICE_HOME = "/opt/openoffice.org3";
 		
 		private static int port[] = {8100};
 		
@@ -36,13 +36,18 @@ public class ConvertServer {
 			startService();
 			System.out.println("进行文档转换转换:" + inputFile + " --> " + pdfFile);
 			OfficeDocumentConverter converter = new OfficeDocumentConverter(officeManager);
-			System.out.println("DEBUG +++++ "+converter.convert(new File(inputFile),new File(pdfFile)));
+			converter.convert(new File(inputFile),new File(pdfFile));
 			stopService();
 			System.out.println();
         }
 		
 		public void convert2PDF(String inputFile) {
 			String pdfFile = FileUtils.getFilePrefix(inputFile)+".pdf";
+			convert2PDF(inputFile, pdfFile); 
+		}
+		
+		public void convert2TXT(String inputFile) {
+			String pdfFile = FileUtils.getFilePrefix(inputFile)+".txt";
 			convert2PDF(inputFile, pdfFile); 
 		}
 		
@@ -74,7 +79,7 @@ public class ConvertServer {
 		public static void main(String []arvg) {
 			String inputFile = arvg[0];
 			ConvertServer cs = new ConvertServer();
-			cs.convert2PDF(inputFile);
+			cs.convert2TXT(inputFile);
 		}
 }
 
