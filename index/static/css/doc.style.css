@@ -9,3 +9,6 @@ body { font-family:"微软雅黑",sans-serif; padding-top: 50px;}
 
 .m-index-search { width: 520px; margin: 0 auto;}
 .form-inline .form-control { width: 400px;}
+.radio {margin-right: 8px;}
+
+.list-group-item .badge {background-color: #18BC9C; margin-left: 2px;}
