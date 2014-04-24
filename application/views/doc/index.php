@@ -12,7 +12,7 @@
 					-->
 					<div class="row">
 						<div class="col-lg-9"><input class="form-control" name="test" id="inputSearch" type="text"></div>
-						<div class="col-lg-3"><button type="button" class="btn btn-success">搜索</button></div>
+						<div class="col-lg-1"><button type="button" class="btn btn-success">搜索</button></div>
 						<br>
 						<div class="col-lg-9">
 							<div class="radio">
