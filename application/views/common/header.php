@@ -31,7 +31,7 @@
 						</li>
 					</ul>
 
-					<form class="navbar-form navbar-right">
+					<form class="navbar-form navbar-right hidden-xs">
 		      			<input class="form-control col-md-4" id="loginUser" placeholder="学号/工号/邮箱" type="text">
 		      			<input class="form-control col-md-4" id="loginPass" placeholder="密码" type="password">
 		      			<button class="btn btn-warning" >登录</button><button class="btn btn-danger" >注册</button>
