@@ -20,11 +20,11 @@
 				</div>
 				<div class="navbar-collapse collapse" id="navbar-main">
 					<ul class="nav navbar-nav">
-						<li>
+						<li class="active">
 							<a href="/">首页</a>
 						</li>
 						<li>
-							<a href="/list">文库</a>
+							<a href="/lists">文库</a>
 						</li>
 						<li>
 							<a href="/home">个人中心</a>

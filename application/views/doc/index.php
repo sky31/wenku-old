@@ -1,6 +1,7 @@
 
 
-	<div class="page-header" id="banner">
+	<div class="page-header text-center" id="banner">
+		<img src="/static/image/logo.png">
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
@@ -11,10 +12,14 @@
 					<button type="submit" class="btn btn-success">搜索</button>
 					-->
 					<div class="row">
-						<div class="col-lg-9"><input class="form-control" name="test" id="inputSearch" type="text"></div>
-						<div class="col-lg-1"><button type="button" class="btn btn-success">搜索</button></div>
+						<div class="col-lg-8 col-lg-offset-3">
+						 	<div class="form-group">
+						 		<input class="form-control" name="test" id="inputSearch" type="text">
+						 	</div>
+							<button type="button" class="btn btn-success">搜索</button>
+						</div>
 						<br>
-						<div class="col-lg-9">
+						<div class="col-lg-9 col-lg-offset-3">
 							<div class="radio">
 								<label>
 									<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>

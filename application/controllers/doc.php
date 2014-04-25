@@ -15,4 +15,22 @@ class Doc extends MY_Controller {
 		$this->load->view("doc/index.php");
 		$this->load->view("common/footer.php");
 	}
+	
+	/**
+	 * 文库页
+	 */
+	function lists() {
+		$this->load->view("common/header.php");
+		$this->load->view("doc/list.php");
+		$this->load->view("common/footer.php");
+	}
+	
+	/**
+	 * 搜索
+	 */
+	function search() {
+		$this->load->view("common/header.php");
+		$this->load->view("doc/search.php");
+		$this->load->view("common/footer.php");
+	}
 }

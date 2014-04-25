@@ -38,7 +38,11 @@
 |
 */
 
+$route['lists'] = "doc/lists";
+$route['search'] = "doc/search";
+
 $route['default_controller'] = "doc/index";
+
 $route['404_override'] = '';
 
 

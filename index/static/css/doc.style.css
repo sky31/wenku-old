@@ -7,8 +7,16 @@ body { font-family:"微软雅黑",sans-serif; padding-top: 50px;}
 .navbar-form input{ margin-right: 5px; height: 38px; padding: 8px 13px;}
 .navbar-form button { margin-right: 5px; height: 38px; line-height: 1.0;}
 
-.m-index-search { width: 520px; margin: 0 auto;}
-.form-inline .form-control { width: 400px;}
+
+.form-inline .form-control { width: 490px;}
 .radio {margin-right: 8px;}
 
 .list-group-item .badge {background-color: #18BC9C; margin-left: 2px;}
+
+#bannerSearch { margin-top: 42px; margin-bottom: 30px;}
+.list-search-div { margin-top: 4px;}
+.list-group-info { margin-bottom: 0px; line-height: 32px; font-size: 13px; color: #888888; font-family:"宋体"; margin-bottom: 4px;}
+
+.list-group em { font-style: normal; color: #CC0200;}
+.pagination { margin-top: 0px;}
+.m-s-nums { margin-bottom: 6px; color:#888888;}
