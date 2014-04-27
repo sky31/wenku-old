@@ -1,0 +1,16 @@
+--
+--  存储在Redis中的数据
+--
+
+-- DOC.CT.{$fid}         -- 文档的浏览数
+-- DOC.DT.{$fid}         -- 下载次数
+
+-- DOC.JF.{$uid}         -- 用户的积分 
+
+-- DOC.Z.MRANK            -- 排行
+-- DOC.Z.WRANK            -- 周排行
+-- DOC.L.NEW              -- 新文档列表(定期删除队列尾部的)
+
+//缓存
+--- C.PAGE  // 页面缓存
+--- C.OTHER // 其他缓存

@@ -32,9 +32,9 @@
 					</ul>
 					
 					<form class="navbar-form navbar-right">
-		      			<input class="form-control col-md-4" id="loginUser" placeholder="学号/工号/邮箱" type="text">
-		      			<input class="form-control col-md-4" id="loginPass" placeholder="密码" type="password">
-		      			<button class="btn btn-warning" >登录</button><button class="btn btn-danger" >注册</button>
+		      			<input class="form-control col-md-4" id="loginUser" placeholder="学号/工号" type="text">
+		      			<input class="form-control col-md-4" id="loginPass" placeholder="密码/教管密码" type="password">
+		      			<button class="btn btn-danger" >登录</button>
 		    		</form>
 					
 		    		<!--登录后显示

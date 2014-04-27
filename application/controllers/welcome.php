@@ -67,6 +67,20 @@ class Welcome extends CI_Controller {
 			echo $message.'<br/>';
 		}
 	}
+	
+	function testSomething() {
+		$this->load->library('User_check');
+		var_dump($this->user_check->get_info('00960485', '666666'));
+		//var_dump($this->user_check->get_info('2011960509', '123456'));
+	}
+	
+	
+	function model_test() {
+		$this->load->model('user_model');
+		
+		echo $this->user_model->add_user(
+				'2011960509', '123456', '郭子仟', '杜草', 'heimonsy@gmail.com', 1);
+	}
 }
 
 /* End of file welcome.php */
