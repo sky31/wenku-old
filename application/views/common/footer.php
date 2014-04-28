@@ -14,6 +14,24 @@
 				<br>
 			</footer>
 		</div>
+
+<div class="modal fade" id="linkInModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title"><span class="glyphicon glyphicon-link"></span>第一次登录文库</h4>
+      </div>
+      <div class="modal-body" id="m-access-info">
+      	<p class="text-center"><img src="/static/image/loading.gif"></p>
+        <p>这是你第一次登录文库系统，正在为你接入系统，需等待10秒左右……</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
 		<script src="/static/js/jquery-1.10.2.min.js"></script>
 		<script src="/static/js/bootstrap.min.js"></script>
 		<script src="/static/js/doc.js?v=1"></script>

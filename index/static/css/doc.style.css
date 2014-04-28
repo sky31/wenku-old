@@ -11,7 +11,7 @@ body { font-family:"微软雅黑",sans-serif; padding-top: 50px;}
 .form-inline .form-control { width: 490px;}
 .radio {margin-right: 8px;}
 
-.list-group-item .badge {background-color: #18BC9C; margin-left: 2px;}
+.col-lg-4 .badge {background-color: #18BC9C; margin-left: 2px;}
 
 #bannerSearch { margin-top: 42px; margin-bottom: 30px;}
 .list-search-div { margin-top: 4px;}
@@ -20,3 +20,18 @@ body { font-family:"微软雅黑",sans-serif; padding-top: 50px;}
 .list-group em { font-style: normal; color: #CC0200;}
 .pagination { margin-top: 0px;}
 .m-s-nums { margin-bottom: 6px; color:#888888;}
+
+.m-path { font-size: 12px; font-family: "宋体"; color: #888888;}
+
+h3 img {vertical-align: top;}
+h3 .btn-sm {margin-left: 12px;}
+.m-lg-title {margin-bottom: 5px;}
+
+.reader-div { height: 680px; margin: auto; position: relative; background: none repeat scroll 0 0 #F6F9F8; line-height: 2em; font-size: 14px; z-index: 1;}
+.m-up { margin-top: 36px;}
+.m-cp { margin-top: 20px;}
+.m-pd-lg { padding: 0 6px 4px 6px;}
+
+img.media-object { border: #eeeeee solid 1px; padding: 3px 3px 3px 3px;}
+
+.m-nav-face img{ margin-top: 4px;}

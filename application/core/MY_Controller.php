@@ -7,7 +7,7 @@
  */
 class MY_Controller extends CI_Controller{
 	
-	private function ajax_return($data=array()) {
+	protected function ajax_return($data=array()) {
 		if(is_array($data))
 			$data = json_encode($data);
 		

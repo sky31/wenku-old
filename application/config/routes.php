@@ -40,6 +40,8 @@
 
 $route['lists'] = "doc/lists";
 $route['search'] = "doc/search";
+$route['access'] = "login/access";
+$route['register'] = "login/register";
 
 $route['default_controller'] = "doc/index";
 

@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="/static/css/doc.style.css?v=1">
 	</head>
 	<body>
-		<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar navbar-inverse navbar-fixed-top"><!---->
 			<div class="container">
 				<div class="navbar-header">
 					<a href="/" class="navbar-brand">湘大文库</a>
@@ -20,29 +20,31 @@
 				</div>
 				<div class="navbar-collapse collapse" id="navbar-main">
 					<ul class="nav navbar-nav">
-						<li class="active">
+						<li <?php if(isset($nav) && $nav=="index") echo 'class="active"';?> >
 							<a href="/">首页</a>
 						</li>
-						<li>
+						<li <?php if(isset($nav) && $nav=="list") echo 'class="active"';?> >
 							<a href="/lists">文库</a>
 						</li>
-						<li>
+						<li <?php if(isset($nav) && $nav=="home") echo 'class="active"';?> >
 							<a href="/home">个人中心</a>
 						</li>
 					</ul>
+					<?php 
+						if($is_login) {
+					?>
+						<ul class="nav navbar-nav navbar-right">
+							<li class="m-nav-face"><img src="/static/image/face/<?php echo $user_face; ?>.jpg" width="46" /></li>
+							<li><a href="/home"><?php echo $user_nickname; ?></a></li>
+						</ul>
+		    		<?php } else {?>
 					
-					<form class="navbar-form navbar-right">
+					<div class="navbar-form navbar-right">
 		      			<input class="form-control col-md-4" id="loginUser" placeholder="学号/工号" type="text">
 		      			<input class="form-control col-md-4" id="loginPass" placeholder="密码/教管密码" type="password">
-		      			<button class="btn btn-danger" >登录</button>
-		    		</form>
-					
-		    		<!--登录后显示
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="http://builtwithbootstrap.com/">杜草</a></li>
-						<li><a href="https://wrapbootstrap.com/?ref=bsw">操作</a></li>
-					</ul>
-					-->
+		      			<button class="btn btn-danger" id="topLogin" >登录</button>
+		    		</div>
+					<?php }?>
 				</div><!-- navbar-header -->
 			</div><!-- container -->
 		</div><!-- navbar -->

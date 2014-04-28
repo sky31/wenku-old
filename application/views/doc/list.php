@@ -71,6 +71,7 @@
 			<a class="list-group-item" href="#">计算机/电子</a>
 			<a class="list-group-item" href="#">软件工程</a>
 			<a class="list-group-item" href="#">通知公告</a>
+			<a class="list-group-item" href="#">各类表格</a>
 			<a class="list-group-item" href="#">其他</a>			
 		</div>
 	</div>
