@@ -81,6 +81,15 @@ class Welcome extends CI_Controller {
 		echo $this->user_model->add_user(
 				'2011960509', '123456', '郭子仟', '杜草', 'heimonsy@gmail.com', 1);
 	}
+	
+	/**
+	 * 
+	 */
+	function user_agent() {
+		//var_($_REQUEST);
+		print_r($_SERVER);
+		//echo $this->input->user_agent();
+	}
 }
 
 /* End of file welcome.php */

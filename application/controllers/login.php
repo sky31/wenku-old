@@ -28,13 +28,18 @@ class Login extends MY_Controller {
 	}
 	
 	/**
-	 * 用户登录
+	 * 用户登录的控制
 	 */
 	public function post() {
 		$login_num = $this->input->post('num');
 		$password  = $this->input->post('pass');
-		
 		$res = $this->user_model->login($login_num, $password);
+		if($res['ret']==0) {
+			// 保存用户的登录信息到cookie中用于cookie登录
+			$this->user_model->set_cookie_login(
+				$this->user_model->user_info('id')
+			);
+		}
 		$this->ajax_return($res);
 	}
 	

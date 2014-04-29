@@ -53,8 +53,15 @@ class User_model extends CI_Model {
 				$_SESSION['USER_ID'] = $row['id'];
 				$_SESSION['USER_NICKNAME'] = $row['nickname'];
 				$_SESSION['USER_FACE'] = $row['face'];
-				
 				$ret = array('ret'=>0, 'info'=>'ok');
+				
+				//更新用户的登录信息
+				$this->db->where('id', $row['id']);
+				$this->db->update('user', array(
+					'last_login_time' => time(),
+					'last_login_ip'   => $this->input->ip_address()
+				));
+				
 			} else {
 				$ret = array('ret'=>1, 'info'=>'帐号或密码错误');
 			}
@@ -66,10 +73,89 @@ class User_model extends CI_Model {
 	}
 	
 	/**
+	 * cookie 登录
+	 */
+	function cookie_login() {
+		$cauth = $this->input->cookie('DOC31CAUTH');
+		$fid   = $this->input->cookie('fid');
+		if($cauth && $fid) {
+			$this->load->library('redis');
+			$cauth_key = $this->cookie_redis_key($fid, $cauth);
+			$uid = $this->redis->get($cauth_key); //从 redis 获得用户的id
+			
+			if($cauth==$this->calc_cauth($uid, $this->input->user_agent().'')) {
+				// 提取用户的信息
+				$this->load->database();
+				$this->db->select('nickname, password, face');
+				$result = $this->db->get_where('user', array('id'=>$uid));
+				$row = $result->row_array();
+				$_SESSION['IS_LOGIN'] = 'YES';
+				$_SESSION['USER_ID'] = $uid;
+				$_SESSION['USER_NICKNAME'] = $row['nickname'];
+				$_SESSION['USER_FACE'] = $row['face'];
+				return true;
+				
+			} else{
+				$this->redis->del($cauth_key);
+				$this->input->set_cookie(array(
+					'name'=>'DOC31CAUTH',
+					'value'=>''
+				));
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 设置cookie登录
+	 * @param integer $uid 用户的id
+	 * @param integer $time 存续时间，秒，默认为一个星期：60*60*24*7=604800
+	 */
+	function set_cookie_login($uid, $expire=604800) {
+		$cauth = $this->calc_cauth($uid, $this->input->user_agent().'');
+		// 一个假的id，用来确保唯一性，因为sha1也不一定唯一
+		$fid = $uid + 24308;
+		
+		$this->input->set_cookie(array(
+			'name'=>'DOC31CAUTH',
+			'value'=>$cauth,
+			'expire'=>$expire
+		));
+		
+		$this->input->set_cookie(array(
+				'name'=>'fid',
+				'value'=>$fid,
+				'expire'=>$expire
+		));
+		
+		$this->load->library('redis');
+		// 存储在redis中
+		$this->redis->setex(
+				$this->cookie_redis_key($fid, $cauth), $expire, $uid);
+	}
+	
+	/**
+	 * 计算cauth
+	 */
+	private function calc_cauth($uid, $uagent) {
+		return sha1('heimonsy'.$uid.$uagent);
+	}
+	
+	/**
+	 * 计算redis 的 cookie key
+	 */
+	private function cookie_redis_key($fid, $cauth){
+		return 'D.CAUTH.'.$fid.$cauth;
+	}
+	
+	/**
 	 * 判断用户是否已经登录
 	 */
 	function is_login() {
 		if(isset($_SESSION['IS_LOGIN']) && $_SESSION['IS_LOGIN']==="YES") {
+			return true;
+		} else if($this->cookie_login()){
 			return true;
 		}
 		return false;
@@ -89,7 +175,7 @@ class User_model extends CI_Model {
 		if(is_array($field)){
 			
 		} else if(isset(
-				$_SESSION['USER_'.strtoupper($field)] )){
+				$_SESSION['USER_'.strtoupper($field)] )) {
 			$ret =  $_SESSION['USER_'.strtoupper($field)];
 		} else {
 			// 从数据库获取单个字段
