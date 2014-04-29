@@ -40,4 +40,11 @@ class Home extends MY_Controller {
 		$this->load->helper('url');
 		redirect('/');
 	}
+	
+	/**
+	 * 上传文件
+	 */
+	public function upload_file(){
+		
+	}
 }

@@ -10,7 +10,7 @@ CREATE TABLE `doc31_user` (
   `is_verify` TINYINT(2) NOT NULL DEFAULT 0 COMMENT '是否通过认证',      -- 是否认证通过
   `last_login_time` INT DEFAULT NULL COMMENT '最后登录的时间',
   `last_login_ip`  varchar(32) DEFAULT NULL COMMENT '最后登录的ip',
-  `is_del`   INT DEFAULT 0 COMMENT '是否删除(禁用)',
+  `is_del`   INT(1) DEFAULT 0 COMMENT '是否删除(禁用)',
   PRIMARY KEY (`id`),
   unique key (`email`),
   unique key (`login_num`)
@@ -18,15 +18,16 @@ CREATE TABLE `doc31_user` (
 
 
 DROP TABLE IF EXISTS `doc31_files`;
-CREATE TABLE `doc31_` (
-  `fid` varchar(25) NOT NULL AUTO_INCREMENT,   -- mongodb生成的ID
+CREATE TABLE `doc31_files` (
+  `fid` varchar(25) NOT NULL,   -- mongodb生成的ID
   `uid` int(11) not null,                      -- 用户的ID
-  `fname`  varchar(20) NOT NULL COMMENT '文件名', -- 文件名
-  `sumary` varchar(512) NOT NULL COMMENT '文章摘要',
-  `jf`     SAMLLINT(4) NOT NULL DEFAULT 0 COMMENT '下载文章所需的积分',
-  PRIMARY KEY (`id`),
-  unique key (`email`),
-  unique key (`login_num`),
+  `fname`  varchar(255) NOT NULL COMMENT '文件名', -- 文件名
+  `sumary` varchar(512) NOT NULL DEFAULT '' COMMENT '文章摘要',
+  `jf` INT(4) NOT NULL DEFAULT 0 COMMENT '下载文章所需的积分',
+  `catalog`  varchar(20) NOT NULL  COMMENT '分类',
+  `is_del` tinyint(1) not null default 0 COMMENT '是否删除文件',
+  PRIMARY KEY (`fid`),
+  key(`uid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 

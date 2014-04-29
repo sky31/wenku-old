@@ -63,4 +63,35 @@ $(function(){
 		/* Act on the event */
 		$("#uploadModal").modal("show");
 	});
+
+	var XtuDoc = {};
+	XtuDoc.errorQueue = Array();
+
+	$('#file_upload').uploadify({
+			'fileSizeLimit' : '30MB',
+			'fileTypeExts' : '*.pptx; *.ppt; *.xlsx; *.xls; *.pdf; *.doc; *.docx',
+			'buttonClass': 'm-up-btn',
+			'buttonText' : '选择文件',
+			'onUploadSuccess' : function(file, data, response){
+				data = $.parseJSON(data);
+				if(data.ret!=0) {
+					XtuDoc.errorQueue.push(data.info);
+				}
+				//alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+			},
+			'onQueueComplete' : function(queueData) {
+				if(XtuDoc.errorQueue.length==0) {
+            		$("#uploadResultShow").html(queueData.uploadsSuccessful+" 个文件上传成功，获得 " + (queueData.uploadsSuccessful*3) + " 积分");
+				} else {
+            		var str = "下列文件上传失败：<br>";
+            		while(XtuDoc.errorQueue.length!=0) {
+            			str += XtuDoc.errorQueue.pop() +"<br>";
+            		}
+            		$("#uploadErrorShow").html(str);
+				}
+        	},
+			'swf'      : '/static/swf/uploadify.swf',
+			'uploader' : '/welcome/do_upload',
+			
+	});
 });

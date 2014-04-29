@@ -165,6 +165,10 @@ class User_model extends CI_Model {
 	 * 登出的操作
 	 */
 	function logout() {
+		$this->input->set_cookie(array(
+			'name'=>'DOC31CAUTH',
+			'value'=>'',
+		));
 		unset($_SESSION['IS_LOGIN']);
 	}
 	

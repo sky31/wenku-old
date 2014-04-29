@@ -8,6 +8,3 @@
 $config['mongo']['host'] = 'localhost';
 // 端口		
 $config['mongo']['port'] = '27017';
-// 库名
-$config['mongo']['database'] = 'xtudoc';
-
