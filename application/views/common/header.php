@@ -5,7 +5,7 @@
 		<title>湘大文库</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/static/css/flatly/bootstrap.css" media="screen">
-		<link rel="stylesheet" href="/static/css/doc.style.css?v=3">
+		<link rel="stylesheet" href="/static/css/doc.style.css?v=2">
 		<link rel="stylesheet" href="/static/css/uploadify.css">
 	</head>
 	<body>
