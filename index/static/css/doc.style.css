@@ -11,6 +11,7 @@ body { font-family:"微软雅黑",sans-serif; padding-top: 50px;}
 #m-input-search-div { width: 100%;}
 #inputSearch { width: 100%;}
 .m-serach-row .m-search-row-input { padding-right: 0px;}
+.col-lg-12 .radio { display: inline-block;}
 
 .radio {margin-right: 8px;}
 
