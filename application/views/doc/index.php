@@ -20,7 +20,7 @@
 						 			</div>
 						 			
 						 		</div>
-						 		<div class="col-lg-3 m-search-row-btn">
+						 		<div class="col-lg-2 m-search-row-btn">
 						 			<button type="button" class="btn btn-success">搜索</button>
 						 		</div>
 							</div>
