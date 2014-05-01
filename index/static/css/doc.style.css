@@ -10,7 +10,8 @@ body { font-family:"微软雅黑",sans-serif; padding-top: 50px;}
 
 #m-input-search-div { width: 100%;}
 #inputSearch { width: 100%;}
-.m-serach-row .m-search-row-input { padding-right: 0px;}
+.m-serach-row div { padding: 5px 5px 5px 5px;}
+.m-serach-row .m-search-row-btn { margin-left: 5px;}
 
 .radio {margin-right: 8px;}
 
