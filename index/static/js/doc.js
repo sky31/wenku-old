@@ -65,7 +65,7 @@ $(function(){
 	});
 
 	var XtuDoc = {};
-	XtuDoc.errorQueue = Array();
+	XtuDoc.UploadQueue = Array();
 
 	$('#file_upload').uploadify({
 			'fileSizeLimit' : '30MB',

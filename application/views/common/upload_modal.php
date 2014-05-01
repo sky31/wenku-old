@@ -29,6 +29,10 @@
         </div>
         <div class="row" id="modalPassBody">
             <div class="col-lg-12">
+              为你的上传的文件设置积分
+            </div>
+            <br>
+            <div class="col-lg-12">
                 <table class="table table-striped table-hover ">
                   <thead>
                     <tr>
@@ -63,7 +67,8 @@
             <br>
             <div class="col-lg-7">
               * 其他用户下载你的文件：<br>
-                你得到的积分 = (1 + "文件积分")
+              &nbsp;&nbsp;你得到的积分 = (1 + "文件积分")<br>
+              * 本着共享的精神，推荐 文件积分=0
             </div>
             <div class="col-lg-4 text-right">
               <button class="btn btn-primary btn-sm">提交</button>

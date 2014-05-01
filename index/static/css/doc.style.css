@@ -8,7 +8,10 @@ body { font-family:"微软雅黑",sans-serif; padding-top: 50px;}
 .navbar-form button { margin-right: 5px; height: 38px; line-height: 1.0;}
 
 
-.form-inline .form-control { width: 490px;}
+#m-input-search-div { width: 100%;}
+#inputSearch { width: 100%;}
+.m-serach-row .m-search-row-input { padding-right: 0px;}
+
 .radio {margin-right: 8px;}
 
 .col-lg-4 .badge {background-color: #18BC9C; margin-left: 2px;}

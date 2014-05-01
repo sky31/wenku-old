@@ -7,10 +7,17 @@
 		<form class="form-inline">
 			<div class="col-lg-12">
 			
-				<div class="form-group">
-					<input class="form-control" name="test" id="inputSearch" type="text">
+				<div class="row m-serach-row">
+					<div class="col-lg-7 m-search-row-input" >
+						<div class="form-group" id="m-input-search-div">
+						 	<input class="form-control" name="test" id="inputSearch" type="text">
+						</div>
+						 			
+					</div>
+					<div class="col-lg-3 m-search-row-btn">
+						 <button type="button" class="btn btn-success">搜索</button>
+					</div>
 				</div>
-				<button type="button" class="btn btn-success">搜索</button>
 			</div>
 			<br>
 			<div class="col-lg-12">
