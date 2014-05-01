@@ -108,27 +108,38 @@ class Welcome extends MY_Controller {
 	function do_upload() {
 		$res = array();
 		if(!empty($_FILES['Filedata'])) {
+			$res['info'] = array();
 			$size     = $_FILES['Filedata']['size'];
 			$filename = $_FILES['Filedata']['name'];
+			$res['info']['fname'] = $filename;
 			if($size<1024*1024*30){
 				//允许的文件类型
 				$allow_file_types = array('doc','docx','ppt','pptx', 'xlsx', 'xls', 'pdf');
 				$fileParts = pathinfo($filename);
 				if(in_array($fileParts['extension'], $allow_file_types)) {
-					move_uploaded_file($_FILES['Filedata']['tmp_name'], './uploads/'.$filename);
+					// 执行上传操作
+					// move_uploaded_file($_FILES['Filedata']['tmp_name'], './uploads/'.$filename);
 					$res['ret'] = 0;
-					$res['info'] = 'ok';
+					$res['info']['fid'] = 'fuck'.rand(0, 1000000);
 				} else {
 					$res['ret'] = 1;
-					$res['info'] = $filename.' 文件超过30M';
+					$res['info']['msg'] = '文件类型错误';
 				}
 				
 			} else {
 				$res['ret'] = 1;
-				$res['info'] = $filename.' 文件超过30M';
+				$res['info']['msg'] = '文件类型错误';	
 			}
 		}
 		$this->ajax_return($res);
+	}
+	
+	/**
+	 * 
+	 */
+	function post_jf() {
+		parse_str($this->input->post('data'), $data);
+		print_r($data);
 	}
 }
 

@@ -90,7 +90,7 @@
 	<div class="col-lg-3">
 		<div class="row">
 			<div class="col-lg-12 m-up">
-				<button class="btn btn-warning form-control"><span class="glyphicon glyphicon-upload"></span> 上传我的文档</button>
+				<button id="openUploadModal" class="btn btn-warning form-control"><span class="glyphicon glyphicon-upload"></span> 上传我的文档</button>
 			</div>
 		</div>
 		<div class="row">

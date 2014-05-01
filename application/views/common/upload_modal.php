@@ -6,7 +6,12 @@
         <h4 class="modal-title" id="uploadModalLabel"><span class="glyphicon glyphicon-upload"></span>上传新文件</h4>
       </div>
       <div class="modal-body">
-        <div class="row" id="modalUploadBody" style="display:none;">
+        
+
+        <div class="row" id="modalUploadBody">
+            <div class="col-lg-12 text-center">
+                <div id="showResult"></div>
+            </div>
             <div class="col-lg-6 m-up-ts">
                 * 允许上传文件的格式包括：pdf, doc, docx, xls, xlsx, ppt, pptx。<br>
                 * 单个文件大小最大30M。<br>
@@ -27,42 +32,27 @@
               </div>
             </div>
         </div>
-        <div class="row" id="modalPassBody">
-            <div class="col-lg-12">
-              为你的上传的文件设置积分
+        <div class="row" id="modalPassBody" style="display:none;">
+            <div class="col-lg-12 text-center">
+              设置文件下载积分
             </div>
             <br>
             <div class="col-lg-12">
-                <table class="table table-striped table-hover ">
+              <form id="jfForm">
+                <table class="table table-striped table-hover table-bordered">
                   <thead>
                     <tr>
                       <th>#</th>
                       <th>文件名</th>
-                      <th>积分</th>
+                      <th>上传状态</th>
+                      <th>下载积分</th>
+                      <th>分类</th>
                     </tr>
                   </thead>
                   <tbody id="tablePassListBody">
-                    <tr class="success">
-                      <td>1</td>
-                      <td>2013高等数学期末考试试卷</td>
-                      <td>
-                        <select>
-                            <option value="0" selected>0积分</option>
-                            <option value="1">1积分</option>
-                            <option value="2">2积分</option>
-                            <option value="4">4积分</option>
-                            <option value="8">8积分</option>
-                        </select>
-                      </td>
-                    </tr>
-
-                    <tr class="danger">
-                      <td>1</td>
-                      <td>2013高等数学期末考试试卷</td>
-                      <td>上传失败</td>
-                    </tr>
                   </tbody>
                 </table> 
+              </form>
             </div>
             <br>
             <div class="col-lg-7">
@@ -71,7 +61,7 @@
               * 本着共享的精神，推荐 文件积分=0
             </div>
             <div class="col-lg-4 text-right">
-              <button class="btn btn-primary btn-sm">提交</button>
+              <button id="submitJf" class="btn btn-primary btn-sm">提交</button>
             </div>
         </div>
       </div>

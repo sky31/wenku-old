@@ -24,7 +24,7 @@ CREATE TABLE `doc31_files` (
   `fname`  varchar(255) NOT NULL COMMENT '文件名', -- 文件名
   `sumary` varchar(512) NOT NULL DEFAULT '' COMMENT '文章摘要',
   `jf` INT(4) NOT NULL DEFAULT 0 COMMENT '下载文章所需的积分',
-  `catalog`  varchar(20) NOT NULL  COMMENT '分类',
+  `catalog`  varchar(20) NOT NULL DEFAULT 'other'  COMMENT '分类',
   `is_del` tinyint(1) not null default 0 COMMENT '是否删除文件',
   PRIMARY KEY (`fid`),
   key(`uid`)

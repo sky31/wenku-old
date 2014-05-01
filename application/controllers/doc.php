@@ -41,7 +41,10 @@ class Doc extends MY_Controller {
 	/**
 	 * 文库页
 	 */
-	function lists() {
+	function lists($catalog='all', $page=1) {
+		if($catalog=='all') {
+			$this->datas['prefix_title'] = '全部文档列表 | ';
+		}
 		$this->datas['nav'] = 'list';
 		$this->load->view("common/header.php", $this->datas);
 		$this->load->view("doc/list.php");
@@ -64,6 +67,7 @@ class Doc extends MY_Controller {
 		$this->datas['nav'] = 'list';
 		$this->load->view("common/header.php", $this->datas);
 		$this->load->view("doc/view.php");
+		$this->load->view("common/upload_modal.php");
 		$this->load->view("common/footer.php");
 	}
 }

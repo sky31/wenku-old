@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>湘大文库</title>
+		<title><?php echo empty($prefix_title)? '':$prefix_title; ?>湘大文库</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/static/css/flatly/bootstrap.css" media="screen">
 		<link rel="stylesheet" href="/static/css/doc.style.css?v=4">
@@ -50,3 +50,6 @@
 			</div><!-- container -->
 		</div><!-- navbar -->
 		<div class="container">
+<script>
+var DOC_IS_LOGIN = <?php echo $is_login ? 'true' : 'false';?>;
+</script>

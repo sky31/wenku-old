@@ -58,27 +58,30 @@
 <div class="row">
 	<div class="col-lg-3">
 		<div class="list-group">
-			<a class="list-group-item active" href="#">全部</a>
-			<a class="list-group-item" href="#">数学</a>
-			<a class="list-group-item" href="#">文学</a>
-			<a class="list-group-item" href="#">法学</a>
-			<a class="list-group-item" href="#">英语</a>
-			<a class="list-group-item" href="#">小语种</a>
-			<a class="list-group-item" href="#">化工</a>
-			<a class="list-group-item" href="#">物理</a>
-			<a class="list-group-item" href="#">哲史</a>
-			<a class="list-group-item" href="#">思想政治</a>
-			<a class="list-group-item" href="#">工商管理</a>
-			<a class="list-group-item" href="#">经济/经融</a>
-			<a class="list-group-item" href="#">新闻传播/影视</a>
-			<a class="list-group-item" href="#">机械</a>
-			<a class="list-group-item" href="#">材料</a>
-			<a class="list-group-item" href="#">土木/建筑</a>
-			<a class="list-group-item" href="#">计算机/电子</a>
-			<a class="list-group-item" href="#">软件工程</a>
-			<a class="list-group-item" href="#">通知公告</a>
-			<a class="list-group-item" href="#">各类表格</a>
-			<a class="list-group-item" href="#">其他</a>			
+			<a class="list-group-item active" href="/lists">全部</a>
+			<a class="list-group-item" href="/lists/math">数学</a>
+			<a class="list-group-item" href="/lists/literatrue">文学</a>
+			<a class="list-group-item" href="/lists/law">法学</a>
+			<a class="list-group-item" href="/lists/english">英语</a>
+			<a class="list-group-item" href="/lists/foreign">小语种</a>
+			<a class="list-group-item" href="/lists/chemical">化工</a>
+			<a class="list-group-item" href="/lists/physical">物理</a>
+			<a class="list-group-item" href="/lists/histophilo">哲史</a>
+			<a class="list-group-item" href="/lists/political">思想政治</a>
+			<a class="list-group-item" href="/lists/ba">工商管理</a>
+			<a class="list-group-item" href="/lists/economic">经济/经融</a>
+			<a class="list-group-item" href="/lists/newsspread">新闻/传播</a>
+			<a class="list-group-item" href="/lists/advfilm">广告/影视</a>
+			<a class="list-group-item" href="/lists/art">艺术/美学</a>
+			<a class="list-group-item" href="/lists/music">音乐</a>
+			<a class="list-group-item" href="/lists/mechanics">机械</a>
+			<a class="list-group-item" href="/lists/material">材料</a>
+			<a class="list-group-item" href="/lists/civilbuild">土木/建筑</a>
+			<a class="list-group-item" href="/lists/computer">计算机科学</a>
+			<a class="list-group-item" href="/lists/electronic">电子技术</a>
+			<a class="list-group-item" href="/lists/notice">通知公告</a>
+			<a class="list-group-item" href="/lists/table">各类表格</a>
+			<a class="list-group-item" href="/lists/other">其他</a>			
 		</div>
 	</div>
 	<div class="col-lg-9">
