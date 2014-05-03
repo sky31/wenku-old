@@ -15,16 +15,27 @@ class Files_model extends CI_Model {
 	 * 添加一个用户上传的文件添加文件
 	 * @param integer $uid 用户id 
 	 */
-	public function add_file($uid, $fid, $fname) {
+	public function add_file($uid, $fid, $fname, $extension) {
 		$this->load->database();
 		$data = array(
 				'uid' => $uid,
 				'fid'  => $fid,
-				'name' => 
+				'fname' => $fname,
+				'extension'=> $extension
 		);
-		$str = $this->db->insert_string('user', $data);
+		$str = $this->db->insert_string('files', $data);
 		
 		return $this->db->query($str);
+	}
+	
+	/**
+	 * 更新单个文件的信息
+	 */
+	public function update_file($fid, $datas)
+	{
+		$this->load->database();
+		$this->db->where('fid', $fid);
+		return $this->db->update('files', $datas);
 	}
 	
 	/**
@@ -33,7 +44,22 @@ class Files_model extends CI_Model {
 	 * @param string $filename 文件名
 	 * @return string MongoDB存储的文件ID
 	 */
-	public function store_file($tmp_name, $filename) {
-		
+	public function store_file($tmp_name, $filename)
+	{
+		//filename
+		$this->load->library("mongo");
+		$db = $this->mongo->file_db();
+		$grid = $db->getGridFS();
+		return $grid->put($tmp_name, array('filename'=>$filename));
+	}
+	
+	/**
+	 * 进入数据处理队列
+	 */
+	public function push_trans_queue($fid){
+		$this->load->library('redis');
+		$res = $this->redis->lpush('Q.TRANS', $fid);
+		$this->redis->save();
+		return $res;
 	}
 }

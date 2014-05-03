@@ -141,6 +141,27 @@ class Welcome extends MY_Controller {
 		parse_str($this->input->post('data'), $data);
 		print_r($data);
 	}
+	
+	function new_test() {
+		echo '<form action="/upload_file" method="post"
+enctype="multipart/form-data">
+<label for="file">Filename:</label>
+<input type="file" name="Filedata" id="file" /> 
+<br />
+<input type="submit" name="submit" value="Submit" />
+</form>';
+	}
+	
+	function upload_2(){
+		$sid = $_GET['SID'];
+		echo 'sid : '.$sid.'<br>';
+		//session_unset();
+		session_write_close();
+		session_id($sid);
+		session_start();
+		
+		echo 'IS_LOGIN : '.$_SESSION['IS_LOGIN'].'<br>';
+	}
 }
 
 /* End of file welcome.php */

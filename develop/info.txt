@@ -1,4 +1,4 @@
-
+﻿
 --
 http://www.cnblogs.com/penbox/archive/2011/09/02/2163646.html
 
@@ -9,3 +9,10 @@ http://www.laruence.com/2012/05/02/2613.html
 
 -- 转换为分页的swf
 pdf2swf.exe Paper.pdf -o Paper%.swf -f -T 9 -t -s storeallcharacters
+
+
+http://docs.mongodb.org/ecosystem/drivers/java/
+
+http://central.maven.org/maven2/org/mongodb/mongo-java-driver/
+验证密码
+http://blog.163.com/wunan_23/blog/static/195562320201252795640391/

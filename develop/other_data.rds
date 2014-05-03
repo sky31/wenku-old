@@ -16,3 +16,8 @@
 //缓存
 --- C.PAGE  // 页面缓存
 --- C.OTHER // 其他缓存
+
+
+//队列
+-- Q.TRANS  // 文件转换的队列
+-- Q.INDEX  // 文件建立索引的队列(PHP才有xunsearch的sdk)

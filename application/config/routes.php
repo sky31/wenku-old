@@ -42,8 +42,8 @@ $route['lists'] = "doc/lists";
 $route['search'] = "doc/search";
 $route['access'] = "login/access"; // 接入文库系统
 $route['register'] = "login/register";
-$route['upload_files'] = "home/upload_files";
-$route['set_file_jf'] = "home/set_file_jf";
+$route['upload_file'] = "home/upload_file";
+$route['set_file_info'] = "home/set_file_info";
 
 $route['default_controller'] = "doc/index";
 

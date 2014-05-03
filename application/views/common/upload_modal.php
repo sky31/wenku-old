@@ -71,3 +71,6 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<script>
+var C_DOC_SESS_ID = '<?php echo session_id();?>';
+</script>

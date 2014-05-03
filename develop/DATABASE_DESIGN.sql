@@ -22,12 +22,15 @@ CREATE TABLE `doc31_files` (
   `fid` varchar(25) NOT NULL,   -- mongodb生成的ID
   `uid` int(11) not null,                      -- 用户的ID
   `fname`  varchar(255) NOT NULL COMMENT '文件名', -- 文件名
+  `extension`  varchar(5) NOT NULL COMMENT '文件扩展名', -- 文件扩展名
   `sumary` varchar(512) NOT NULL DEFAULT '' COMMENT '文章摘要',
   `jf` INT(4) NOT NULL DEFAULT 0 COMMENT '下载文章所需的积分',
   `catalog`  varchar(20) NOT NULL DEFAULT 'other'  COMMENT '分类',
-  `is_del` tinyint(1) not null default 0 COMMENT '是否删除文件',
+  `is_set`  TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否已经设置过信息',
+  `is_del` tinyint(1) not null default 0 COMMENT '是否删除文件', 
   PRIMARY KEY (`fid`),
-  key(`uid`)
+  key(`uid`),
+  key(`catalog`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 
