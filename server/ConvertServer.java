@@ -5,7 +5,6 @@ import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
 import org.artofsolving.jodconverter.office.OfficeManager;
 
 public class ConvertServer {
-		private static  OfficeManager officeManager;
 		//windows
 		private static String OFFICE_HOME = "C:\\Program Files\\OpenOffice.org 3";
 		
@@ -14,10 +13,31 @@ public class ConvertServer {
 		
 		private static int port[] = {8100};
 		
+		private DefaultOfficeManagerConfiguration configuration;
+		private OfficeManager officeManager;
+		private OfficeDocumentConverter docConverter;
+		
+		public ConvertServer() {
+			configuration = new DefaultOfficeManagerConfiguration();
+			try {
+			  System.out.println("准备启动服务....");
+				configuration.setOfficeHome(OFFICE_HOME);//设置OpenOffice.org安装目录
+				configuration.setPortNumbers(port); //设置转换端口，默认为8100
+				configuration.setTaskExecutionTimeout(1000 * 60 * 10L);//设置任务执行超时为10分钟
+				configuration.setTaskQueueTimeout(1000 * 60 * 60 * 24L);//设置任务队列超时为24小时
+				officeManager = configuration.buildOfficeManager();
+				officeManager.start();    //启动服务
+				System.out.println("office转换服务启动成功!");
+			} catch (Exception ce) {
+				System.out.println("office转换服务启动失败!详细信息:" + ce);
+			}
+			docConverter = new OfficeDocumentConverter(officeManager);
+		}
+		
 		/**
 		 * 关键转换函数
 		 */
-		public void convert2PDF(String inputFile, String pdfFile) {
+		public void convert2(String inputFile, String outputFile) {
 			if(inputFile.endsWith(".txt")){
 				String odtFile = FileUtils.getFilePrefix(inputFile)+".odt";
 				if(new File(odtFile).exists()){
@@ -33,53 +53,36 @@ public class ConvertServer {
 					}
 				}
 			}
-			startService();
-			System.out.println("进行文档转换转换:" + inputFile + " --> " + pdfFile);
-			OfficeDocumentConverter converter = new OfficeDocumentConverter(officeManager);
-			converter.convert(new File(inputFile),new File(pdfFile));
-			stopService();
-			System.out.println();
+			System.out.println("进行文档转换转换:" + inputFile + " --> " + outputFile); 
+			docConverter.convert(new File(inputFile),new File(outputFile));
         }
 		
 		public void convert2PDF(String inputFile) {
 			String pdfFile = FileUtils.getFilePrefix(inputFile)+".pdf";
-			convert2PDF(inputFile, pdfFile); 
+			convert2(inputFile, pdfFile); 
+		}
+		
+		public void convert2PDF(String inputFile, String outputFile) {
+			convert2(inputFile, outputFile); 
 		}
 		
 		public void convert2TXT(String inputFile) {
 			String pdfFile = FileUtils.getFilePrefix(inputFile)+".txt";
-			convert2PDF(inputFile, pdfFile); 
+			convert2(inputFile, pdfFile); 
 		}
 		
-		public static void startService(){
-			DefaultOfficeManagerConfiguration configuration = new DefaultOfficeManagerConfiguration();
-			try {
-			  System.out.println("准备启动服务....");
-				configuration.setOfficeHome(OFFICE_HOME);//设置OpenOffice.org安装目录
-				configuration.setPortNumbers(port); //设置转换端口，默认为8100
-				configuration.setTaskExecutionTimeout(1000 * 60 * 5L);//设置任务执行超时为5分钟
-				configuration.setTaskQueueTimeout(1000 * 60 * 60 * 24L);//设置任务队列超时为24小时
-			 
-				officeManager = configuration.buildOfficeManager();
-				officeManager.start();    //启动服务
-				System.out.println("office转换服务启动成功!");
-			} catch (Exception ce) {
-				System.out.println("office转换服务启动失败!详细信息:" + ce);
-			}
+		public void convert2TXT(String inputFile, String outputFile) {
+			convert2(inputFile, outputFile); 
 		}
-    
-		public static void stopService(){
+		/**
+		 * 关闭服务
+		 */
+		public void close(){
 			System.out.println("关闭office转换服务....");
 			if (officeManager != null) {
 				officeManager.stop();
 			}
 			System.out.println("关闭office转换成功!");
-		}
-		
-		public static void main(String []arvg) {
-			String inputFile = arvg[0];
-			ConvertServer cs = new ConvertServer();
-			cs.convert2TXT(inputFile);
 		}
 }
 
