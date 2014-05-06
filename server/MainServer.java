@@ -24,9 +24,9 @@ public class MainServer {
 		private String TMP_SWFFILE_PATH = "/tmp/doc_swfs/";
 		private String PDF2SWF_PATH = "/server/SWFTools/pdf2swf.exe";
 		//windows
-		private static String OFFICE_HOME = "C:\\Program Files (x86)\\OpenOffice.org 3";
+		//private static String OFFICE_HOME = "C:\\Program Files (x86)\\OpenOffice.org 3";
 		//linux
-		//private static String OFFICE_HOME = "/opt/openoffice.org3";
+		private static String OFFICE_HOME = "/opt/openoffice.org3";
 		
 		public MainServer() 
 			throws UnknownHostException{
@@ -203,7 +203,7 @@ java -classpath "%CLASSPATH%;./lib;./lib/log4j-1.2.17.jar;./lib/mongo-java-drive
 
 
 linux 下
-javac  -Xlint:unchecked -encoding "utf-8" -classpath ".:/usr/lib/jvm/java-1.6.0-openjdk.x86_64/lib/tools.jar:./lib/log4j-1.2.17.jar:./lib:./lib/mongo-java-driver-2.12.1.jar:./lib/commons-cli-1.1.jar:./lib/commons-io-1.4.jar:./lib/jodconverter-core-3.0-beta-4.jar:./lib/json-20090211.jar:./lib/juh-3.2.1.jar:./lib/jurt-3.2.1.jar:./lib/ridl-3.2.1.jar:./lib/unoil-3.2.1.jar" MainServer.java
+javac  -Xlint:unchecked -Xlint:deprecation -encoding "utf-8" -classpath ".:/usr/lib/jvm/java-1.6.0-openjdk.x86_64/lib/tools.jar:./lib/log4j-1.2.17.jar:./lib:./lib/mongo-java-driver-2.12.1.jar:./lib/commons-cli-1.1.jar:./lib/commons-io-1.4.jar:./lib/jodconverter-core-3.0-beta-4.jar:./lib/json-20090211.jar:./lib/juh-3.2.1.jar:./lib/jurt-3.2.1.jar:./lib/ridl-3.2.1.jar:./lib/unoil-3.2.1.jar" MainServer.java
 
 java -classpath ".:/usr/lib/jvm/java-1.6.0-openjdk.x86_64/lib/tools.jar:./lib/log4j-1.2.17.jar:./lib:./lib/mongo-java-driver-2.12.1.jar:./lib/commons-cli-1.1.jar:./lib/commons-io-1.4.jar:./lib/jodconverter-core-3.0-beta-4.jar:./lib/json-20090211.jar:./lib/juh-3.2.1.jar:./lib/jurt-3.2.1.jar:./lib/ridl-3.2.1.jar:./lib/unoil-3.2.1.jar" MainServer b.doc
 
