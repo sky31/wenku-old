@@ -67,6 +67,27 @@ class Welcome extends MY_Controller {
 			echo $message.'<br/>';
 		}
 	}
+	/**
+	 * 
+	 */
+	function xunsearch() {
+		$this->load->library('xun');
+		$search = $this->xun->getSearch();
+		$docs = $search->search('数学');
+		var_dump($docs);
+		foreach($docs as $doc) {
+			$subject = $search->highlight($doc->fname);
+			echo $subject.'<br/>';
+			$message = $search->highlight($doc->intro);
+			echo $message.'<br/>';
+		}
+		echo "done!";
+	}
+	
+	function xunclean() {
+		$this->load->library('xun');
+		var_dump($this->xun->clean());
+	}
 	
 	function testSomething() {
 		$this->load->library('User_check');

@@ -39,4 +39,12 @@ public class FileUtils {
 			}
         } 
 	}
+	
+	public static File[] listFiles(String dirName) {
+		if(!dirName.endsWith(File.separator)) {
+			dirName = dirName + File.separator;
+		}
+		File tmpFile = new File(dirName);
+		return tmpFile.listFiles();
+	}
 }

@@ -5,25 +5,20 @@ import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
 import org.artofsolving.jodconverter.office.OfficeManager;
 
 public class ConvertServer {
-		//windows
-		private static String OFFICE_HOME = "C:\\Program Files\\OpenOffice.org 3";
-		
-		//linux
-		//private static String OFFICE_HOME = "/opt/openoffice.org3";
-		
+		//访问端口
 		private static int port[] = {8100};
 		
 		private DefaultOfficeManagerConfiguration configuration;
 		private OfficeManager officeManager;
 		private OfficeDocumentConverter docConverter;
 		
-		public ConvertServer() {
+		public ConvertServer(String officeHome) {
 			configuration = new DefaultOfficeManagerConfiguration();
 			try {
 			  System.out.println("准备启动服务....");
-				configuration.setOfficeHome(OFFICE_HOME);//设置OpenOffice.org安装目录
+				configuration.setOfficeHome(officeHome);//设置OpenOffice.org安装目录
 				configuration.setPortNumbers(port); //设置转换端口，默认为8100
-				configuration.setTaskExecutionTimeout(1000 * 60 * 10L);//设置任务执行超时为10分钟
+				configuration.setTaskExecutionTimeout(1000 * 60 * 5L);//设置任务执行超时为5分钟
 				configuration.setTaskQueueTimeout(1000 * 60 * 60 * 24L);//设置任务队列超时为24小时
 				officeManager = configuration.buildOfficeManager();
 				officeManager.start();    //启动服务
@@ -55,6 +50,7 @@ public class ConvertServer {
 			}
 			System.out.println("进行文档转换转换:" + inputFile + " --> " + outputFile); 
 			docConverter.convert(new File(inputFile),new File(outputFile));
+			System.out.println("转换成功!"); 
         }
 		
 		public void convert2PDF(String inputFile) {

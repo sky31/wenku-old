@@ -21,7 +21,7 @@
 						 			
 						 		</div>
 						 		<div class="col-lg-2 m-search-row-btn">
-						 			<button type="button" class="btn btn-success">搜索</button>
+						 			<button type="button" id="mainSearchBtn" class="btn btn-success">搜索</button>
 						 		</div>
 							</div>
 						 	
@@ -31,31 +31,31 @@
 						<div class="col-lg-9 col-lg-offset-3">
 							<div class="radio">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+									<input type="radio" name="optionsRadios" value="all" checked>
 									全部
 								</label>
 							</div>
 							<div class="radio">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+									<input type="radio" name="optionsRadios" value="doc">
 									DOC
 								</label>
 							</div>
 							<div class="radio">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+									<input type="radio" name="optionsRadios" value="ppt">
 									PPT
 								</label>
 							</div>
 							<div class="radio">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+									<input type="radio" name="optionsRadios" value="pdf">
 									PDF
 								</label>
 							</div>
 							<div class="radio">
 								<label>
-									<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+									<input type="radio" name="optionsRadios" value="xls">
 									XLS
 								</label>
 							</div>

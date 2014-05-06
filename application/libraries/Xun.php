@@ -17,7 +17,7 @@ class MY_Xun{
 	 * 初始化
 	 * @param string $app
 	 */
-	public function __construct($app='demo') {
+	public function __construct() {
 		$this->xs = new XS('demo');
 	}
 	

@@ -64,19 +64,38 @@ class Home extends MY_Controller {
 			if($size<1024*1024*30){
 				//允许的文件类型
 				$allow_file_types = array('doc','docx','ppt','pptx', 'xlsx', 'xls', 'pdf');
-				$fileParts = pathinfo($filename);
+				$fileParts = $this->path_info($filename);
 				if(in_array($fileParts['extension'], $allow_file_types)) {
-					// 执行上传操作
-					// move_uploaded_file($_FILES['Filedata']['tmp_name'], './uploads/'.$filename);
-					$this->load->model('files_model');
+					//通过文件头部判断类型（防止改后缀名乱传）
+					$allow_heads = array(
+							"\xd0\xcf\x11\xe0\xa1",
+							"\x25\x50\x44\x46\x2d",
+							"\x50\x4b\x03\x04\x14"
+					);
+					$ftmp = fopen($_FILES['Filedata']['tmp_name'], 'r');
+					$head5bit = fread($ftmp, 5);
+					rewind($ftmp);
+					fclose($ftmp);
+					//log_message('error', $head5bit);
+					if(in_array($head5bit, $allow_heads)) {
+						// 执行上传操作
+						// move_uploaded_file($_FILES['Filedata']['tmp_name'], './uploads/'.$filename);
+						$this->load->model('files_model');
+							
+						$fid = $this->files_model->store_file($_FILES['Filedata']['tmp_name'], $filename);
+						// 将文件上传的结果存储到数据库
+						log_message('error', $fileParts['filename'].'$$'.$filename);
+						$this->files_model->add_file(
+								$this->user_model->user_info('id'), $fid, $fileParts['filename'], $fileParts['extension']);
+							
+						$res['ret'] = 0;
+						$res['info']['fid'] = $fid.'';
+						
+					} else {
+						$res['ret'] = 1;
+						$res['info']['msg'] = '文件类型错误(B)';
+					}
 					
-					$fid = $this->files_model->store_file($_FILES['Filedata']['tmp_name'], $filename);
-					// 将文件上传的结果存储到数据库
-					$this->files_model->add_file(
-						$this->user_model->user_info('id'), $fid.'', $fileParts['filename'], $fileParts['extension']);
-					
-					$res['ret'] = 0;
-					$res['info']['fid'] = $fid.'';
 				} else {
 					$res['ret'] = 1;
 					$res['info']['msg'] = '文件类型错误';
@@ -103,15 +122,50 @@ class Home extends MY_Controller {
 				@$data[$matchs[1]]['jf'] = $value;
 			} else if(preg_match('/^(.*)_catalog$/i', $key, $matchs)) {
 				@$data[$matchs[1]]['catalog'] = $value;
+			} else if(preg_match('/^(.*)_intro$/i', $key, $matchs)) {
+				@$data[$matchs[1]]['intro'] =  $this->security->xss_clean($value);
 			}
 		}
 		$this->load->model('files_model');
+		$this->load->library('Xun');
+		$this->load->library('redis');
 		foreach ($data as $key=>&$value){
 			$value['is_set'] = 1;
+			//更新配置信息
 			$this->files_model->update_file($key, $value);
+			//检索出文件信息并添加索引
+			$finfo = $this->files_model->file_info($key, array('fname', 'extension'));
+			$doc =  array(
+				'fid' => $key,
+				'fname' => $finfo['fname'],
+				'ext'   => substr($finfo['extension'], 0, 3), //只允许3个字符，docx只能保留成doc
+				'intro' => $value['intro'],
+				'catalog' => $value['catalog']
+			);
+			// 添加搜索索引
+			try{
+				$this->xun->add($doc);
+			}catch (XSException $e) {
+				log_message('error', '添加索引失败：'.$e->getTraceAsString());
+			}
 			// 设置好了之后应该要添加到转换队列里面去
 			$this->files_model->push_trans_queue($key);
 		}
 		$this->ajax_return(array('ret'=>0, 'info'=>'ok'));
+	}
+	
+	/**
+	 * 处理文件信息
+	 * @param unknown $filepath
+	 * @return multitype:string
+	 */
+	private function path_info($filepath)
+	{
+		$path_parts = array();
+		$path_parts ['dirname'] = rtrim(substr($filepath, 0, strrpos($filepath, '/')),"/")."/";
+		$path_parts ['basename'] = ltrim(substr($filepath, strrpos($filepath, '/')),"/");
+		$path_parts ['extension'] = substr(strrchr($filepath, '.'), 1);
+		$path_parts ['filename'] = ltrim(substr($path_parts ['basename'], 0, strrpos($path_parts ['basename'], '.')),"/");
+		return $path_parts;
 	}
 }

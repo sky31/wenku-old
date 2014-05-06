@@ -2,8 +2,9 @@
 --  存储在Redis中的数据
 --
 
--- DOC.CT.{$fid}         -- 文档的浏览数
--- DOC.DT.{$fid}         -- 下载次数
+-- DOC.{$fid}   view -- 文档的浏览数
+-- DOC.{$fid}   down -- 下载次数
+-- DOC.{$fid}   page -- 文档页数
 
 -- DOC.JF.{$uid}         -- 用户的积分 
 

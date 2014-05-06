@@ -23,7 +23,7 @@ CREATE TABLE `doc31_files` (
   `uid` int(11) not null,                      -- 用户的ID
   `fname`  varchar(255) NOT NULL COMMENT '文件名', -- 文件名
   `extension`  varchar(5) NOT NULL COMMENT '文件扩展名', -- 文件扩展名
-  `sumary` varchar(512) NOT NULL DEFAULT '' COMMENT '文章摘要',
+  `intro` varchar(512) NOT NULL DEFAULT '' COMMENT '文章的简介intro',
   `jf` INT(4) NOT NULL DEFAULT 0 COMMENT '下载文章所需的积分',
   `catalog`  varchar(20) NOT NULL DEFAULT 'other'  COMMENT '分类',
   `is_set`  TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否已经设置过信息',

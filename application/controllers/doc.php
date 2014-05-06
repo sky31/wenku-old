@@ -54,7 +54,27 @@ class Doc extends MY_Controller {
 	/**
 	 * 搜索
 	 */
-	function search() {
+	function search($type='all',$words=NULL, $page=1) {
+		$words = urldecode($words);
+		//判断类型，和关键字
+		$type_allows = array( 'all', 'doc', 'xls', 'ppt', 'pdf');
+		if($words===NULL || $words==='' || !in_array($type, $type_allows)) {
+			$this->load->helper('url');
+			redirect("/");
+		}
+ 		//建立query
+ 		if($type=='all'){
+ 			$query = $words;
+ 		} else {
+ 			$query = 'ext:'.$type.' AND '.$words;
+ 		}
+
+ 		$this->load->model('files_model');
+ 		$result = $this->files_model->search($query, $page);
+ 		//print_r($search_list);
+ 		$this->datas['search_lists'] = $result['list'];
+ 		$this->datas['search_count'] = $result['count'];
+
 		$this->load->view("common/header.php", $this->datas);
 		$this->load->view("doc/search.php");
 		$this->load->view("common/footer.php");

@@ -96,12 +96,13 @@ $(function(){
 					//积分
 					XtuDoc.lastJf +=2;
 					html += "<tr>";
-					html += "<td>"+(i+1)+"</td><td>"+data.info.fname+"</td><td class=\"text-success\">成功</td>";
+					html += "<td rowspan=\"2\">"+(i+1)+"</td><td style=\"max-width: 236px;\" rowspan=\"2\">"+data.info.fname+"</td><td class=\"text-success\">成功</td>";
 					html += "<td><select name=\""+data.info.fid+"_jf\"><option value=\"0\" selected>0积分</option><option value=\"1\">1积分</option><option value=\"2\">2积分</option><option value=\"4\">4积分</option><option value=\"8\">8积分</option></select></td>";
 					html += "<td><select class=\"catalog-select\" name=\""+data.info.fid+"_catalog\">"+XtuDoc.CATALOG_OPTION_STR+"</select></td>";
+					html += "<tr><td colspan=\"3\"><textarea placeholder=\"输入文档简介...\" class=\"form-control\" name=\""+data.info.fid+"_intro\"></textarea></td></tr>";
 				} else {
 					html += "<tr class=\"danger\">";
-					html += "<td>"+(i+1)+"</td><td>"+data.info.fname+"</td><td class=\"text-danger\">失败</td>";
+					html += "<td >"+(i+1)+"</td><td >"+data.info.fname+"</td><td>失败</td>";
 					html += "<td class=\"text-center\" colspan=\"2\">"+data.info.msg+"</td>";
 				}
 				html +="</tr>";
@@ -119,7 +120,9 @@ $(function(){
 		$('#modalPassBody').hide();
 		$('#showResult').html(result);
 	}
-
+	if(typeof C_DOC_SESS_ID=='undefined') {
+		C_DOC_SESS_ID = "1";
+	}
 	$('#file_upload').uploadify({
 			'fileSizeLimit' : '30MB',
 			'fileTypeExts' : '*.pptx; *.ppt; *.xlsx; *.xls; *.pdf; *.doc; *.docx',
@@ -152,6 +155,18 @@ $(function(){
 				return ;
 			}
 		}
+		all = $("textarea");
+		for(i=0; i<all.length; i++){
+			if( $(all[i]).val()=="" ) {
+				$(all[i]).focus();
+				alert("文件简介不能为空");
+				return ;
+			} else if($(all[i]).val().length>140) {
+				$(all[i]).focus();
+				alert("文件简介不能超过140个字符");
+				return ;
+			}
+		}
 		
 		$.post('/set_file_info', {
 			'data': $("#jfForm").serialize()
@@ -164,4 +179,26 @@ $(function(){
 			}
 		});
 	});
+
+	$("#inputSearch").keyup(function(event) {
+		/* Act on the event */
+		if(event.keyCode==13) {
+			$("#mainSearchBtn").click();
+		}
+	});
+
+	$("#mainSearchBtn").click(function(event) {
+		var isStr = $("#inputSearch").val().replace(/(^\s*)|(\s*$)/g,"")
+		if(isStr=="") {
+			$("#inputSearch").focus();
+			return ;
+		}else if(isStr.length<2) {
+			alert("搜索词不能小于两个字符");
+			return ;
+		}
+		var href = "/search/"+$('input[name="optionsRadios"]:checked').val()+"/"+isStr;
+		//alert(href);
+		location.href=href;
+	});
+
 });

@@ -14,7 +14,7 @@
 						 			
 					</div>
 					<div class="col-lg-2 m-search-row-btn">
-						 <button type="button" class="btn btn-success">搜索</button>
+						 <button type="button" id="mainSearchBtn" class="btn btn-success">搜索</button>
 					</div>
 				</div>
 			</div>
@@ -22,31 +22,31 @@
 			<div class="col-lg-12">
 				<div class="radio">
 					<label>
-						<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+						<input type="radio" name="optionsRadios" value="all" checked>
 						全部
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+						<input type="radio" name="optionsRadios" value="doc">
 						DOC
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+						<input type="radio" name="optionsRadios" value="ppt">
 						PPT
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+						<input type="radio" name="optionsRadios" value="pdf">
 						PDF
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+						<input type="radio" name="optionsRadios" value="xls">
 						XLS
 					</label>
 				</div>
@@ -90,7 +90,7 @@
 				<div class="list-group">
   					<div class="list-group-item">
     					<h4 class="list-group-item-heading"><img src="/static/image/word.png" height="22"> <a href="#">List <em>elit</em> group item heading</a></h4>
-    					<p class="list-group-item-text">Donec id <em>elit</em> non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+    					<!-- <p class="list-group-item-text">Donec id <em>elit</em> non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>-->
     					<p class="list-group-info">2011-10-26 | 共2页 | 2次下载 | 1积分 | 贡献者：郭子仟</p>
   					</div>
   					<div class="list-group-item">

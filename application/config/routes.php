@@ -38,8 +38,8 @@
 |
 */
 
-$route['lists'] = "doc/lists";
-$route['search'] = "doc/search";
+$route['search/(:any)'] = 'doc/search/$1';
+$route['lists'] = 'doc/lists';
 $route['access'] = "login/access"; // 接入文库系统
 $route['register'] = "login/register";
 $route['upload_file'] = "home/upload_file";
