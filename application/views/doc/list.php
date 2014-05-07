@@ -3,8 +3,7 @@
 		<img src="/static/image/logo.png" height="70">
 	</div>
 	<div class="col-lg-8 list-search-div">
-		<div class="row">
-		<form class="form-inline">
+		<div class="row form-inline">
 			<div class="col-lg-12">
 				<div class="row m-serach-row">
 					<div class="col-lg-7 m-search-row-input" >
@@ -51,7 +50,7 @@
 					</label>
 				</div>
 			</div>
-		</form>
+
 		</div><!-- row -->
 	</div>
 </div>

@@ -27,7 +27,8 @@ CREATE TABLE `doc31_files` (
   `jf` INT(4) NOT NULL DEFAULT 0 COMMENT '下载文章所需的积分',
   `catalog`  varchar(20) NOT NULL DEFAULT 'other'  COMMENT '分类',
   `is_set`  TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否已经设置过信息',
-  `is_del` tinyint(1) not null default 0 COMMENT '是否删除文件', 
+  `is_del` tinyint(1) not null default 0 COMMENT '是否删除文件',
+  `up_date` int(11) not null COMMENT '上传时间',
   PRIMARY KEY (`fid`),
   key(`uid`),
   key(`catalog`)

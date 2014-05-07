@@ -26,4 +26,18 @@ class Catalog_model extends CI_Model {
 	function get_array() {
 		return $this->catalog_array;
 	}
+	
+	/**
+	 * 根据key获取值
+	 */
+	function get_value($key) {
+		return $this->catalog_array[$key];		
+	}
+	
+	/**
+	 * 根据value获取值
+	 */
+	function get_key() {
+		
+	}
 }

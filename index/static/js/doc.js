@@ -191,14 +191,15 @@ $(function(){
 		var isStr = $("#inputSearch").val().replace(/(^\s*)|(\s*$)/g,"")
 		if(isStr=="") {
 			$("#inputSearch").focus();
-			return ;
+			return false;
 		}else if(isStr.length<2) {
 			alert("搜索词不能小于两个字符");
-			return ;
+			return false;
 		}
 		var href = "/search/"+$('input[name="optionsRadios"]:checked').val()+"/"+isStr;
 		//alert(href);
 		location.href=href;
+		return false;
 	});
 
 });

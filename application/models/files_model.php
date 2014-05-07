@@ -22,7 +22,8 @@ class Files_model extends CI_Model {
 				'uid' => $uid,
 				'fid'  => $fid.'',
 				'fname' => $fname,
-				'extension'=> $extension
+				'extension'=> $extension,
+				'up_date' => time(),
 		);
 		$str = $this->db->insert_string('files', $data);
 		//初始化浏览数和下载数
@@ -117,6 +118,12 @@ class Files_model extends CI_Model {
 		$docs = $search->search($query, false);
 		$count = $search->getLastCount();
 		//var_dump($count);
+		if($count==0) {
+			return array(
+					'count'=>0,
+					'list'=> array(),
+			);
+		}
 		
 		$list = array(); // 返回给客户端的列表
 		$fids = array(); // 用来搜索的fid列表
@@ -129,16 +136,20 @@ class Files_model extends CI_Model {
 					'catalog' => $m->catalog 
 			);
 		}
-		//var_dump($fids);
-		$this->db->select('fid, nickname, jf');
+
+		$this->db->select('fid, nickname, jf, extension, up_date');
 		$this->db->from('files');
 		$this->db->join('user', 'files.uid = user.id');
 		$this->db->where_in('fid', $fids);
 		$query = $this->db->get();
+
 		foreach($query->result() as $m) {
+
 			$list[$m->fid]['nickname'] = $m->nickname;
 			$list[$m->fid]['jf'] = $m->jf;
-			$list[$m->fid]['view_times'] = $this->redis->hget('DOC.'.$m->fid, 'VIEW');
+			$list[$m->fid]['up_date'] = $m->up_date;
+			$list[$m->fid]['extension'] = $m->extension;
+			//$list[$m->fid]['view_times'] = $this->redis->hget('DOC.'.$m->fid, 'VIEW');
 			$list[$m->fid]['down_times'] = $this->redis->hget('DOC.'.$m->fid, 'DOWN');
 			$list[$m->fid]['pages'] = $this->redis->hget('DOC.'.$m->fid, 'PAGE');
 		}
@@ -147,5 +158,15 @@ class Files_model extends CI_Model {
 			'list'=>$list,
 			'count' => $count
 		);
+	}
+	
+	/**
+	 * 获取文件列表
+	 * @param unknown $catalog
+	 * @param unknown $page
+	 * @param number $per_page
+	 */
+	function file_list($catalog, $page, $per_page=20) {
+		
 	}
 }

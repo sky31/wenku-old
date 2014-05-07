@@ -42,39 +42,53 @@ class Doc extends MY_Controller {
 	 * 文库页
 	 */
 	function lists($catalog='all', $page=1) {
+		$this->datas['nav'] = 'list';
+		
+		$this->load->model('catalog_model');
 		if($catalog=='all') {
 			$this->datas['prefix_title'] = '全部文档列表 | ';
+		} else {
+			$this->datas['prefix_title'] =
+				$this->catalog_model->get_value($catalog).' | ';
 		}
-		$this->datas['nav'] = 'list';
+		
 		$this->load->view("common/header.php", $this->datas);
 		$this->load->view("doc/list.php");
 		$this->load->view("common/footer.php");
 	}
 	
-	/**
+	/**	
 	 * 搜索
 	 */
 	function search($type='all',$words=NULL, $page=1) {
-		$words = urldecode($words);
+		$search_query = urldecode($words);
 		//判断类型，和关键字
 		$type_allows = array( 'all', 'doc', 'xls', 'ppt', 'pdf');
-		if($words===NULL || $words==='' || !in_array($type, $type_allows)) {
+		if($search_query===NULL || $search_query==='' || !in_array($type, $type_allows)) {
 			$this->load->helper('url');
 			redirect("/");
 		}
  		//建立query
  		if($type=='all'){
- 			$query = $words;
+ 			$query = $search_query;
  		} else {
- 			$query = 'ext:'.$type.' AND '.$words;
+ 			$query = 'ext:'.$type.' AND '.$search_query;
  		}
 
- 		$this->load->model('files_model');
- 		$result = $this->files_model->search($query, $page);
- 		//print_r($search_list);
- 		$this->datas['search_lists'] = $result['list'];
- 		$this->datas['search_count'] = $result['count'];
-
+ 		//$this->load->model('files_model');
+ 		//$result = $this->files_model->search($query, $page); //搜索
+ 		//$this->datas['search_list'] = $result['list'];
+ 		//$this->datas['search_count'] = $result['count'];
+ 		$this->datas['search_list'] = array();
+ 		$this->datas['search_count'] = 400;
+ 		
+ 		//进行分页
+ 		$this->load->library('pages');
+ 		$this->datas['pagination'] = $this->pages->create_links(
+ 				'/search/'.$type.'/'.$words.'/',
+ 				$this->datas['search_count'], 4, $page
+ 		);
+ 		
 		$this->load->view("common/header.php", $this->datas);
 		$this->load->view("doc/search.php");
 		$this->load->view("common/footer.php");

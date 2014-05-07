@@ -3,8 +3,7 @@
 		<img src="/static/image/logo.png" height="70">
 	</div>
 	<div class="col-lg-8 list-search-div">
-		<div class="row">
-		<form class="form-inline">
+		<div class="row form-inline">
 			<div class="col-lg-12">
 			
 				<div class="row m-serach-row">
@@ -52,40 +51,37 @@
 					</label>
 				</div>
 			</div>
-		</form>
+
 		</div><!-- row -->
 	</div>
 </div>
 <div class="row">
 	<div class="col-lg-9">
 		<div class="row">
-			<div class="col-lg-12 m-s-nums text-right">
-				找到相关文档约100篇
+			<div class="col-lg-12 m-s-nums">
+				找到相关文档约 <?php echo $search_count;?> 篇
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="list-group">
+				<?php
+					foreach($search_list as $m) { 
+				?>
   					<div class="list-group-item">
-    					<h4 class="list-group-item-heading"><img src="/static/image/word.png" height="22"> <a href="#">List <em>elit</em> group item heading</a></h4>
-    					
-    					<p class="list-group-info">2011-10-26 | 共2页 | 2次下载 | 1积分 | 贡献者：郭子仟</p>
+    					<h4 class="list-group-item-heading">
+    						<img src="/static/image/<?php echo substr($m['extension'], 0, 3); ?>.png" height="22">
+    						&nbsp;<a href="/view/<?php echo $m['fid'];?>"><?php echo $m['fname'];?></a>
+    					</h4>
+    					<p class="list-group-item-text"><?php echo $m['intro'];?></p>
+    					<p class="list-group-info"><?php echo date('Y-m-d', $m['up_date']);?> | 共<?php echo $m['pages'];?>页 | <?php echo $m['down_times'];?>次下载 | <?php echo $m['jf'];?>积分 | 贡献者：<?php echo $m['nickname'];?></p>
   					</div>
-  					<div class="list-group-item">
-    					<h4 class="list-group-item-heading"><img src="/static/image/word.png" height="22"> <a href="#">List group item heading</a></h4>
-    					
-    					<p class="list-group-info">2011-10-26 | 共2页 | 2次下载 | 1积分 | 贡献者：郭子仟</p>
-  					</div>
+  				<?php }?>
 				</div>
-				<ul class="pagination pagination-sm">
-  					<li class="disabled"><a href="#">«</a></li>
-  					<li class="active"><a href="#">1</a></li>
-  					<li><a href="#">2</a></li>
-  					<li><a href="#">3</a></li>
-  					<li><a href="#">4</a></li>
-  					<li><a href="#">5</a></li>
-  					<li><a href="#">»</a></li>
-				</ul>
+				
+			</div>
+			<div class="col-lg-12">
+				<?php echo $pagination;?>
 			</div>
 		</div>
 
