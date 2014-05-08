@@ -84,6 +84,10 @@ class Welcome extends MY_Controller {
 		echo "done!";
 	}
 	
+	function rebuild() {
+		$this->load->library('xun');
+	}
+	
 	function xunclean() {
 		$this->load->library('xun');
 		var_dump($this->xun->clean());
