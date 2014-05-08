@@ -97,7 +97,7 @@ public class MainServer {
 								try{
 									logger.info("转换完成，返回代码：" + pcs.waitFor());	
 								} catch(InterruptedException e) {
-									logger.error("转换SWF出错：InterruptedException");
+									logger.error("转换SWF出错：InterruptedException"+cmd);
 									continue;
 								}
 								
@@ -117,7 +117,7 @@ public class MainServer {
 									}
 									logger.error("SWF文件存储成功");
 								} else {
-									logger.error("SWF转换失败！fid=" + fid);
+									logger.error("SWF转换失败！fid=" + fid + " -- cmd = " + cmd);
 								}
 							}catch (IOException e){
 								jedis.lpush("Q.TRANS", fid);
