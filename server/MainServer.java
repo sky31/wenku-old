@@ -22,7 +22,7 @@ public class MainServer {
 		private String TMP_FILE_PATH   = "/tmp/";
 		private String TMP_FILE_PREFIX = "DOC_TRANS_TMP_FILE_";
 		private String TMP_SWFFILE_PATH = "/tmp/doc_swfs/";
-		private String PDF2SWF_PATH = "/server/SWFTools/pdf2swf.exe";
+		private String PDF2SWF_PATH = "pdf2swf";
 		//windows
 		//private static String OFFICE_HOME = "C:\\Program Files (x86)\\OpenOffice.org 3";
 		//linux
@@ -68,9 +68,10 @@ public class MainServer {
 			int pauseControl = 1;
 			String pdfFileName = TMP_FILE_PATH + TMP_FILE_PREFIX + "PDF.pdf";
 			String swfFileName = TMP_SWFFILE_PATH + "DOC_%.swf";
+			String fid = null;
 			try{
 				while(true) {
-					String fid = jedis.rpop("Q.TRANS");
+					fid = jedis.rpop("Q.TRANS");
 					if(fid!=null){				
 						//处理提取结果
 						logger.debug("已经提取：fid="+fid);
@@ -137,7 +138,7 @@ public class MainServer {
 					}
 				}
 			}catch(IOException e) {
-				logger.error("文件写入失败." + e.getMessage());
+				logger.error("文件写入失败-fid="+ fid + " : " + e.getMessage());
 			}
 		}
 		
