@@ -22,7 +22,7 @@ public class MainServer {
 		private String TMP_FILE_PATH   = "/tmp/";
 		private String TMP_FILE_PREFIX = "DOC_TRANS_TMP_FILE_";
 		private String TMP_SWFFILE_PATH = "/tmp/doc_swfs/";
-		private String PDF2SWF_PATH = "pdf2swf";
+		private String PDF2SWF_PATH = "/usr/local/bin/pdf2swf";
 		//windows
 		//private static String OFFICE_HOME = "C:\\Program Files (x86)\\OpenOffice.org 3";
 		//linux
