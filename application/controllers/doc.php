@@ -52,10 +52,28 @@ class Doc extends MY_Controller {
 				$this->catalog_model->get_value($catalog).' | ';
 		}
 		
+		$this->load->model('files_model');
+		$this->datas['count'] = $this->files_model->count($catalog);
+		$this->datas['list'] = $this->files_model->file_list($catalog, $page);
+		
+		// 进行分页
+		$this->load->library('pages');
+		$this->datas['pagination'] = $this->pages->create_links(
+				'/lists/'.$catalog.'/',
+				$this->datas['count'], 3, $page
+		);
+		
+		// 获取分页列表
+		$this->load->model('catalog_model');
+		$this->datas['catalog_array'] = $this->catalog_model->get_array();
+		
+		$this->datas['cur_catalog'] = $catalog;
+		
 		$this->load->view("common/header.php", $this->datas);
 		$this->load->view("doc/list.php");
 		$this->load->view("common/footer.php");
 	}
+	
 	
 	/**	
 	 * 搜索
@@ -75,12 +93,12 @@ class Doc extends MY_Controller {
  			$query = 'ext:'.$type.' AND '.$search_query;
  		}
 
- 		//$this->load->model('files_model');
- 		//$result = $this->files_model->search($query, $page); //搜索
- 		//$this->datas['search_list'] = $result['list'];
- 		//$this->datas['search_count'] = $result['count'];
- 		$this->datas['search_list'] = array();
- 		$this->datas['search_count'] = 400;
+ 		$this->load->model('files_model');
+ 		$result = $this->files_model->search($query, $page); //搜索
+ 		$this->datas['search_list'] = $result['list'];
+ 		$this->datas['search_count'] = $result['count'];
+//  		$this->datas['search_list'] = array();
+//  		$this->datas['search_count'] = 400;
  		
  		//进行分页
  		$this->load->library('pages');
@@ -95,13 +113,63 @@ class Doc extends MY_Controller {
 	}
 
 	/**
-	 * 显示
+	 * 显示文章
 	 */
-	function view() {
+	function view($fid=null) {
+		if($fid===null) {
+			show_error( '您所请求的文档没有找到，<a href="/">前文库首页搜索</a>', 404, '文档未找到');
+		}
 		$this->datas['nav'] = 'list';
+		
+		$this->load->model('files_model');
+		$this->datas['file'] = $this->files_model->view_file($fid);
+		
+		if($this->datas['file']===NULL) {
+			show_error( '您所请求的文档没有找到，<a href="/">前文库首页搜索</a>', 404, '文档未找到');
+		}
+		
+		$this->load->model('catalog_model');
+		$this->datas['catalog_name'] = 
+				$this->catalog_model->get_value($this->datas['file']['catalog']);
+		
 		$this->load->view("common/header.php", $this->datas);
 		$this->load->view("doc/view.php");
 		$this->load->view("common/upload_modal.php");
 		$this->load->view("common/footer.php");
+	}
+	
+	/**
+	 * 获取单个的页面
+	 */
+	function page() {
+		$fid = $this->input->get('fid', NULL);
+		$page = $this->input->get('pn', 0);
+		if($fid===NULL) {
+			show_error( '您所请求的文档没有找到，<a href="/">前文库首页搜索</a>', 404, '文档未找到');
+		}
+		$page++;
+		$this->load->library("mongo");
+		
+		$grid = $this->mongo->swf_grid();
+		
+		$query = array(
+				'realfid'=>$fid,
+				'page'=> intval($page)
+		);
+		//var_dump($query);
+		//exit();
+		//ini_set('mongo.native_long', 0);
+		ini_set('mongo.long_as_object', 1);
+
+		$file = $grid->findOne($query);
+
+		if($file==NUll) {
+			show_error( '您所请求的文档没有找到，<a href="/">前文库首页搜索</a>', 404, '文档未找到');
+		}
+		
+		$this->output
+			->set_content_type('application/x-shockwave-flash');
+		
+		echo $file->getBytes();
 	}
 }

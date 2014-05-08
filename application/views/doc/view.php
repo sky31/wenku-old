@@ -58,13 +58,13 @@
 	<div class="col-lg-9">
 		<div class="row">
 			<div class="col-lg-12">
-				<p class="m-path"><a href="/">湘大文库</a> > <a href="/">数学</a></p>
+				<p class="m-path"><a href="/">湘大文库</a> > <a href="/lists/<?php echo $file['catalog'];?>"><?php echo $catalog_name;?></a></p>
 				<h3 class="m-lg-title">
-					<img src="/static/image/ppt.png" height="28" > 2013高等数学习题集
+					<img src="/static/image/ppt.png" height="28" > <?php echo $file['fname'];?>
 					<button class="btn btn-success btn-sm pull-right">下载</button>
 					<button class="btn btn-info btn-sm pull-right">收藏</button>
 				</h3>
-				<p class="m-path">100人阅读&nbsp;&nbsp;50人下载</p>
+				<p class="m-path"><?php echo $file['view_times'];?>次阅读&nbsp;&nbsp;<?php echo $file['down_times'];?>次下载&nbsp;&nbsp; <?php echo $file['jf'];?>积分</p>
 			</div>
 		</div><!-- row -->
 		<div class="row">
@@ -78,8 +78,8 @@
 						<param name="bgcolor" value="#FFFFFF">
 						<param name="allowscriptaccess" value="always">
 						<param name="movie" value="/static/swf/reader.swf">
-						<param name="flashvars" value="totalpages=2&amp;docurl=/paper.php?n=123/sdffgdf">
-						<embed loop="true" allowfullscreen="true" width="100%" height="100%" wmode="opaque" ver="10.0" errormessage="请下载最新的Flash播放器！" bgcolor="#FFFFFF" allowscriptaccess="always" align="middle" flashvars="totalpages=2&amp;docurl=/paper.php?n=123/sdffgdf" src="/static/swf/reader.swf" name="chunleireader" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+						<param name="flashvars" value="totalpages=<?php echo $file['pages'];?>&amp;docurl=/swf_page/?fid=<?php echo $file['fid'];?>">
+						<embed loop="true" allowfullscreen="true" width="100%" height="100%" wmode="opaque" ver="10.0" errormessage="请下载最新的Flash播放器！" bgcolor="#FFFFFF" allowscriptaccess="always" align="middle" flashvars="totalpages=<?php echo $file['pages'];?>&amp;docurl=/swf_page/?fid=<?php echo $file['fid'];?>" src="/static/swf/reader.swf" name="chunleireader" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
 					</object>
 				</div>
 			</div>
@@ -95,18 +95,20 @@
 			<div class="col-lg-12">
 				<div class="panel panel-success m-cp">
 					<div class="panel-heading">
-						<h3 class="panel-title">文档贡献者</h3>
+						<h3 class="panel-title">文档信息</h3>
 					</div>
 					<div class="panel-body">
 						<div class="media">
 							<a class="pull-left" href="#">
-								<img class="media-object" src="/static/image/ppt.png" width="48">
+								<img class="media-object" src="/static/image/face/<?php echo $file['face'];?>.jpg" width="48">
 							</a>
 							<div class="media-body">
-								<h4 class="media-heading">Media</h4>
-								上传于2013-05-21
+								<h4 class="media-heading"><?php echo $file['nickname'];?></h4>
+								上传于 <?php echo date('Y-m-d', $file['up_date']);?>
 							</div>
 						</div>
+						<hr>
+						<p class="m-v-intro"><strong>文档简介：</strong>哈哈123456士大夫撒旦解放螺丝钉飞机离开盛大交房了空间</p>
 					</div>
 				</div>
 				<div class="panel panel-success m-cp">

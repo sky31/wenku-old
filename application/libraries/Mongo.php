@@ -8,7 +8,7 @@ class MY_Mongo{
 	
 	private $client  = NULL;
 	private $filedb  = NULL;
-	private $swfdb   = NULL;
+	private $swf_grid = NULL;
 	private $config  = NULL;
 	
 	/**
@@ -22,6 +22,7 @@ class MY_Mongo{
 		
 		$this->client = new MongoClient($server);
 		$this->config = $config;
+		$this->filedb = $this->select_db($this->config['filedb']);
 	}
 	
 	/**
@@ -35,20 +36,17 @@ class MY_Mongo{
 	 * 获取文件的db
 	 */
 	public function file_db() {
-		if($this->filedb==NULL) {
-			$this->filedb = $this->select_db($this->config['filedb']);
-		}
 		return $this->filedb;
 	}
 	
 	/**
 	 * 获取swf文件的DB
 	 */
-	public function swf_db() {
-		if($this->swfdb==NULL) {
-			$this->swfdb = $this->select_db($this->config['swfdb']);
+	public function swf_grid() {
+		if($this->swf_grid==NULL) {
+			$this->swf_grid = $this->filedb->getGridFS('swf');
 		}
-		return $this->swfdb;
+		return $this->swf_grid;
 	}
 	
 	/**

@@ -57,56 +57,39 @@
 <div class="row">
 	<div class="col-lg-3">
 		<div class="list-group">
-			<a class="list-group-item active" href="/lists">全部</a>
-			<a class="list-group-item" href="/lists/math">数学</a>
-			<a class="list-group-item" href="/lists/literatrue">文学</a>
-			<a class="list-group-item" href="/lists/law">法学</a>
-			<a class="list-group-item" href="/lists/english">英语</a>
-			<a class="list-group-item" href="/lists/foreign">小语种</a>
-			<a class="list-group-item" href="/lists/chemical">化工</a>
-			<a class="list-group-item" href="/lists/physical">物理</a>
-			<a class="list-group-item" href="/lists/histophilo">哲史</a>
-			<a class="list-group-item" href="/lists/political">思想政治</a>
-			<a class="list-group-item" href="/lists/ba">工商管理</a>
-			<a class="list-group-item" href="/lists/economic">经济/经融</a>
-			<a class="list-group-item" href="/lists/newsspread">新闻/传播</a>
-			<a class="list-group-item" href="/lists/advfilm">广告/影视</a>
-			<a class="list-group-item" href="/lists/art">艺术/美学</a>
-			<a class="list-group-item" href="/lists/music">音乐</a>
-			<a class="list-group-item" href="/lists/mechanics">机械</a>
-			<a class="list-group-item" href="/lists/material">材料</a>
-			<a class="list-group-item" href="/lists/civilbuild">土木/建筑</a>
-			<a class="list-group-item" href="/lists/computer">计算机科学</a>
-			<a class="list-group-item" href="/lists/electronic">电子技术</a>
-			<a class="list-group-item" href="/lists/notice">通知公告</a>
-			<a class="list-group-item" href="/lists/table">各类表格</a>
-			<a class="list-group-item" href="/lists/other">其他</a>			
+			<a class="list-group-item <?php if($cur_catalog=='all') echo 'active';?>" href="/lists">全部</a>
+			<?php
+				foreach($catalog_array as $key=>$value) {
+					$active = '';
+					if($key == $cur_catalog ) $active = 'active';
+					echo '<a class="list-group-item '.$active.'" href="/lists/'.$key.'">'.$value.'</a>'."\n";
+				}
+			?>	
 		</div>
 	</div>
 	<div class="col-lg-9">
 		<div class="row">
+			<div class="col-lg-12 m-s-nums">
+				找到相关文档 <?php echo $count;?> 篇
+			</div>
 			<div class="col-lg-12">
 				<div class="list-group">
+				<?php
+					foreach($list as $m) {
+				?>
   					<div class="list-group-item">
-    					<h4 class="list-group-item-heading"><img src="/static/image/word.png" height="22"> <a href="#">List <em>elit</em> group item heading</a></h4>
-    					<!-- <p class="list-group-item-text">Donec id <em>elit</em> non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>-->
-    					<p class="list-group-info">2011-10-26 | 共2页 | 2次下载 | 1积分 | 贡献者：郭子仟</p>
+    					<h4 class="list-group-item-heading">
+    						<img src="/static/image/<?php echo substr($m['extension'], 0, 3); ?>.png" height="22">
+    						&nbsp;<a href="/view/<?php echo $m['fid'];?>"><?php echo $m['fname'];?></a>
+    					</h4>
+    					<p class="list-group-item-text"><?php echo $m['intro'];?></p>
+    					<p class="list-group-info"><?php echo date('Y-m-d', $m['up_date']);?> | 共<?php echo $m['pages'];?>页 | <?php echo $m['down_times'];?>次下载 | <?php echo $m['jf'];?>积分 | 贡献者：<?php echo $m['nickname'];?></p>
   					</div>
-  					<div class="list-group-item">
-    					<h4 class="list-group-item-heading"><img src="/static/image/word.png" height="22"> <a href="#">List group item heading</a></h4>
-    					<p class="list-group-item-text">Donec id <em>elit</em> non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-    					<p class="list-group-info">2011-10-26 | 共2页 | 2次下载 | 1积分 | 贡献者：郭子仟</p>
-  					</div>
+  				<?php }?>
 				</div>
-				<ul class="pagination pagination-sm">
-  					<li class="disabled"><a href="#">«</a></li>
-  					<li class="active"><a href="#">1</a></li>
-  					<li><a href="#">2</a></li>
-  					<li><a href="#">3</a></li>
-  					<li><a href="#">4</a></li>
-  					<li><a href="#">5</a></li>
-  					<li><a href="#">»</a></li>
-				</ul>
+			</div>
+			<div class="col-lg-12">
+				<?php echo $pagination;?>
 			</div>
 		</div>
 

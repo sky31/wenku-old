@@ -39,7 +39,11 @@
 */
 
 $route['search/(:any)'] = 'doc/search/$1';
+$route['view/(:any)'] = 'doc/view/$1';
+//http://localhost/swf_page/?fid=5369fa7a319ccce01600002a&type=swf&pn=1&rn=1
+$route['swf_page'] = 'doc/page';
 $route['lists'] = 'doc/lists';
+$route['lists/(:any)'] = 'doc/lists/$1';
 $route['access'] = "login/access"; // 接入文库系统
 $route['register'] = "login/register";
 $route['upload_file'] = "home/upload_file";

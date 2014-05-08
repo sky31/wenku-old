@@ -6,6 +6,8 @@
 -- DOC.{$fid}   down -- 下载次数
 -- DOC.{$fid}   page -- 文档页数
 
+-- LIKS.{$fid}          -- 相似文档列表 expire=60*60*24 
+
 -- DOC.JF.{$uid}         -- 用户的积分 
 
 -- DOC.Z.MRANK            -- 排行

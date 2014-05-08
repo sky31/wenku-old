@@ -10,5 +10,3 @@ $config['mongo']['host'] = 'localhost';
 $config['mongo']['port'] = '27017';
 // 文件的DB
 $config['mongo']['filedb'] = 'xtudoc';
-// swf的db
-$config['mongo']['swfdb']  = 'xtudocswf';

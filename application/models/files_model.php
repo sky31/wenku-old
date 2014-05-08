@@ -115,7 +115,7 @@ class Files_model extends CI_Model {
 		//设置搜索
 		$search = $this->xun->getSearch();
 		$search->setFuzzy()->setLimit(20, ($page-1)*20);
-		$docs = $search->search($query, false);
+		$docs = $search->search($query);
 		$count = $search->getLastCount();
 		//var_dump($count);
 		if($count==0) {
@@ -167,6 +167,69 @@ class Files_model extends CI_Model {
 	 * @param number $per_page
 	 */
 	function file_list($catalog, $page, $per_page=20) {
+		$this->load->database();
+		$this->load->library('redis');
 		
+		$this->db->select('fid, fname, intro, nickname, jf, extension, up_date');
+		$this->db->from('files');
+		$this->db->join('user', 'files.uid = user.id');
+		if($catalog!=='all') {
+			$this->db->where('catalog', $catalog);
+		}
+		$this->db->order_by("up_date", "desc"); // 上传时间倒序
+		$this->db->limit($per_page, ($page-1)*$per_page);
+		
+		$query = $this->db->get();
+		
+		$list = $query->result_array();
+		foreach($list as &$m) {
+			$m['down_times'] = $this->redis->hget('DOC.'.$m['fid'], 'DOWN');
+			$m['pages'] = $this->redis->hget('DOC.'.$m['fid'], 'PAGE');
+		}
+		
+		return $list;
 	}
+	
+	/**
+	 * 获取文章数量
+	 * @param string $catalog 分类
+	 */
+	function count($catalog='all') {
+		$this->load->database();
+		$sql = 'select count(*) as count from '.$this->db->dbprefix('files').
+		' where is_del=0 and is_set=1';
+		if($catalog !== 'all') {
+			$sql .= ' and catalog="'.$catalog.'"';
+		}
+		
+		$query = $this->db->query($sql);
+		$result = $query->result_array();
+		return $result[0]['count'];
+	}
+	
+	/**
+	 * 根据文章fid获取某个文章的信息 
+	 * @param unknown $fid
+	 */
+	function view_file($fid) {
+		$this->load->database();
+		$this->load->library('redis');
+		
+		$this->db->select('fid, fname, uid, face, intro, catalog, nickname, jf, extension, up_date');
+		$this->db->from('files');
+		$this->db->join('user', 'files.uid = user.id');
+		$this->db->where('fid', $fid);
+		$query = $this->db->get();
+		if($query->num_rows()==0) {
+			return NULL;
+		}
+		$result = $query->row_array();
+		
+		$result['view_times'] = $this->redis->hget('DOC.'.$fid, 'VIEW');
+		$result['down_times'] = $this->redis->hget('DOC.'.$fid, 'DOWN');
+		$result['pages'] = $this->redis->hget('DOC.'.$fid, 'PAGE');
+		
+		return $result;
+	}
+	
 }

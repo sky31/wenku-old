@@ -36,7 +36,7 @@ h3 .btn-sm {margin-left: 12px;}
 .m-cp { margin-top: 20px;}
 .m-pd-lg { padding: 0 6px 4px 6px;}
 
-img.media-object { border: #eeeeee solid 1px; padding: 3px 3px 3px 3px;}
+
 
 .m-nav-face img{ margin-top: 4px;}
 .m-up-ts { font-size: 14px; line-height: 24px;}
@@ -46,13 +46,15 @@ tr select { color: #000;}
 tr select option { color: #000;}
 
 h4.m-h { margin-top: 0px;}
+.list-group-item-text {font-size: 14px;}
+.m-v-intro {font-size: 14px;}
 
 
 /***从bootstrap复制过来覆盖的**/
 .pagination {
   display: inline-block;
   padding-left: 0;
-  margin: 20px 0;
+  margin: 0 0;
   border-radius: 4px;
 }
 .pagination > li {

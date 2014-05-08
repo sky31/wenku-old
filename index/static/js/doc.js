@@ -187,6 +187,13 @@ $(function(){
 		}
 	});
 
+	$("#loginPass").keyup(function(event) {
+		/* Act on the event */
+		if(event.keyCode==13) {
+			$("#topLogin").click();
+		}
+	});
+
 	$("#mainSearchBtn").click(function(event) {
 		var isStr = $("#inputSearch").val().replace(/(^\s*)|(\s*$)/g,"")
 		if(isStr=="") {
