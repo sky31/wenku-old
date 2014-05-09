@@ -2,13 +2,16 @@
 --  存储在Redis中的数据
 --
 
--- DOC.{$fid}   view -- 文档的浏览数
--- DOC.{$fid}   down -- 下载次数
--- DOC.{$fid}   page -- 文档页数
+-- DOC.{$fid}   VIEW -- 文档的浏览数
+-- DOC.{$fid}   DOWN -- 下载次数
+-- DOC.{$fid}   PAGE -- 文档页数
+
+
 
 -- LIKS.{$fid}          -- 相似文档列表 expire=60*60*24 
 
--- DOC.JF.{$uid}         -- 用户的积分 
+-- USR.{$uid}  JF        -- 用户的积分 
+-- USR.{$uid}  DC        -- 用户上传数的文件统计
 
 -- DOC.Z.MRANK            -- 排行
 -- DOC.Z.WRANK            -- 周排行
@@ -23,4 +26,5 @@
 
 //队列
 -- Q.TRANS  // 文件转换的队列
--- Q.INDEX  // 文件建立索引的队列(PHP才有xunsearch的sdk)
+-- Q.SUCCESS  // 文件转换成功的队列
+

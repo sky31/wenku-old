@@ -9,7 +9,7 @@
 				<div class="row m-serach-row">
 					<div class="col-lg-7 m-search-row-input" >
 						<div class="form-group" id="m-input-search-div">
-						 	<input class="form-control" name="test" id="inputSearch" type="text">
+						 	<input class="form-control" name="test" id="inputSearch" type="text" value="<?php echo empty($search_word)?'':$search_word;?>">
 						</div>
 						 			
 					</div>
@@ -22,31 +22,31 @@
 			<div class="col-lg-12">
 				<div class="radio">
 					<label>
-						<input type="radio" name="optionsRadios" value="all" checked>
+						<input type="radio" name="optionsRadios" value="all" <?php if($search_type=='all') echo 'checked'; ?>>
 						全部
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="optionsRadios" value="doc">
+						<input type="radio" name="optionsRadios" value="doc" <?php if($search_type=='doc') echo 'checked'; ?>>
 						DOC
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="optionsRadios" value="ppt">
+						<input type="radio" name="optionsRadios" value="ppt" <?php if($search_type=='ppt') echo 'checked'; ?>>
 						PPT
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="optionsRadios" value="pdf">
+						<input type="radio" name="optionsRadios" value="pdf" <?php if($search_type=='pdf') echo 'checked'; ?>>
 						PDF
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="optionsRadios" value="xls">
+						<input type="radio" name="optionsRadios" value="xls" <?php if($search_type=='xls') echo 'checked'; ?>>
 						XLS
 					</label>
 				</div>
@@ -74,7 +74,7 @@
     						&nbsp;<a href="/view/<?php echo $m['fid'];?>"><?php echo $m['fname'];?></a>
     					</h4>
     					<p class="list-group-item-text"><?php echo $m['intro'];?></p>
-    					<p class="list-group-info"><?php echo date('Y-m-d', $m['up_date']);?> | 共<?php echo $m['pages'];?>页 | <?php echo $m['down_times'];?>次下载 | <?php echo $m['jf'];?>积分 | 贡献者：<?php echo $m['nickname'];?></p>
+    					<p class="list-group-info"><?php echo date('Y-m-d', $m['up_date']);?> | <?php  echo $m['pages']===NULL? '正在处理':'共'.$m['pages'].'页';?> | <?php echo $m['down_times'];?>次下载 | <?php echo $m['jf'];?>积分 | 贡献者：<?php echo $m['nickname'];?></p>
   					</div>
   				<?php }?>
 				</div>

@@ -34,8 +34,16 @@ class Home extends MY_Controller {
 	 * 个人中心首页
 	 */
 	function index() {
+		$this->datas['action'] = 'index';
+		$this->datas['user_jf'] = 
+			$this->user_model->user_jf($this->datas['user_id']);
+		$this->datas['user_doc_count'] = 
+			$this->user_model->user_doc_count($this->datas['user_id']);
+		
 		$this->load->view("common/header.php", $this->datas);
+		$this->load->view("home/home_top.php");
 		$this->load->view("home/index.php");
+		$this->load->view("home/home_bottom.php");
 		$this->load->view("common/upload_modal.php");
 		$this->load->view("common/footer.php");
 	}
@@ -128,7 +136,6 @@ class Home extends MY_Controller {
 		}
 		$this->load->model('files_model');
 		$this->load->library('Xun');
-		$this->load->library('redis');
 		foreach ($data as $key=>&$value){
 			$value['is_set'] = 1;
 			//更新配置信息

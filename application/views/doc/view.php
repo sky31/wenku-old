@@ -69,8 +69,9 @@
 		</div><!-- row -->
 		<div class="row">
 			<div class="col-lg-12">
+				<?php if($file['pages']!==NULL) {?>
 				<div class="reader-div">
-					<object width="100%" height="100%" align="middle">
+					<object width="100%" height="100%" align="middle" style="hide-focus: expression(this.hideFocus=true); outline: none;">
 						<param name="loop" value="true">
 						<param name="allowfullscreen" value="true">
 						<param name="allowsearch" value="fales">
@@ -79,9 +80,12 @@
 						<param name="allowscriptaccess" value="always">
 						<param name="movie" value="/static/swf/reader.swf">
 						<param name="flashvars" value="totalpages=<?php echo $file['pages'];?>&amp;docurl=/swf_page/?fid=<?php echo $file['fid'];?>">
-						<embed loop="true" allowfullscreen="true" width="100%" height="100%" wmode="opaque" ver="10.0" errormessage="请下载最新的Flash播放器！" bgcolor="#FFFFFF" allowscriptaccess="always" align="middle" flashvars="totalpages=<?php echo $file['pages'];?>&amp;docurl=/swf_page/?fid=<?php echo $file['fid'];?>" src="/static/swf/reader.swf" name="chunleireader" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+						<embed style="hide-focus: expression(this.hideFocus=true); outline: none;" loop="true" allowfullscreen="true" width="100%" height="100%" wmode="opaque" ver="10.0" errormessage="请下载最新的Flash播放器！" bgcolor="#FFFFFF" allowscriptaccess="always" align="middle" flashvars="totalpages=<?php echo $file['pages'];?>&amp;docurl=/swf_page/?fid=<?php echo $file['fid'];?>" src="/static/swf/reader.swf" name="chunleireader" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
 					</object>
 				</div>
+				<?php }else{?>
+					<h3 class="text-center text-info">文件正在进行处理中，暂时不能在线预览</h3>
+				<?php }?>
 			</div>
 		</div>
 	</div>
@@ -108,7 +112,7 @@
 							</div>
 						</div>
 						<hr>
-						<p class="m-v-intro"><strong>文档简介：</strong>哈哈123456士大夫撒旦解放螺丝钉飞机离开盛大交房了空间</p>
+						<p class="m-v-intro"><strong>文档简介：</strong><?php echo $file['intro'];?></p>
 					</div>
 				</div>
 				<div class="panel panel-success m-cp">

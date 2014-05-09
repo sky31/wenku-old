@@ -9,6 +9,8 @@ class Files_model extends CI_Model {
 	
 	function __construct() {
 		parent::__construct();
+		$this->load->database();
+		$this->load->library('redis');
 	}
 	
 	/**
@@ -16,8 +18,6 @@ class Files_model extends CI_Model {
 	 * @param integer $uid 用户id 
 	 */
 	public function add_file($uid, $fid, $fname, $extension) {
-		$this->load->database();
-		$this->load->library('redis');
 		$data = array(
 				'uid' => $uid,
 				'fid'  => $fid.'',
@@ -27,8 +27,9 @@ class Files_model extends CI_Model {
 		);
 		$str = $this->db->insert_string('files', $data);
 		//初始化浏览数和下载数
-		$this->redis->hset('DOC.'.$fid, 'VIEW', 0);
-		$this->redis->hset('DOC.'.$fid, 'DOWN', 0);
+		$this->incr_down_times($fid, 0);
+		$this->incr_view_times($fid, 0);
+		
 		return $this->db->query($str);
 	}
 	
@@ -37,7 +38,6 @@ class Files_model extends CI_Model {
 	 */
 	public function update_file($fid, $datas)
 	{
-		$this->load->database();
 		$this->db->where('fid', $fid);
 		return $this->db->update('files', $datas);
 	}
@@ -61,7 +61,6 @@ class Files_model extends CI_Model {
 	 * 进入数据处理队列
 	 */
 	public function push_trans_queue($fid){
-		$this->load->library('redis');
 		$res = $this->redis->lpush('Q.TRANS', $fid);
 		$this->redis->save();
 		return $res;
@@ -72,7 +71,6 @@ class Files_model extends CI_Model {
 	 * @param unknown $fid
 	 */
 	public function file_name($fid) {
-		$this->load->database();
 		$this->db->select('fname');
 		$query = $this->db->get_where('files', array('fid'=>$fid));
 		if($query->num_rows()>0) {
@@ -109,9 +107,7 @@ class Files_model extends CI_Model {
 	 * @param array $fids
 	 */
 	public function search($query, $page) {
-		$this->load->database();
 		$this->load->library('xun');
-		$this->load->library('redis');
 		//设置搜索
 		$search = $this->xun->getSearch();
 		$search->setFuzzy()->setLimit(20, ($page-1)*20);
@@ -167,8 +163,6 @@ class Files_model extends CI_Model {
 	 * @param number $per_page
 	 */
 	function file_list($catalog, $page, $per_page=20) {
-		$this->load->database();
-		$this->load->library('redis');
 		
 		$this->db->select('fid, fname, intro, nickname, jf, extension, up_date');
 		$this->db->from('files');
@@ -195,7 +189,6 @@ class Files_model extends CI_Model {
 	 * @param string $catalog 分类
 	 */
 	function count($catalog='all') {
-		$this->load->database();
 		$sql = 'select count(*) as count from '.$this->db->dbprefix('files').
 		' where is_del=0 and is_set=1';
 		if($catalog !== 'all') {
@@ -212,8 +205,6 @@ class Files_model extends CI_Model {
 	 * @param unknown $fid
 	 */
 	function view_file($fid) {
-		$this->load->database();
-		$this->load->library('redis');
 		
 		$this->db->select('fid, fname, uid, face, intro, catalog, nickname, jf, extension, up_date');
 		$this->db->from('files');
@@ -225,11 +216,47 @@ class Files_model extends CI_Model {
 		}
 		$result = $query->row_array();
 		
-		$result['view_times'] = $this->redis->hget('DOC.'.$fid, 'VIEW');
-		$result['down_times'] = $this->redis->hget('DOC.'.$fid, 'DOWN');
-		$result['pages'] = $this->redis->hget('DOC.'.$fid, 'PAGE');
-		
+		$result['view_times'] = $this->view_times($fid);
+		$result['down_times'] =$this->down_times($fid);
+		$result['pages'] = $this->page_nums($fid);
+
 		return $result;
 	}
 	
+	/**
+	 * 增加浏览次数
+	 */
+	public function incr_view_times($fid, $incr=1) {
+		return $this->redis->hincrby('DOC.'.$fid, 'VIEW',$incr);
+	}
+	
+	/**
+	 * 增加下载次数
+	 */
+	public function incr_down_times($fid, $incr=1) {
+		return $this->redis->hincrby('DOC.'.$fid, 'DOWN',$incr);
+	}
+	
+	/**
+	 * 获取浏览次数
+	 * @param unknown $fid
+	 */
+	public function view_times($fid) {
+		return $this->redis->hget('DOC.'.$fid, 'VIEW');
+	}
+	/**
+	 * 获取下载次数
+	 * @param unknown $fid
+	 */
+	public function down_times($fid) {
+		return $this->redis->hget('DOC.'.$fid, 'DOWN');
+	}
+	
+	/**
+	 * 获取文档的页数
+	 * @param unknown $fid
+	 */
+	public function page_nums($fid) {
+		return $this->redis->hget('DOC.'.$fid, 'PAGE');
+	}
 }

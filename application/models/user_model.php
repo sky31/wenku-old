@@ -8,6 +8,8 @@
 class User_model extends CI_Model {
 	public function __construct() {
 		parent::__construct();
+		$this->load->database();
+		$this->load->library('redis');
 	}
 	
 	/**
@@ -20,7 +22,6 @@ class User_model extends CI_Model {
 	 * @param number $is_verify
 	 */
 	public function add_user($login_num, $password, $name, $nickname, $face, $email, $is_verify=0) {
-		$this->load->database();
 		$data = array(
 				'login_num' => $login_num,
 				'password'  => md5($password),
@@ -33,8 +34,14 @@ class User_model extends CI_Model {
 				'last_login_ip'   => $this->input->ip_address()
  	 	);
 		$str = $this->db->insert_string('user', $data);
+		$res = $this->db->query($str);
 		
-		return $this->db->query($str);
+		$uid = $this->db->insert_id();
+		
+		$this->incr_jf($uid, 20);
+		$this->incr_doc_count($uid, 0);
+		
+		return $res; 
 	}
 	
 	/**
@@ -43,7 +50,6 @@ class User_model extends CI_Model {
 	 * @param string $password
 	 */
 	public function login($login_num, $password) {
-		$this->load->database();
 		$sql = 'select id, nickname,password, face from '.$this->db->dbprefix('user').' where `login_num`=?';
 		$result = $this->db->query($sql , array($login_num));
 		if($result->num_rows()!=0) {
@@ -79,13 +85,11 @@ class User_model extends CI_Model {
 		$cauth = $this->input->cookie('DOC31CAUTH');
 		$fid   = $this->input->cookie('fid');
 		if($cauth && $fid) {
-			$this->load->library('redis');
 			$cauth_key = $this->cookie_redis_key($fid, $cauth);
 			$uid = $this->redis->get($cauth_key); //从 redis 获得用户的id
 			
 			if($cauth==$this->calc_cauth($uid, $this->input->user_agent().'')) {
 				// 提取用户的信息
-				$this->load->database();
 				$this->db->select('nickname, password, face');
 				$result = $this->db->get_where('user', array('id'=>$uid));
 				$row = $result->row_array();
@@ -129,7 +133,6 @@ class User_model extends CI_Model {
 				'expire'=>$expire
 		));
 		
-		$this->load->library('redis');
 		// 存储在redis中
 		$this->redis->setex(
 				$this->cookie_redis_key($fid, $cauth), $expire, $uid);
@@ -186,5 +189,33 @@ class User_model extends CI_Model {
 			
 		}
 		return $ret;
+	}
+	
+	/**
+	 * 获取用户上传的文件数
+	 */
+	public function user_doc_count($uid) {
+		return intval($this->redis->hget('USR.'.$uid, 'DC'));
+	}
+	
+	/**
+	 * 获取用户的积分
+	 */
+	public function user_jf($uid) {
+		return intval($this->redis->hget('USR.'.$uid, 'JF'));
+	}
+	
+	/**
+	 * 增加用户的积分
+	 */
+	public function incr_jf($uid, $incr) {
+		return $this->redis->hincrby('USR.'.$uid, 'JF', $incr);
+	}
+	
+	/**
+	 * 增加用户的文档数
+	 */
+	public function incr_doc_count($uid, $incr) {
+		return $this->redis->hincrby('USR.'.$uid, 'DC', $incr);
 	}
 }

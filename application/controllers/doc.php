@@ -97,8 +97,6 @@ class Doc extends MY_Controller {
  		$result = $this->files_model->search($query, $page); //搜索
  		$this->datas['search_list'] = $result['list'];
  		$this->datas['search_count'] = $result['count'];
-//  		$this->datas['search_list'] = array();
-//  		$this->datas['search_count'] = 400;
  		
  		//进行分页
  		$this->load->library('pages');
@@ -106,6 +104,9 @@ class Doc extends MY_Controller {
  				'/search/'.$type.'/'.$words.'/',
  				$this->datas['search_count'], 4, $page
  		);
+ 		
+ 		$this->datas['search_word'] = urldecode($words);
+ 		$this->datas['search_type'] = urldecode($type);
  		
 		$this->load->view("common/header.php", $this->datas);
 		$this->load->view("doc/search.php");
@@ -123,7 +124,7 @@ class Doc extends MY_Controller {
 		
 		$this->load->model('files_model');
 		$this->datas['file'] = $this->files_model->view_file($fid);
-		
+
 		if($this->datas['file']===NULL) {
 			show_error( '您所请求的文档没有找到，<a href="/">前文库首页搜索</a>', 404, '文档未找到');
 		}
@@ -139,7 +140,7 @@ class Doc extends MY_Controller {
 	}
 	
 	/**
-	 * 获取单个的页面
+	 * 获取SWF单个的页面
 	 */
 	function page() {
 		$fid = $this->input->get('fid', NULL);
@@ -156,11 +157,9 @@ class Doc extends MY_Controller {
 				'realfid'=>$fid,
 				'page'=> intval($page)
 		);
-		//var_dump($query);
-		//exit();
-		//ini_set('mongo.native_long', 0);
-		ini_set('mongo.long_as_object', 1);
 
+		//如果不 配置此项，将可能抛出Mongo异常
+		ini_set('mongo.long_as_object', 1);
 		$file = $grid->findOne($query);
 
 		if($file==NUll) {
