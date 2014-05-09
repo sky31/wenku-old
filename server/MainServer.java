@@ -22,14 +22,21 @@ public class MainServer {
 		private String TMP_FILE_PATH   = "/tmp/";
 		private String TMP_FILE_PREFIX = "DOC_TRANS_TMP_FILE_";
 		private String TMP_SWFFILE_PATH = "/tmp/doc_swfs/";
-		private String PDF2SWF_PATH = "/usr/local/bin/pdf2swf";
-		//windows
-		//private static String OFFICE_HOME = "C:\\Program Files (x86)\\OpenOffice.org 3";
-		//linux
-		private static String OFFICE_HOME = "/opt/openoffice.org3";
+		private String PDF2SWF_PATH;
+		private static String OFFICE_HOME;
+
 		
 		public MainServer() 
 			throws UnknownHostException{
+			Properties props=System.getProperties();
+			
+			if(props.getProperty("os.name").toLowerCase().startsWith("win")) {
+				PDF2SWF_PATH = "/server/SWFTools/pdf2swf.exe";
+				OFFICE_HOME = "C:\\Program Files (x86)\\OpenOffice.org 3";
+			} else {
+				PDF2SWF_PATH = "/usr/local/bin/pdf2swf";
+				OFFICE_HOME = "/opt/openoffice.org3";				
+			}
 			
 			//初始化转换类
 			logger.info("-- 初始化转换类..");
@@ -47,10 +54,6 @@ public class MainServer {
 			xtudocGrid = new GridFS(xtudocDB);
 			swfGrid    = new GridFS(xtudocDB, "swf");
 			
-			//
-			//GridFSDBFile file = grid.find(new ObjectId("53565d5d55659215684dcd49"));
-			//file.writeTo("/tmp/DOC_TRANS_TMP_FILE_");
-			//
 		}
 		/**
 		 * 关闭
@@ -116,6 +119,8 @@ public class MainServer {
 										swfFiles[i].delete();
 									}
 									logger.error("SWF文件存储成功");
+									jedis.lpush("Q.SUCCESS", fid);
+									
 								} else {
 									logger.error("SWF转换失败！fid=" + fid + " -- cmd = " + cmd);
 								}
