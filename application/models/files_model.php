@@ -17,13 +17,14 @@ class Files_model extends CI_Model {
 	 * 添加一个用户上传的文件添加文件
 	 * @param integer $uid 用户id 
 	 */
-	public function add_file($uid, $fid, $fname, $extension) {
+	public function add_file($uid, $fid, $fname, $extension, $size) {
 		$data = array(
 				'uid' => $uid,
 				'fid'  => $fid.'',
 				'fname' => $fname,
 				'extension'=> $extension,
 				'up_date' => time(),
+				'size'   => $size
 		);
 		$str = $this->db->insert_string('files', $data);
 		//初始化浏览数和下载数

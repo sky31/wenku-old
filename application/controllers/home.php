@@ -113,6 +113,7 @@ class Home extends MY_Controller {
 			$res['info'] = array();
 			$size     = $_FILES['Filedata']['size'];
 			$filename = $_FILES['Filedata']['name'];
+			
 			$res['info']['fname'] = $filename;
 			if($size<1024*1024*30){
 				//允许的文件类型
@@ -139,7 +140,7 @@ class Home extends MY_Controller {
 						// 将文件上传的结果存储到数据库
 						log_message('error', $fileParts['filename'].'$$'.$filename);
 						$this->files_model->add_file(
-								$this->user_model->user_info('id'), $fid, $fileParts['filename'], $fileParts['extension']);
+								$this->user_model->user_info('id'), $fid, $fileParts['filename'], $fileParts['extension'], $size);
 							
 						$res['ret'] = 0;
 						$res['info']['fid'] = $fid.'';
