@@ -19,6 +19,7 @@ class Doc extends MY_Controller {
 			$this->datas['is_login'] = true;
 			$this->datas['user_nickname'] = $this->user_model->user_info('nickname');
 			$this->datas['user_face'] = $this->user_model->user_info('face');
+			$this->datas['user_id'] = $this->user_model->user_info('id');
 		} else {
 			$this->datas['is_login'] = false;
 		}
@@ -32,9 +33,9 @@ class Doc extends MY_Controller {
 	function index() {
 		$this->datas['nav'] = 'index';  //用来在导航上输出class="active"
 		
-		$this->load->view("common/header.php", $this->datas);
-		$this->load->view("doc/index.php");
-		$this->load->view("common/footer.php");
+		$this->load->view('common/header.php', $this->datas);
+		$this->load->view('doc/index.php');
+		$this->load->view('common/footer.php');
 		
 	}
 	
@@ -69,9 +70,9 @@ class Doc extends MY_Controller {
 		
 		$this->datas['cur_catalog'] = $catalog;
 		
-		$this->load->view("common/header.php", $this->datas);
-		$this->load->view("doc/list.php");
-		$this->load->view("common/footer.php");
+		$this->load->view('common/header.php', $this->datas);
+		$this->load->view('doc/list.php');
+		$this->load->view('common/footer.php');
 	}
 	
 	
@@ -108,9 +109,9 @@ class Doc extends MY_Controller {
  		$this->datas['search_word'] = urldecode($words);
  		$this->datas['search_type'] = urldecode($type);
  		
-		$this->load->view("common/header.php", $this->datas);
-		$this->load->view("doc/search.php");
-		$this->load->view("common/footer.php");
+		$this->load->view('common/header.php', $this->datas);
+		$this->load->view('doc/search.php');
+		$this->load->view('common/footer.php');
 	}
 
 	/**
@@ -129,14 +130,25 @@ class Doc extends MY_Controller {
 			show_error( '您所请求的文档没有找到，<a href="/">前文库首页搜索</a>', 404, '文档未找到');
 		}
 		
+		// 获取用户是否收藏了此文章
+		if($this->datas['is_login']) {
+			$this->load->model('collection_model');
+			$this->datas['is_collection'] = 
+				$this->collection_model->have($this->datas['user_id'], $fid);
+		}
+		
 		$this->load->model('catalog_model');
 		$this->datas['catalog_name'] = 
 				$this->catalog_model->get_value($this->datas['file']['catalog']);
 		
-		$this->load->view("common/header.php", $this->datas);
-		$this->load->view("doc/view.php");
-		$this->load->view("common/upload_modal.php");
-		$this->load->view("common/footer.php");
+		// 增加一次阅读量
+		$this->files_model->incr_view_times($fid, 1);
+		
+		$this->load->view('common/header.php', $this->datas);
+		$this->load->view('doc/view.php');
+		$this->load->view('common/upload_modal.php');
+		$this->load->view('common/down_modal.php');
+		$this->load->view('common/footer.php');
 	}
 	
 	/**

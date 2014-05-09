@@ -170,7 +170,7 @@ class Files_model extends CI_Model {
 		if($catalog!=='all') {
 			$this->db->where('catalog', $catalog);
 		}
-		$this->db->order_by("up_date", "desc"); // 上传时间倒序
+		$this->db->order_by('up_date', 'desc'); // 上传时间倒序
 		$this->db->limit($per_page, ($page-1)*$per_page);
 		
 		$query = $this->db->get();
@@ -182,6 +182,41 @@ class Files_model extends CI_Model {
 		}
 		
 		return $list;
+	}
+	
+	/**
+	 * 获取用户文件列表
+	 * @param unknown $uid
+	 * @param unknown $page
+	 * @param number $per_page
+	 */
+	public function user_file_list($uid, $page, $per_page=20) {
+		$this->db->select('fid, fname , jf, extension, up_date');
+		$this->db->where('uid', $uid);
+		$this->db->order_by('up_date', 'desc');
+		$this->db->limit($per_page, ($page-1)*$per_page);
+		$query = $this->db->get('files');
+		$result = $query->result_array();
+		foreach($result as &$m) {
+			$m['down_times'] = $this->down_times($m['fid']);
+		} 
+		return $result;
+	}
+	
+	/**
+	 * 获取用户收藏的文件列表
+	 */
+	public function user_collection_list($uid, $page, $per_page=20) {
+		$this->db->select('collection.fid, fname , jf, extension, cot, nickname, user.id as uid');
+		$this->db->from('collection');
+		$this->db->join('files', 'files.fid=collection.fid');
+		$this->db->join('user', 'files.uid=user.id');
+		$this->db->where('collection.uid', $uid);
+		$this->db->order_by('cot', 'desc'); // 上传时间倒序
+		$this->db->limit($per_page, ($page-1)*$per_page);
+		$query = $this->db->get();
+		
+		return $query->result_array();
 	}
 	
 	/**
@@ -259,4 +294,5 @@ class Files_model extends CI_Model {
 	public function page_nums($fid) {
 		return $this->redis->hget('DOC.'.$fid, 'PAGE');
 	}
+	
 }

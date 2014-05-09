@@ -187,6 +187,15 @@ enctype="multipart/form-data">
 		
 		echo 'IS_LOGIN : '.$_SESSION['IS_LOGIN'].'<br>';
 	}
+	
+	
+	/**
+	 * 
+	 */
+	function test_rank(){
+		$this->load->model('rank_model');
+		$this->rank_model->test();
+	}
 }
 
 /* End of file welcome.php */

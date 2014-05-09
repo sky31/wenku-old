@@ -50,6 +50,8 @@ h4.m-h { margin-top: 0px;}
 .m-v-intro {font-size: 14px;}
 
 
+.m-ul-div { margin-top: 5px;}
+
 /***从bootstrap复制过来覆盖的**/
 .pagination {
   display: inline-block;
@@ -144,3 +146,10 @@ h4.m-h { margin-top: 0px;}
   border-bottom-right-radius: 3px;
   border-top-right-radius: 3px;
 }
+
+table a, .table a {
+  text-decoration: none;
+}
+
+#downModal p { font-size: 18px;  color: #555555; margin-bottom: 4px;}
+#downModal p button { margin-top: 5px; width: 180px;}

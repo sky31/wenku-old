@@ -218,4 +218,29 @@ class User_model extends CI_Model {
 	public function incr_doc_count($uid, $incr) {
 		return $this->redis->hincrby('USR.'.$uid, 'DC', $incr);
 	}
+	
+	/**
+	 * 用户收集的文档数
+	 */
+	public function user_collection_nums($fid) {
+		$sql = 'select count(*) as count from '.$this->db->dbprefix('collection')
+				.' where fid="'.$fid.'"';
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		
+		return intval($row['count']);
+	}
+	
+	/**
+	 * 判断某个文件是否下载过
+	 * @param unknown $uid
+	 * @param unknown $fid
+	 */
+	public function have_down($uid, $fid) {
+		return $this->redis->sismember('DOC.S.'.$uid, $fid);
+	}
+	
+	public function add_down_file($uid, $fid) {
+		return $this->redis->sadd('DOC.S.'.$uid, $fid);
+	}
 }

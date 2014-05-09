@@ -24,6 +24,7 @@ CREATE TABLE `doc31_files` (
   `fname`  varchar(255) NOT NULL COMMENT '文件名', -- 文件名
   `extension`  varchar(5) NOT NULL COMMENT '文件扩展名', -- 文件扩展名
   `intro` varchar(512) NOT NULL DEFAULT '' COMMENT '文章的简介intro',
+  `size` int(11) not null COMMENT '文件大小',
   `jf` INT(4) NOT NULL DEFAULT 0 COMMENT '下载文章所需的积分',
   `catalog`  varchar(20) NOT NULL DEFAULT 'other'  COMMENT '分类',
   `is_set`  TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否已经设置过信息',
@@ -32,6 +33,16 @@ CREATE TABLE `doc31_files` (
   PRIMARY KEY (`fid`),
   key(`uid`),
   key(`catalog`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `doc31_collection`;
+CREATE TABLE `doc31_collection` (
+  `fid` varchar(25) NOT NULL,   -- mongodb生成的ID
+  `uid` int(11) not null,     -- 用户的ID
+  `cot` int(11) not null,     -- 收藏的时间
+  PRIMARY KEY (`fid`, `uid`),
+  key(`uid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 

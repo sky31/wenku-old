@@ -33,19 +33,64 @@ class Home extends MY_Controller {
 	/**
 	 * 个人中心首页
 	 */
-	function index() {
+	function lists($page=1) {
 		$this->datas['action'] = 'index';
 		$this->datas['user_jf'] = 
 			$this->user_model->user_jf($this->datas['user_id']);
 		$this->datas['user_doc_count'] = 
 			$this->user_model->user_doc_count($this->datas['user_id']);
+		$this->datas['user_collection_nums'] =
+			$this->user_model->user_collection_nums($this->datas['user_id']);
 		
-		$this->load->view("common/header.php", $this->datas);
-		$this->load->view("home/home_top.php");
-		$this->load->view("home/index.php");
-		$this->load->view("home/home_bottom.php");
-		$this->load->view("common/upload_modal.php");
-		$this->load->view("common/footer.php");
+		// 获取用户文件列表
+		$this->load->model('files_model');
+		$this->datas['list'] = $this->files_model->user_file_list($this->datas['user_id'], $page);
+		
+		//进行分页
+		$this->load->library('pages');
+		$this->datas['pagination'] = $this->pages->create_links(
+				'/home/lists/',
+				$this->datas['user_doc_count'], 3, $page
+		);
+		
+		$this->load->view('common/header.php', $this->datas);
+		$this->load->view('home/home_top.php');
+		$this->load->view('home/index.php');
+		$this->load->view('home/home_bottom.php');
+		$this->load->view('common/upload_modal.php');
+		$this->load->view('common/footer.php');
+	}
+	
+	/**
+	 * 用户收藏的文件信息
+	 */
+	function collection($page=1) {
+		$this->datas['action'] = 'index';
+		$this->datas['user_jf'] =
+			$this->user_model->user_jf($this->datas['user_id']);
+		$this->datas['user_doc_count'] =
+			$this->user_model->user_doc_count($this->datas['user_id']);
+		$this->datas['user_collection_nums'] =
+			$this->user_model->user_collection_nums($this->datas['user_id']);
+		
+		// 获取用户收藏文件列表
+		$this->load->model('files_model');
+		$this->datas['list'] = 
+			$this->files_model->user_collection_list($this->datas['user_id'], $page);
+		
+		//进行分页
+		$this->load->library('pages');
+		$this->datas['pagination'] = $this->pages->create_links(
+				'/home/collection/',
+				$this->datas['user_collection_nums'], 3, $page
+		);
+		
+		$this->load->view('common/header.php', $this->datas);
+		$this->load->view('home/home_top.php');
+		$this->load->view('home/collection.php');
+		$this->load->view('home/home_bottom.php');
+		$this->load->view('common/upload_modal.php');
+		$this->load->view('common/footer.php');
 	}
 	
 	/**
@@ -159,6 +204,126 @@ class Home extends MY_Controller {
 			$this->files_model->push_trans_queue($key);
 		}
 		$this->ajax_return(array('ret'=>0, 'info'=>'ok'));
+	}
+	
+	/**
+	 * 收藏新的文件
+	 */
+	public function add_collection_file($fid=NULL) {
+		if( $fid=== NULL || $fid=='' ){
+			$this->ajax_return(array('ret'=>-1, 'info'=>'fid不能为空'));
+		}
+		$this->load->model('collection_model');
+
+		$uid = $this->datas['user_id'];
+		if($this->collection_model->have($uid, $fid)) {
+			$this->ajax_return(array(
+				'ret'=>-1,
+				'info'=>'文件已经收藏过'
+			));
+		} else {
+			$this->files_model->add($uid, $fid);
+			$this->ajax_return(array(
+					'ret'=>0,
+					'info'=>'文件收藏成功'
+			));
+		}
+		
+	}
+	
+	/**
+	 * 确认文件信息和用户信息
+	 */
+	public function down_make_sure($fid=NULL) {
+		if( $fid=== NULL || $fid=='' ){
+			$this->ajax_return(array('ret'=>-1, 'info'=>'fid不能为空'));
+		}
+		
+		$this->load->model('files_model');
+		$this->load->model('user_model');
+		$file_info = $this->files_model->file_info($fid, array('fname, size, jf, extension'));
+		$user_jf   = $this->user_model->user_jf($this->datas['user_id']);
+		
+		if($file_info==NULL) {
+			$this->ajax_return(array(
+					'ret'=>1,
+					'info'=> '文件不存在',
+			));
+		} else {
+			
+			$this->ajax_return(array(
+					'ret'=>0,
+					'info'=> array(
+							'fileName' => $file_info['fname'].$file_info['extension'],
+							'fileSize' => $file_info['size'],
+							'fileJF'   => $file_info['jf'],
+							'userJF'   => $user_jf,
+							'have_down' => $this->user_model->have_down(
+									$this->datas['user_id'], $fid)
+					)
+			));
+		}
+		
+	}
+	
+	/**
+	 * 下载文件
+	 */
+	public function down_file($fid=NULL) {
+		if($fid===null) {
+			show_error( '您所请求的文档没有找到，<a href="/">前文库首页搜索</a>', 404, '文档未找到');
+		}
+		
+		$uid = $this->datas['user_id'];
+		
+		// 判断用户积分是否足够
+		$this->load->model('user_model');
+		$this->load->model('files_model');
+		$user_jf = $this->user_model->user_jf($uid);
+		$file_info = $this->files_model->file_info($fid, 'jf');
+		$file_jf = $file_info['jf'];
+		if($user_jf<$file_jf) {
+			show_error( '你的积分不足，<a href="/home">上传文件获取积分</a>', 403, '没有下载权限');
+		}
+		
+
+		$this->load->library("mongo");
+
+		//如果不 配置此项，将可能抛出Mongo异常
+		$grid = $this->mongo->file_grid();
+		ini_set('mongo.long_as_object', 1);
+		$file = $grid->get(new MongoId($fid));
+		if($file==NULL) {
+			show_error( '您所请求的文档没有找到，<a href="/">前文库首页搜索</a>', 404, '文档未找到');
+		}
+		
+		// 扣除用户积分
+		if($file_jf!=0 && !$this->user_model->have_down($uid, $fid)) {
+			// 积分不为零且没有下载过才需要扣除积分
+			$this->user_model->add_down_file($uid, $fid);
+			$this->user_model->incr_jf($uid, $file_jf * -1);
+		}
+		
+		// 统计下载
+		$this->files_model->incr_down_times($fid, 1);
+		$this->load->model('rank_model');
+		$this->rank_model->incr_file_week($fid);
+		$this->rank_model->incr_file_month($fid);
+		
+		header("Content-Type: application/octet-stream");
+		$filename = $file->getFilename();
+		$ua = $_SERVER["HTTP_USER_AGENT"];
+		$encoded_filename = rawurlencode($filename);
+		//处理中文文件名的情况
+		if (preg_match("/MSIE/", $ua)) {
+			header('Content-Disposition: attachment; filename="' . $encoded_filename . '"');
+		} else if (preg_match("/Firefox/", $ua)) {
+			header("Content-Disposition: attachment; filename*=\"utf8''" . $filename . '"');
+		} else {
+			header('Content-Disposition: attachment; filename="' . $filename . '"');
+		}
+
+		echo $file->getBytes();
 	}
 	
 	/**

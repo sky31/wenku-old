@@ -9,6 +9,7 @@ class MY_Mongo{
 	private $client  = NULL;
 	private $filedb  = NULL;
 	private $swf_grid = NULL;
+	private $file_grid = NULL;
 	private $config  = NULL;
 	
 	/**
@@ -37,6 +38,16 @@ class MY_Mongo{
 	 */
 	public function file_db() {
 		return $this->filedb;
+	}
+	
+	/**
+	 * file_grid
+	 */
+	public function file_grid() {
+		if($this->file_grid==NULL) {
+			$this->file_grid = $this->filedb->getGridFS();
+		}
+		return $this->file_grid;
 	}
 	
 	/**

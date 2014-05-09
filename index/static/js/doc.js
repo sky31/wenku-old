@@ -70,7 +70,7 @@ $(function(){
 		return false;
 	});
 
-	var XtuDoc = {};
+	window.XtuDoc = {};
 	XtuDoc.uploadQueue = [];
 	XtuDoc.lastJf      = 0;
 	XtuDoc.catalogArray = {"math":"数学", 'literatrue': ' 文学', 'law':'法学', 'english':'英语', 'foreign': '小语种', 'chemical':'化工', 'physical':'物理', 'histophilo':'哲史', 'political':'思想政治', 'ba':'工商管理', 'economic':'经济/经融', 'newsspread':'新闻/传播', 'advfilm':'广告/影视', 'art':'艺术/美学', 'music':'音乐', 'mechanics':'机械', 'material':'材料', 'civilbuild':'土木/建筑', 'computer':'计算机科学', 'electronic':'电子技术', 'notice':'通知公告', 'table':'表格', 'other': '其他'};
@@ -120,9 +120,74 @@ $(function(){
 		$('#modalPassBody').hide();
 		$('#showResult').html(result);
 	}
+
+
+	XtuDoc.addCollectionFile = function(fid) {
+		if(DOC_IS_LOGIN){
+			$.getJSON('/home/add_collection_file/'+fid, {}, function(json, textStatus) {
+				/*optional stuff to do after success */
+				alert(json.info);
+			});
+		} else {
+			alert("请先登录");
+		}
+		return false;
+	}
+
+	XtuDoc.sizeCalc = function(size) {
+		var arr = ['Byte', 'KB', 'MB', 'GB'];
+		var i = 0;
+		size = parseInt(size);
+		while(size>1024) {
+			size = size/1024.00;
+			i++;
+		}
+		return size.toFixed(1) + arr[i];
+	}
+
+	XtuDoc.downFileModal = function (fid) {
+		if(DOC_IS_LOGIN){
+			$.getJSON('/home/down_make_sure/'+fid, {}, function(json, textStatus) {
+				if(json.ret==0) {
+					$("#downModal .fileName").html(json.info.fileName);
+					$("#downModal .fileSize").html( XtuDoc.sizeCalc(json.info.fileSize) );
+					$("#downModal .fileJF").html(json.info.fileJF);
+					$("#downModal .userJF").html(json.info.userJF);
+					if(json.info.haveDown){
+						$("#downModal .haveDown").html("该文件已经下载过，再次下载不扣除积分");
+						$("#downModal .haveDown").show();
+					}
+					if(json.info.userJF<json.info.fileJF) {
+						$("#downFileBtn").html('积分不足');
+						$("#downFileBtn").attr('class', 'btn btn-default');
+						$("#downFileBtn").attr("disabled", "disabled");
+					} else {
+						$("#downFileBtn").attr('class', 'btn btn-success');
+						$("#downFileBtn").html('立即下载');
+						$("#downFileBtn").removeAttr('disabled')
+						$("#downFileBtn").click(function(event) {
+							$("#downFileBtn").attr("disabled", "disabled");
+							window.open('/down_file/'+fid);
+							$("#downFileBtn").html('已下载');
+							$("#downFileBtn").attr('class', 'btn btn-danger');
+						});
+					}
+					$("#downModal").modal('show');
+				} else {
+					alert(json.info);
+				}
+			});
+		} else {
+			alert("请先登录");
+		}
+		return false;
+	}
+
 	if(typeof C_DOC_SESS_ID=='undefined') {
 		C_DOC_SESS_ID = "1";
 	}
+
+
 	$('#file_upload').uploadify({
 			'fileSizeLimit' : '30MB',
 			'fileTypeExts' : '*.pptx; *.ppt; *.xlsx; *.xls; *.pdf; *.doc; *.docx',
@@ -208,5 +273,4 @@ $(function(){
 		location.href=href;
 		return false;
 	});
-
 });

@@ -61,8 +61,12 @@
 				<p class="m-path"><a href="/">湘大文库</a> > <a href="/lists/<?php echo $file['catalog'];?>"><?php echo $catalog_name;?></a></p>
 				<h3 class="m-lg-title">
 					<img src="/static/image/ppt.png" height="28" > <?php echo $file['fname'];?>
-					<button class="btn btn-success btn-sm pull-right">下载</button>
-					<button class="btn btn-info btn-sm pull-right">收藏</button>
+					<button class="btn btn-success btn-sm pull-right" onclick="XtuDoc.downFileModal('<?php echo $file['fid']; ?>')">下载</button>
+					<?php if(empty($is_collection)) {?>
+						<button class="btn btn-info btn-sm pull-right" onclick="XtuDoc.addCollectionFile('<?php echo $file['fid']; ?>')">收藏</button>
+					<?php }else{?>
+						<button class="btn btn-default btn-sm pull-right" disabled>已收藏</button>
+					<?php }?>
 				</h3>
 				<p class="m-path"><?php echo $file['view_times'];?>次阅读&nbsp;&nbsp;<?php echo $file['down_times'];?>次下载&nbsp;&nbsp; <?php echo $file['jf'];?>积分</p>
 			</div>
