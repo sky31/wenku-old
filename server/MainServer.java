@@ -94,16 +94,16 @@ public class MainServer {
 								
 								if(ostFileNameSufix.equals("pdf")) {
 									// 文件本身就是pdf，不需要转PDF
-									cmd = PDF2SWF_PATH + " \"" +
-											tmpFileName + "\" -o " +
+									cmd = PDF2SWF_PATH + " " +
+											tmpFileName + " -o " +
 											swfFileName + " -q -T 9 -f -t -s languagedir="+SWF_LANG_DIR;
 								} else {
 									// 转换PDF
 									convertServer.convert2PDF(
 											tmpFileName, pdfFileName);
 
-									cmd = PDF2SWF_PATH + " \"" +
-											pdfFileName + "\" -o " +
+									cmd = PDF2SWF_PATH + " " +
+											pdfFileName + " -o " +
 											swfFileName + " -q -T 9 -f -t -s languagedir="+SWF_LANG_DIR;
 									
 								}
