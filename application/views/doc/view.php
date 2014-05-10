@@ -60,10 +60,10 @@
 			<div class="col-lg-12">
 				<p class="m-path"><a href="/">湘大文库</a> > <a href="/lists/<?php echo $file['catalog'];?>"><?php echo $catalog_name;?></a></p>
 				<h3 class="m-lg-title">
-					<img src="/static/image/ppt.png" height="28" > <?php echo $file['fname'];?>
+					<img src="/static/image/<?php echo substr($file['extension'], 0, 3);?>.png" height="28" > <?php echo $file['fname'];?>
 					<button class="btn btn-success btn-sm pull-right" onclick="XtuDoc.downFileModal('<?php echo $file['fid']; ?>')">下载</button>
 					<?php if(empty($is_collection)) {?>
-						<button class="btn btn-info btn-sm pull-right" onclick="XtuDoc.addCollectionFile('<?php echo $file['fid']; ?>')">收藏</button>
+						<button class="btn btn-info btn-sm pull-right" onclick="XtuDoc.addCollectionFile(this, '<?php echo $file['fid']; ?>')">收藏</button>
 					<?php }else{?>
 						<button class="btn btn-default btn-sm pull-right" disabled>已收藏</button>
 					<?php }?>
@@ -123,21 +123,17 @@
 					<div class="panel-heading">相似文档
 					</div>
 					<ul class="panel-body list-group m-pd-lg">
+					<?php if(count($similar_list)===0){?>
+							<li class="list-group-item text-center">暂无相似文档推荐</li>
+					<?php }else{?>
+						<?php
+							foreach($similar_list as $m) {
+						?>
 						<li class="list-group-item">
-							<a href="#">101我们很好阿斯蒂斯蒂芬散打</a>
+							<img src="/static/image/<?php echo $m['extension'];?>.png" height="18">
+							<a href="/view/<?php echo $m['fid'];?>"><?php echo $m['fname'];?></a>
 						</li>
-						<li class="list-group-item">
-							<a href="#">as df saf df ds fsd</a>
-						</li>
-						<li class="list-group-item">
-							<a href="#">sdf sdf sf sdf sfg </a>
-						</li>
-						<li class="list-group-item">
-							<a href="#">as df saf df ds fsd</a>
-						</li>
-						<li class="list-group-item">
-							<a href="#">as df saf df ds fsd</a>
-						</li>
+					<?php } }?>
 					</ul>
 				</div>
 			</div>

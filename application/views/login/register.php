@@ -57,7 +57,7 @@
 <div class="row">
 	<div class="col-lg-8">
 
-<form class="form-horizontal" action="" method="post" name="registerForm">
+<div class="form-horizontal">
   <fieldset>
     <legend class="text-center">校园用户接入</legend>
     <div class="form-group">
@@ -98,7 +98,7 @@
       		<div class="col-lg-2">
       			<img src="/static/image/face/<?php echo $index;?>.jpg" height="72" >
       			<br/>
-      			<input type="radio" class="inputFace" name="face" value="<?php echo $index;?>">
+      			<input type="radio" class="inputFace" name="faceInput" value="<?php echo $index;?>">
       		</div>
       		<?php }?>
       	</div>
@@ -121,7 +121,7 @@
       </div>
     </div>
   </fieldset>
-</form>
+</div>
 
 	</div>
 </div>

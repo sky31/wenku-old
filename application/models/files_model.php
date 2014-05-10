@@ -107,11 +107,11 @@ class Files_model extends CI_Model {
 	 * 获取搜索结果列表
 	 * @param array $fids
 	 */
-	public function search($query, $page) {
+	public function search($query, $page, $per_page=20) {
 		$this->load->library('xun');
 		//设置搜索
 		$search = $this->xun->getSearch();
-		$search->setFuzzy()->setLimit(20, ($page-1)*20);
+		$search->setFuzzy()->setLimit($per_page, ($page-1)*$per_page);
 		$docs = $search->search($query);
 		$count = $search->getLastCount();
 		//var_dump($count);
@@ -294,6 +294,65 @@ class Files_model extends CI_Model {
 	 */
 	public function page_nums($fid) {
 		return $this->redis->hget('DOC.'.$fid, 'PAGE');
+	}
+	
+	/**
+	 * 获取最新上传的文件列表（转换成功 ）
+	 * 
+	 */
+	public function new_file_list($nums = 6) {
+		$fids = $this->redis->lrange('Q.SUCCESS', 0 , 5);
+		if(count($fids)>0){
+			$this->db->select('fid, nickname, fname');
+			$this->db->from('files');
+			$this->db->join('user', 'files.uid = user.id');
+			$this->db->where_in('fid', $fids);
+			$this->db->order_by('up_date', 'desc'); // 上传时间倒序
+			$query = $this->db->get();
+			return $query->result_array();
+		} else {
+			return array();
+		}
+	}
+	
+	/**
+	 * 根据文件名获取类似的文件
+	 * @param unknown $fname
+	 */
+	public function similar_file_list($fname, $fid, $nums=6){
+		$query = 'fname:'.$fname.' -fid:'.$fid;
+		
+		$this->load->library('xun');
+		//设置搜索
+		$search = $this->xun->getSearch();
+		$search->setFuzzy()->setLimit($nums);
+		$docs = $search->search($query);
+		$count = $search->getLastCount();
+		//var_dump($count);
+		if($count==0) {
+			return array();
+		}
+		$list = array();
+		foreach($docs as &$m) {
+			$list[] = array(
+				'fid' => $m->fid,
+				'fname'=> $search->highlight($m->fname),
+				'extension'=> $m->ext
+			);
+		}
+		return $list;
+	}
+	
+	/**
+	 * 判断文件是否存在
+	 */
+	public function have_file($size, $md5) {
+		$this->load->library('mongo');
+		$db = $this->mongo->file_db();
+		return $db->fs->files->findOne(array(
+				'length'=>$size,
+				'md5'   =>$md5
+		), array('_id')) == NULL ? false:true;
 	}
 	
 }

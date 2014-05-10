@@ -73,7 +73,7 @@ class Welcome extends MY_Controller {
 	function xunsearch() {
 		$this->load->library('xun');
 		$search = $this->xun->getSearch();
-		$docs = $search->search('数学');
+		$docs = $search->setFuzzy()->search('什么 ');
 		var_dump($docs);
 		foreach($docs as $doc) {
 			$subject = $search->highlight($doc->fname);
@@ -195,6 +195,11 @@ enctype="multipart/form-data">
 	function test_rank(){
 		$this->load->model('rank_model');
 		$this->rank_model->test();
+	}
+	
+	function test_file() {
+		$this->load->model('files_model');
+		var_dump($this->files_model->have_file(180436, "b351788ead48a4f5aaef888be44336d0"));
 	}
 }
 

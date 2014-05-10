@@ -89,6 +89,15 @@ class Login extends MY_Controller {
 				$login_num = $_SESSION['REG_NUM'];
 				$password  = $_SESSION['REG_PASS'];
 				
+				//判断email是否存在
+				if($this->user_model->check_email($email)) {
+					$this->ajax_return(array(
+						'ret'=>1,
+						'info'=>'输入的邮箱已存在'
+					));
+					return ;
+				}
+				
 				$this->user_model->add_user($login_num, $password, $name,
 						$nickname, $face, $email, 1);
 				$datas['login_num'] = $login_num;
@@ -99,9 +108,13 @@ class Login extends MY_Controller {
 				unset($_SESSION['REG_NAME']);
 				unset($_SESSION['REG_NUM']);
 				
-				$this->load->view("common/header.php", $datas);
-				$this->load->view("login/register_success.php");
-				$this->load->view("common/footer.php");
+				//登录
+				$this->user_model->login($login_num, $password);
+				
+				$this->ajax_return(array(
+					'ret'=>0,
+					'info'=>'ok',
+				));
 			}
 		} else {
 			$this->load->helper('url');

@@ -33,6 +33,12 @@ class Doc extends MY_Controller {
 	function index() {
 		$this->datas['nav'] = 'index';  //用来在导航上输出class="active"
 		
+		$this->load->model('rank_model');
+		$this->load->model('files_model');
+		$this->datas['month_list'] = $this->rank_model->month_top();
+		$this->datas['week_list']  = $this->rank_model->month_top();
+		$this->datas['new_file_list'] = $this->files_model->new_file_list();		
+
 		$this->load->view('common/header.php', $this->datas);
 		$this->load->view('doc/index.php');
 		$this->load->view('common/footer.php');
@@ -140,6 +146,10 @@ class Doc extends MY_Controller {
 		$this->load->model('catalog_model');
 		$this->datas['catalog_name'] = 
 				$this->catalog_model->get_value($this->datas['file']['catalog']);
+		
+		// 搜索相似文件
+		$this->datas['similar_list']  = 
+			$this->files_model->similar_file_list($this->datas['file']['fname'], $fid);
 		
 		// 增加一次阅读量
 		$this->files_model->incr_view_times($fid, 1);

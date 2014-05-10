@@ -65,7 +65,7 @@ class Home extends MY_Controller {
 	 * 用户收藏的文件信息
 	 */
 	function collection($page=1) {
-		$this->datas['action'] = 'index';
+		$this->datas['action'] = 'collection';
 		$this->datas['user_jf'] =
 			$this->user_model->user_jf($this->datas['user_id']);
 		$this->datas['user_doc_count'] =
@@ -132,18 +132,32 @@ class Home extends MY_Controller {
 					fclose($ftmp);
 					//log_message('error', $head5bit);
 					if(in_array($head5bit, $allow_heads)) {
-						// 执行上传操作
-						// move_uploaded_file($_FILES['Filedata']['tmp_name'], './uploads/'.$filename);
 						$this->load->model('files_model');
+						
+						$md5 = strtolower(md5_file($_FILES['Filedata']['tmp_name']));
+						// 判断文件是否存在
+						if(!$this->files_model->have_file($size, $md5)) {
+							// 如果大小和md5相同的文件不存在
+							// 执行上传操作
+							// move_uploaded_file($_FILES['Filedata']['tmp_name'], './uploads/'.$filename);
+								
+							$fid = $this->files_model->store_file($_FILES['Filedata']['tmp_name'], $filename);
+							// 将文件上传的结果存储到数据库
+							$this->files_model->add_file(
+									$this->datas['user_id'], $fid, $fileParts['filename'], $fileParts['extension'], $size);
+								
+							$res['ret'] = 0;
+							$res['info']['fid'] = $fid.'';
+							// 给用户增加积分
+							$this->user_model->incr_jf($this->datas['user_id'], 2);
+							// 增加用户的文件数统计
+							$this->user_model->incr_doc_count($this->datas['user_id']);
 							
-						$fid = $this->files_model->store_file($_FILES['Filedata']['tmp_name'], $filename);
-						// 将文件上传的结果存储到数据库
-						log_message('error', $fileParts['filename'].'$$'.$filename);
-						$this->files_model->add_file(
-								$this->user_model->user_info('id'), $fid, $fileParts['filename'], $fileParts['extension'], $size);
 							
-						$res['ret'] = 0;
-						$res['info']['fid'] = $fid.'';
+						} else {
+							$res['ret'] = 1;
+							$res['info']['msg'] = '文件已经存在';
+						}
 						
 					} else {
 						$res['ret'] = 1;
@@ -223,7 +237,7 @@ class Home extends MY_Controller {
 				'info'=>'文件已经收藏过'
 			));
 		} else {
-			$this->files_model->add($uid, $fid);
+			$this->collection_model->add($uid, $fid);
 			$this->ajax_return(array(
 					'ret'=>0,
 					'info'=>'文件收藏成功'
@@ -255,7 +269,7 @@ class Home extends MY_Controller {
 			$this->ajax_return(array(
 					'ret'=>0,
 					'info'=> array(
-							'fileName' => $file_info['fname'].$file_info['extension'],
+							'fileName' => $file_info['fname'].'.'.$file_info['extension'],
 							'fileSize' => $file_info['size'],
 							'fileJF'   => $file_info['jf'],
 							'userJF'   => $user_jf,
@@ -281,7 +295,7 @@ class Home extends MY_Controller {
 		$this->load->model('user_model');
 		$this->load->model('files_model');
 		$user_jf = $this->user_model->user_jf($uid);
-		$file_info = $this->files_model->file_info($fid, 'jf');
+		$file_info = $this->files_model->file_info($fid, 'jf, uid');
 		$file_jf = $file_info['jf'];
 		if($user_jf<$file_jf) {
 			show_error( '你的积分不足，<a href="/home">上传文件获取积分</a>', 403, '没有下载权限');
@@ -296,6 +310,11 @@ class Home extends MY_Controller {
 		$file = $grid->get(new MongoId($fid));
 		if($file==NULL) {
 			show_error( '您所请求的文档没有找到，<a href="/">前文库首页搜索</a>', 404, '文档未找到');
+		}
+		
+		// 增加上传者积分,自己下载自己的文件不加分
+		if($file_info['uid'] != $uid){
+			$this->user_model->incr_jf($file_info['uid'], $file_jf+2);
 		}
 		
 		// 扣除用户积分

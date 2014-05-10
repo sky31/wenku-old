@@ -83,7 +83,7 @@ class User_model extends CI_Model {
 	 */
 	function cookie_login() {
 		$cauth = $this->input->cookie('DOC31CAUTH');
-		$fid   = $this->input->cookie('fid');
+		$fid   = $this->input->cookie('fid'); //fid = fakeid
 		if($cauth && $fid) {
 			$cauth_key = $this->cookie_redis_key($fid, $cauth);
 			$uid = $this->redis->get($cauth_key); //从 redis 获得用户的id
@@ -215,7 +215,7 @@ class User_model extends CI_Model {
 	/**
 	 * 增加用户的文档数
 	 */
-	public function incr_doc_count($uid, $incr) {
+	public function incr_doc_count($uid, $incr = 1) {
 		return $this->redis->hincrby('USR.'.$uid, 'DC', $incr);
 	}
 	
@@ -239,8 +239,21 @@ class User_model extends CI_Model {
 	public function have_down($uid, $fid) {
 		return $this->redis->sismember('DOC.S.'.$uid, $fid);
 	}
-	
+	/**
+	 * 增加用户下载的集合
+	 * @param unknown $uid
+	 * @param unknown $fid
+	 */
 	public function add_down_file($uid, $fid) {
 		return $this->redis->sadd('DOC.S.'.$uid, $fid);
+	}
+	
+	/**
+	 * 检查email是否存在
+	 */
+	public function check_email($email) {
+		$sql = 'select id from '.$this->db->dbprefix('user').' where `email`=?';
+		$query = $this->db->query($sql, array($email));
+		return $query->num_rows()==0?false:true;
 	}
 }

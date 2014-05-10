@@ -73,10 +73,14 @@
 					<h3 class="panel-title">新上传</h3>
 				</div>
 				<ul class="panel-body list-group">
+					<?php
+						foreach($new_file_list as $m) {
+					?>
 					<li class="list-group-item">
-						<span class="pull-right"><a href="#" target="0"> 郭子仟</a> 上传</span>
-						哈哈送达方式的
+						<span class="pull-right"> <?php echo $m['nickname'];?> 上传</span>
+						<a href="/view/<?php echo $m['fid'];?>" target="_blank"><?php echo $m['fname'];?></a>
 					</li>
+					<?php }?>
 				</ul>
 			</div>
 		</div>
@@ -86,18 +90,16 @@
 					<h3 class="panel-title">周下载排行</h3>
 				</div>
 				<ul class="panel-body list-group">
+					<?php
+						foreach($week_list as $m){
+					?>
 					<li class="list-group-item">
-						<span class="badge">2</span>
-						101我们很好阿斯蒂芬是萨芬斯蒂芬散打
+						<span class="badge"><?php echo $m['ranks'];?></span>
+						<a href="/view/<?php echo $m['fid'];?>" target="_blank"><?php echo $m['fname'];?></a>
 					</li>
-					<li class="list-group-item">
-						<span class="badge">2</span>
-						Dapibus ac facilisis in
-					</li>
-					<li class="list-group-item">
-						<span class="badge">2</span>
-						Morbi leo risus
-					</li>
+					<?php
+						}
+					?>
 				</ul>
 			</div>
 		</div>
@@ -107,18 +109,16 @@
 					<h3 class="panel-title">月下载排行</h3>
 				</div>
 				<ul class="panel-body list-group">
+					<?php
+						foreach($month_list as $m){
+					?>
 					<li class="list-group-item">
-						<span class="badge">2</span>
-						Cras justo odio
+						<span class="badge"><?php echo $m['ranks'];?></span>
+						<a href="/view/<?php echo $m['fid'];?>" target="_blank"><?php echo $m['fname'];?></a>
 					</li>
-					<li class="list-group-item">
-						<span class="badge">2</span>
-						Dapibus ac facilisis in
-					</li>
-					<li class="list-group-item">
-						<span class="badge">2</span>
-						Morbi leo risus
-					</li>
+					<?php
+						}
+					?>
 				</ul>
 			</div>
 		</div>

@@ -27,7 +27,7 @@ class My_User_check {
 	}
 	
 	private function _login($user, $password) {
-		// 登录教室管理平台
+		// 登录学生教务管理平台
 		$ret = $this->_login_as_student($user, $password);
 	
 		if($ret['ret']!=0) {
@@ -91,7 +91,7 @@ class My_User_check {
 		if(preg_match('/角色/',$response)) {
 			$response = iconv("GBK", "UTF-8//IGNORE",
 					$this->fetch->post("http://202.197.224.134:8083/jwgl/index1.jsp"));
-			echo '<textarea>'.$response.'</textarea>';
+			//echo '<textarea>'.$response.'</textarea>';
 			
 			
 			preg_match('/color=red>(.+?)老师/', $response, $matchs);

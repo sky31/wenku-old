@@ -22,7 +22,9 @@
 				<td><?php echo $m['jf'];?>积分</td>
 				<td><?php echo date('Y-m-d H:i:s', $m['cot']);?></td>
 				<td><?php echo $m['nickname'];?></td>
-				<td><button class="btn btn-default btn-sm">编辑</button></td>
+				<td>
+					<button class="btn btn-danger btn-sm">移除</button>
+				</td>
 			</tr>
 			<?php
 				}

@@ -86,7 +86,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="list-group">
-					<a class="list-group-item <?php if($action=='index') echo 'active'; ?>" href="/">我的文档<span class="badge"><?php echo $user_doc_count;?></span></a>
+					<a class="list-group-item <?php if($action=='index') echo 'active'; ?>" href="/home">我的文档<span class="badge"><?php echo $user_doc_count;?></span></a>
 					<a class="list-group-item <?php if($action=='collection') echo 'active'; ?>" href="/home/collection">我的收藏<span class="badge"><?php echo $user_collection_nums;?></span></a>
 					<a class="list-group-item <?php if($action=='edit') echo 'active'; ?>" href="#">修改资料</a>
 					<a class="list-group-item <?php if($action=='cpass') echo 'cpass'; ?>" href="#">修改密码</a>
