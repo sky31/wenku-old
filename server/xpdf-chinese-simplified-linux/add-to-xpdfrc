@@ -1,0 +1,11 @@
+#----- begin Chinese Simplified support package (2011-sep-02)
+cidToUnicode	Adobe-GB1	/sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/Adobe-GB1.cidToUnicode
+unicodeMap	ISO-2022-CN	/sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/ISO-2022-CN.unicodeMap
+unicodeMap	EUC-CN		/sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/EUC-CN.unicodeMap
+unicodeMap	GBK		/sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/GBK.unicodeMap
+cMapDir		Adobe-GB1	/sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/CMap
+toUnicodeDir			/sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/CMap
+
+displayCIDFontTT Adobe-GB1 /sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/CMap/gbsn00lp.ttf
+#fontFileCC	Adobe-GB1	/usr/..../gkai00mp.ttf
+#----- end Chinese Simplified support package
