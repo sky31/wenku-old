@@ -53,11 +53,25 @@ $(function(){
 		}
 		var isemail=/^\w+([-\.]\w+)*@\w+([\.-]\w+)*\.\w{2,4}$/;
 		if(!isemail.test($("#inputEmail").val())) {
-			$("#inputEmail").focus();
+			$("#inputEmail").focus().val();
 			$("#accessAlert").html("邮箱格式错误");
 			return false;
 		}
-		return true;
+
+		$.post('/register', {
+			'email': $("#inputEmail").val(),
+			'nickname': $("#inputNickname").val(),
+			'face':  $('input[name="faceInput"]:checked').val()
+		}, function(data, textStatus, xhr) {
+			if(data.ret==0){
+				alert('注册成功');
+				window.setTimeout("location.href='/home'", 1);
+			} else {
+				alert(data.info);
+			}
+		});
+
+		return false;
 	});
 	$("#openUploadModal").click(function(event) {
 		/* Act on the event */
@@ -122,10 +136,15 @@ $(function(){
 	}
 
 
-	XtuDoc.addCollectionFile = function(fid) {
+	XtuDoc.addCollectionFile = function(btn, fid) {
 		if(DOC_IS_LOGIN){
 			$.getJSON('/home/add_collection_file/'+fid, {}, function(json, textStatus) {
 				/*optional stuff to do after success */
+				if(json.ret==0) {
+					$(btn).attr('class', 'btn btn-default btn-sm pull-right');
+					$(btn).attr('disabled', 'disabled');
+					$(btn).html('已收藏');
+				}
 				alert(json.info);
 			});
 		} else {
@@ -273,4 +292,5 @@ $(function(){
 		location.href=href;
 		return false;
 	});
+
 });

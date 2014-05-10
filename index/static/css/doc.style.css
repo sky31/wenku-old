@@ -151,5 +151,9 @@ table a, .table a {
   text-decoration: none;
 }
 
+table a:hover, .table a:hover{
+  text-decoration: underline;
+}
+
 #downModal p { font-size: 18px;  color: #555555; margin-bottom: 4px;}
 #downModal p button { margin-top: 5px; width: 180px;}
