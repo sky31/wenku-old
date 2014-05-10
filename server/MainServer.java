@@ -3,9 +3,8 @@ import com.mongodb.*;
 import com.mongodb.gridfs.*;
 import org.bson.types.ObjectId;
 import java.net.UnknownHostException;
-import java.io.IOException;
 import org.apache.log4j.Logger;
-import java.io.File;
+import java.io.*;
 
 public class MainServer {
 		private ConvertServer convertServer;
@@ -91,8 +90,8 @@ public class MainServer {
 								convertServer.convert2PDF(
 										tmpFileName, pdfFileName);
 
-								String cmd = PDF2SWF_PATH + " \"" +
-										pdfFileName + "\" -o " +
+								String cmd = PDF2SWF_PATH + " " +
+										pdfFileName + " -o " +
 										swfFileName + " -q -T 9 -f -t -s storeallcharacters";
 								Process pcs = Runtime.getRuntime().exec(cmd);
 								logger.info("正在执行转换swf命令..");
@@ -122,6 +121,20 @@ public class MainServer {
 									jedis.lpush("Q.SUCCESS", fid);
 									
 								} else {
+									InputStream stderr = pcs.getErrorStream();
+									InputStreamReader isr = new InputStreamReader(stderr);
+									BufferedReader br = new BufferedReader(isr);
+									String line = null;
+									System.out.println("ERROR_OUT:");
+									while ( (line = br.readLine()) != null){
+										System.out.println(line);
+									}
+									System.out.println("STAND_OUT:");
+									br = new BufferedReader( new InputStreamReader( pcs.getInputStream() ));
+                                                                        while ( (line = br.readLine()) != null){
+                                                                                System.out.println(line);
+                                                                        }
+
 									logger.error("SWF转换失败！fid=" + fid + " -- cmd = " + cmd);
 								}
 							}catch (IOException e){
