@@ -137,21 +137,23 @@ public class MainServer {
 									jedis.lpush("Q.SUCCESS", fid);
 									
 								} else {
-									InputStream stderr = pcs.getErrorStream();
-									InputStreamReader isr = new InputStreamReader(stderr);
-									BufferedReader br = new BufferedReader(isr);
-									String line = null;
-									System.out.println("ERROR_OUT:");
-									while ( (line = br.readLine()) != null){
-										System.out.println(line);
-									}
-									System.out.println("STAND_OUT:");
-									br = new BufferedReader( new InputStreamReader( pcs.getInputStream() ));
-									while ( (line = br.readLine()) != null){
-											System.out.println(line);
-									}
 									logger.error("SWF转换失败！fid=" + fid + " -- cmd = " + cmd);
 								}
+								InputStream stderr = pcs.getErrorStream();
+								InputStreamReader isr = new InputStreamReader(stderr);
+								BufferedReader br = new BufferedReader(isr);
+								String line = null;
+								System.out.println("CMD ERROR_OUT:");
+								while ( (line = br.readLine()) != null){
+									System.out.println(line);
+								}
+								System.out.println("CMD STAND_OUT:");
+								br = new BufferedReader( new InputStreamReader( pcs.getInputStream() ));
+								while ( (line = br.readLine()) != null){
+										System.out.println(line);
+								}
+								System.out.println("");
+								
 							}catch (IOException e){
 								jedis.lpush("Q.TRANS", fid);
 								throw e;
