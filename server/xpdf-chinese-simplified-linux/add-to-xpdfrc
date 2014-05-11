@@ -6,7 +6,7 @@ unicodeMap	GBK		/sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/GB
 cMapDir		Adobe-GB1	/sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/CMap
 toUnicodeDir			/sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/CMap
 
-displayCIDFontTT Adobe-GB1 /sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/CMap/gbsn00lp.ttf
+displayCIDFontTT Adobe-GB1 /sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/CMap/gkai00mp.ttf
 fontDir /sky31/www/doc.sky31.com/server/xpdf-chinese-simplified-linux/fonts
 #fontFileCC	Adobe-GB1	/usr/..../gkai00mp.ttf
 #----- end Chinese Simplified support package
