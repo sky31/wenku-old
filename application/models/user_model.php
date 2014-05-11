@@ -69,11 +69,11 @@ class User_model extends CI_Model {
 				));
 				
 			} else {
-				$ret = array('ret'=>1, 'info'=>'帐号或密码错误');
+				$ret = array('ret'=>2, 'info'=>'密码错误');
 			}
 			
 		} else {
-			$ret = array('ret'=>1, 'info'=>'帐号或密码错误');
+			$ret = array('ret'=>1, 'info'=>'未接入系统');
 		}
 		return $ret;
 	}

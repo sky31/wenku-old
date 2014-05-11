@@ -19,7 +19,9 @@ $(function(){
 		}, function(data) {
 			if(data.ret==0) {
 				window.setTimeout('location.href=location.href', 500);
-			} else {
+			}else if(data.ret==2){
+				alert("密码错误");
+			}else{
 				$("#m-access-info").html('<p class="text-center"><img src="/static/image/loading.gif"></p><p>这是你第一次登录文库系统，正在为你接入系统，需等待10秒左右……</p>');
 				$('#linkInModal').modal('show');
 				// 访问接入
@@ -36,6 +38,49 @@ $(function(){
 			} // function
 		}); //$.post
 	});
+
+	$("#lpLoginBtn").click(function(event) {
+		var reg = /^20[0-9]{8}$|^20[0-9]{10}$|^[0-9]{8}$/;
+		if($("#lpInputNums").val()=="") {
+			$("#lpInputNums").focus();
+			$("#lpAccessAlert").html("帐号不能为空");
+			return false;
+		} else if(!reg.test($("#lpInputNums").val())) {
+			$("#lpInputNums").focus();
+			$("#lpAccessAlert").html("学号/工号格式错误");
+			return false;
+		}else if( $("#lpInputPass").val()=="" ){
+			$("#lpInputPass").focus();
+			$("#lpAccessAlert").html("密码不能为空");
+			return false;
+		}
+
+		$.post('/login/post', {
+			num : $("#lpInputNums").val(),
+			pass : $("#lpInputPass").val(),
+		}, function(data) {
+			if(data.ret==0) {
+				window.setTimeout('location.href="/home";', 500);
+			} else if(data.ret==2){
+				$("#lpAccessAlert").html("密码错误");
+			}else{ //返回1，未接入系统帐号密码都错
+				$("#m-access-info").html('<p class="text-center"><img src="/static/image/loading.gif"></p><p>这是你第一次登录文库系统，正在为你接入系统，需等待10秒左右……</p>');
+				$('#linkInModal').modal('show');
+				// 访问接入
+				$.post('/access', {
+					num : $("#lpInputNums").val(),
+					pass : $("#lpInputPass").val(),
+				}, function(data) {
+					if(data.ret==0) {
+						location.href="/register";
+					} else {
+						$("#m-access-info").html("接入出错：" + data.info);
+					}
+				});
+			} // function
+		}); //$.post
+	});
+
 
 	$("#accessBtn").click(function(event) {
 		/* Act on the event */
