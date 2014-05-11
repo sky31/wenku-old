@@ -36,7 +36,7 @@ class Doc extends MY_Controller {
 		$this->load->model('rank_model');
 		$this->load->model('files_model');
 		$this->datas['month_list'] = $this->rank_model->month_top();
-		$this->datas['week_list']  = $this->rank_model->month_top();
+		$this->datas['week_list']  = $this->rank_model->week_top();
 		$this->datas['new_file_list'] = $this->files_model->new_file_list();		
 
 		$this->load->view('common/header.php', $this->datas);
