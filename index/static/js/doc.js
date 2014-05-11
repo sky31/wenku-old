@@ -77,6 +77,12 @@ $(function(){
 		/* Act on the event */
 		if(DOC_IS_LOGIN) {
 			$("#uploadModal").modal("show");
+			// 监听上传模态框是否关闭
+			$('#uploadModal').on('hidden.bs.modal', function (e) {
+				if(XtuDoc.isUpload) {
+					window.setTimeout("location.href='/home';", 1);
+				}
+			});
 		} else {
 			$("#loginUser").focus();
 			alert("请先登录");
@@ -87,6 +93,7 @@ $(function(){
 	window.XtuDoc = {};
 	XtuDoc.uploadQueue = [];
 	XtuDoc.lastJf      = 0;
+	XtuDoc.isUpload    = false;
 	XtuDoc.catalogArray = {"math":"数学", 'literatrue': ' 文学', 'law':'法学', 'english':'英语', 'foreign': '小语种', 'chemical':'化工', 'physical':'物理', 'histophilo':'哲史', 'political':'思想政治', 'ba':'工商管理', 'economic':'经济/经融', 'newsspread':'新闻/传播', 'advfilm':'广告/影视', 'art':'艺术/美学', 'music':'音乐', 'mechanics':'机械', 'material':'材料', 'civilbuild':'土木/建筑', 'computer':'计算机科学', 'electronic':'电子技术', 'notice':'通知公告', 'table':'表格', 'other': '其他'};
 	XtuDoc.CATALOG_OPTION_STR = '';
 	XtuDoc.init = function() {
@@ -107,6 +114,7 @@ $(function(){
 			for(i=0;i<length; i++) {
 				data = XtuDoc.uploadQueue[i];
 				if(data.ret==0) {
+					XtuDoc.isUpload = true;
 					//积分
 					XtuDoc.lastJf +=2;
 					html += "<tr>";
@@ -360,5 +368,4 @@ $(function(){
 		
 		return false;
 	});
-
 });

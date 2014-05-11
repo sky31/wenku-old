@@ -114,7 +114,9 @@ class Home extends MY_Controller {
 			$res['info'] = array();
 			$size     = $_FILES['Filedata']['size'];
 			$filename = $_FILES['Filedata']['name'];
-			
+// 			echo ini_get('upload_max_filesize');
+// 			print_r($_FILES);
+// 			exit();
 			$res['info']['fname'] = $filename;
 			if($size<1024*1024*30){
 				//允许的文件类型
