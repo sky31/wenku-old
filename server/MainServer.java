@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 import org.apache.log4j.Logger;
 import java.io.*;
 import java.util.Properties;
+import org.artofsolving.jodconverter.office.OfficeException;
 
 public class MainServer {
 		private ConvertServer convertServer;
@@ -154,6 +155,8 @@ public class MainServer {
 								}
 								System.out.println("");
 								
+							}catch(OfficeException e){
+								jedis.lpush("Q.ERROR.DOC", fid);
 							}catch (IOException e){
 								jedis.lpush("Q.TRANS", fid);
 								throw e;
