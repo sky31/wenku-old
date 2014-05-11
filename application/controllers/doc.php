@@ -192,5 +192,6 @@ class Doc extends MY_Controller {
 			->set_content_type('application/x-shockwave-flash');
 		
 		echo $file->getBytes();
+		exit();
 	}
 }

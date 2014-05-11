@@ -16,7 +16,7 @@
                 * 允许上传文件的格式包括：pdf, doc, docx, xls, xlsx, ppt, pptx。<br>
                 * 单个文件大小最大30M。<br>
                 * 按住CTRL键可以选择多个文件上传。<br>
-                * 成功上传一个文件获得 3 积分
+                * 成功上传一个文件获得 2 积分
             </div>
             <div class="col-lg-6">
               <div class="row">
