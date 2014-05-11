@@ -7,6 +7,21 @@
 		<link rel="stylesheet" href="/static/css/flatly/bootstrap.css" media="screen">
 		<link rel="stylesheet" href="/static/css/doc.style.css?v=4">
 		<link rel="stylesheet" href="/static/css/uploadify.css">
+		<!--[if IE 8]>
+		<script type="text/javascript">
+			window.location="/bs-ie.html";
+		</script>
+		<![endif]-->
+		<!--[if lte IE 7]>
+		<script type="text/javascript">
+			window.location="/bs-ie.html";
+		</script>
+		<![endif]-->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+			<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+		<![endif]-->
 	</head>
 	<body>
 		<div class="navbar navbar-inverse navbar-fixed-top"><!---->
