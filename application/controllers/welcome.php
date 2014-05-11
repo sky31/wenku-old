@@ -1,6 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Welcome extends MY_Controller {
+	
+	public function __construct() {
+		parent::__construct();
+		$h = $this->input->get("heimonsy");
+		if($h!="admin") {
+			exit("ERROR");
+		}
+	}
 
 	/**
 	 * Index Page for this controller.
