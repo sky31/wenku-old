@@ -49,7 +49,7 @@
 				</div><!-- navbar-header -->
 			</div><!-- container -->
 		</div><!-- navbar -->
-		<div class="container">
+		<div class="container m-container">
 <script>
 var DOC_IS_LOGIN = <?php echo $is_login ? 'true' : 'false';?>;
 </script>

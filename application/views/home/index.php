@@ -19,10 +19,14 @@
 			<tr>
 				<td><img src="/static/image/<?php echo substr($m['extension'], 0, 3);?>.png" height="24"></td>
 				<td><a href="/view/<?php echo $m['fid'];?>" target="_blank"><?php echo $m['fname'].'.'.$m['extension'];?></a></td>
-				<td><?php echo $m['jf'];?>积分</td>
-				<td><?php echo $m['down_times'];?>次</td>
-				<td><?php echo date('Y-m-d H:i:s', $m['up_date']);?></td>
-				<td><button class="btn btn-default btn-sm">编辑</button></td>
+				<?php if($m['is_set']==1){?>
+					<td><?php echo $m['jf'];?>积分</td>
+					<td><?php echo $m['down_times'];?>次</td>
+					<td><?php echo date('Y-m-d H:i:s', $m['up_date']);?></td>
+				<?php }else{?>
+					<td colspan="3" class="text-danger">未设置，点击编辑进行设置</td>
+				<?php }?>
+				<td><button target-data="<?php echo $m['fid'];?>" class="btn btn-default btn-sm setFileInfoBtn">编辑</button></td>
 			</tr>
 			<?php
 				}

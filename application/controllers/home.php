@@ -57,6 +57,7 @@ class Home extends MY_Controller {
 		$this->load->view('home/home_top.php');
 		$this->load->view('home/index.php');
 		$this->load->view('home/home_bottom.php');
+		$this->load->view('common/set_file_info_modal.php');
 		$this->load->view('common/upload_modal.php');
 		$this->load->view('common/footer.php');
 	}
@@ -344,6 +345,37 @@ class Home extends MY_Controller {
 		}
 
 		echo $file->getBytes();
+	}
+	
+	/**
+	 * 获取用户个人的文件信息
+	 */
+	function get_file_info($fid=NULL){
+		if($fid===NULL){
+			show_error( '您所请求的文档没有找到，<a href="/">前文库首页搜索</a>', 404, '文档未找到');
+		}
+		
+		$this->load->model('files_model');
+		$fileinfo = $this->files_model->file_info($fid, array('fname', 'extension', 'uid', 'jf', 'catalog', 'intro'));
+		$res = array();
+		if($fileinfo != NULL){
+			if($fileinfo['uid'] == $this->datas['user_id']) {
+				$res['ret'] = 0;
+				$res['info'] = array(
+						'filename' => $fileinfo['fname'].'.'.$fileinfo['extension'],
+						'jf'       => $fileinfo['jf'],
+						'catalog'  => $fileinfo['catalog'],
+						'intro'  => $fileinfo['intro']
+				);
+			} else {
+				$res['ret'] = 1;
+				$res['info'] = array('msg'=>'不是你的文件无法编辑');
+			}
+		} else {
+			$res['ret'] = 1;
+			$res['info'] = array('msg'=>'文件不存在');
+		}
+		$this->ajax_return($res);
 	}
 	
 	/**

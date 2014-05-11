@@ -134,7 +134,7 @@ class Files_model extends CI_Model {
 			);
 		}
 
-		$this->db->select('fid, nickname, jf, extension, up_date');
+		$this->db->select('fid, nickname, jf, catalog,extension, up_date');
 		$this->db->from('files');
 		$this->db->join('user', 'files.uid = user.id');
 		$this->db->where_in('fid', $fids);
@@ -165,9 +165,10 @@ class Files_model extends CI_Model {
 	 */
 	function file_list($catalog, $page, $per_page=20) {
 		
-		$this->db->select('fid, fname, intro, nickname, jf, extension, up_date');
+		$this->db->select('fid, fname, intro, nickname, catalog, jf, extension, up_date');
 		$this->db->from('files');
 		$this->db->join('user', 'files.uid = user.id');
+		$this->db->where('is_set', 1);
 		if($catalog!=='all') {
 			$this->db->where('catalog', $catalog);
 		}
@@ -192,7 +193,7 @@ class Files_model extends CI_Model {
 	 * @param number $per_page
 	 */
 	public function user_file_list($uid, $page, $per_page=20) {
-		$this->db->select('fid, fname , jf, extension, up_date');
+		$this->db->select('fid, fname , jf, is_set, extension, up_date');
 		$this->db->where('uid', $uid);
 		$this->db->order_by('up_date', 'desc');
 		$this->db->limit($per_page, ($page-1)*$per_page);

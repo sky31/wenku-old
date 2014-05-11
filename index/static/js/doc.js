@@ -245,9 +245,9 @@ $(function(){
 				$(all[i]).focus();
 				alert("文件简介不能为空");
 				return ;
-			} else if($(all[i]).val().length>140) {
+			} else if($(all[i]).val().length>120) {
 				$(all[i]).focus();
-				alert("文件简介不能超过140个字符");
+				alert("文件简介不能超过120个字符");
 				return ;
 			}
 		}
@@ -290,6 +290,74 @@ $(function(){
 		var href = "/search/"+$('input[name="optionsRadios"]:checked').val()+"/"+isStr;
 		//alert(href);
 		location.href=href;
+		return false;
+	});
+
+	$(".setFileInfoBtn").click(function(event) {
+		var fid = $(this).attr("target-data");
+		$("#alertDiv").html(" ");
+		$.getJSON('/home/get_file_info/'+fid,{
+		}, function(json, textStatus) {
+				/*optional stuff to do after success */
+			if(json.ret==0) {
+				var jf_array = [0, 1, 2, 4, 8];
+				$("#smInputFileName").val(json.info.filename);
+				html = "<select name=\""+fid+"_jf\" class=\"form-control\" id=\"smInputJF\">"
+				for(var i in jf_array){
+					html+="<option value=\""+jf_array[i]+"\" "
+					if(i==json.info.jf) {
+						html+="selected "
+					}
+					html+=">" + jf_array[i] + "积分</option>";
+				}
+				html +="</select>";
+				$("#smInputJFDiv").html(html);
+				html = "<select name=\""+fid+"_catalog\" class=\"form-control\" id=\"smInputCatalog\">";
+				if(json.info.catalog=="") {
+					html+="<option value=\"0\" selected=\"selected\">请选择...</a>"
+				}
+				for(var j in XtuDoc.catalogArray) {
+					html+="<option value=\""+j+"\" "
+					if(j==json.info.catalog) {
+						html+="selected=\"selected\" "
+					}
+					html+=">" + XtuDoc.catalogArray[j] + "</option>";
+				}
+				html +="</select>";
+				$("#smInputCatalogDiv").html(html);
+				$("#smInputIntroDiv").html('<textarea id="smInputIntro" class="form-control" name="'+fid+'_intro" placeholder="输入文档简介...">'+json.info.intro+'</textarea>');
+				$("#smUpBtnDiv").html("<button id=\"smUpBtn\"class=\"btn btn-success\">提交</button>");
+				$("#smUpBtn").click(function(event) {
+					if($("#smInputCatalog").val()==0){
+						$("#smInputCatalog").focus();
+						$("#smBtnAlert").html('<span class="m-l text-danger">没有设置分类</div>');
+						return false;
+					}
+					if($("#smInputIntro").val()==""){
+						$("#smInputIntro").focus();
+						$("#smBtnAlert").html('<span class="m-l text-danger">简介不能为空</div>');
+						return false;
+					} else if($("#smInputIntro").val().length>120){
+						$("#smInputIntro").focus();
+						$("#smBtnAlert").html('<span class="m-l text-danger">简介不能超过120个字符</div>');
+						return false;
+					}
+					$.post('/set_file_info', {
+						'data': $("#smForm").serialize()
+					}, function(data, textStatus, xhr) {
+						/*optional stuff to do after success */
+						$("#smBtnAlert").html('<span class="m-l text-success">设置成功</div>');
+					});
+
+					return false;
+				});
+
+				$("#setFileInfoModal").modal("show");
+			}else {
+				alert(json.info.msg);
+			}
+		});
+		
 		return false;
 	});
 

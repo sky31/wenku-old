@@ -222,10 +222,10 @@ class User_model extends CI_Model {
 	/**
 	 * 用户收集的文档数
 	 */
-	public function user_collection_nums($fid) {
+	public function user_collection_nums($uid) {
 		$sql = 'select count(*) as count from '.$this->db->dbprefix('collection')
-				.' where fid="'.$fid.'"';
-		$query = $this->db->query($sql);
+				.' where uid=?';
+		$query = $this->db->query($sql, array($uid));
 		$row = $query->row_array();
 		
 		return intval($row['count']);

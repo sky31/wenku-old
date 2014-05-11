@@ -13,6 +13,9 @@ class Catalog_model extends CI_Model {
 			'music'=>'音乐', 'mechanics'=>'机械', 'material'=>'材料', 'civilbuild'=>'土木/建筑', 'computer'=>'计算机科学',
 			'electronic'=>'电子技术', 'notice'=>'通知公告', 'table'=>'表格', 'other'=> '其他'
 	);
+	
+	private $catalog_re_array = NULL;
+	
 	/**
 	 * 判断键是否存在
 	 */
@@ -35,9 +38,19 @@ class Catalog_model extends CI_Model {
 	}
 	
 	/**
-	 * 根据value获取值
+	 * 根据value获取key值
 	 */
-	function get_key() {
-		
+	function get_key($value) {
+		if($this->catalog_re_array==NULL) {
+			$this->re_catalog();
+		}
+		return $this->catalog_re_array[$value];
+	}
+	
+	private function re_catalog() {
+		$this->catalog_re_array = array();
+		foreach($this->catalog_array as $key => $value) {
+			$this->catalog_re_array[$value] = $key;
+		}
 	}
 }

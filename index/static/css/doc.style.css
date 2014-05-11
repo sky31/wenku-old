@@ -157,3 +157,6 @@ table a:hover, .table a:hover{
 
 #downModal p { font-size: 18px;  color: #555555; margin-bottom: 4px;}
 #downModal p button { margin-top: 5px; width: 180px;}
+.m-m-b { padding-bottom: 0px;}
+.m-l { margin-left: 12px;}
+.m-container { position: relative;}

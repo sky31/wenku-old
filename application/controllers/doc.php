@@ -70,7 +70,7 @@ class Doc extends MY_Controller {
 				$this->datas['count'], 3, $page
 		);
 		
-		// 获取分页列表
+		// 获取分类
 		$this->load->model('catalog_model');
 		$this->datas['catalog_array'] = $this->catalog_model->get_array();
 		
@@ -111,6 +111,10 @@ class Doc extends MY_Controller {
  				'/search/'.$type.'/'.$words.'/',
  				$this->datas['search_count'], 4, $page
  		);
+ 		
+ 		//获取分类数组
+ 		$this->load->model('catalog_model');
+ 		$this->datas['catalog_array'] = $this->catalog_model->get_array();
  		
  		$this->datas['search_word'] = urldecode($words);
  		$this->datas['search_type'] = urldecode($type);
@@ -194,4 +198,5 @@ class Doc extends MY_Controller {
 		echo $file->getBytes();
 		exit();
 	}
+
 }
