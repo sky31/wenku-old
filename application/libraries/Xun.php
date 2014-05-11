@@ -18,7 +18,7 @@ class MY_Xun{
 	 * @param string $app
 	 */
 	public function __construct() {
-		$this->xs = new XS('demo');
+		$this->xs = new XS('xtudoc');
 	}
 	
 	/**
