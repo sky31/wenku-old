@@ -55,6 +55,13 @@ p {
 </style>
 </head>
 <body>
+<script>
+var sUserAgent = window.navigator.userAgent;
+var reg = /MSIE 6|MSIE 7|MSIE 8/i;
+if(!reg.test(sUserAgent)) {
+	location.href="/";
+}
+</script>
 	<div id="container">
 		<h1 style="color: red;">系统不支持您使用的浏览器，请使用现代浏览器</h1>
 		下载Chrome浏览器：<a href="http://www.google.cn/intl/zh-CN/chrome/browser/">http://www.google.cn/intl/zh-CN/chrome/browser/</a><br>
