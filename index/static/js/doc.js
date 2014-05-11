@@ -265,6 +265,8 @@ $(function(){
 			'fileTypeExts' : '*.pptx; *.ppt; *.xlsx; *.xls; *.pdf; *.doc; *.docx',
 			'buttonClass': 'm-up-btn',
 			'buttonText' : '选择文件',
+			'uploadLimit' : 6,
+			'queueSizeLimit': 6,
 			formData : {DOC_SESS_ID:C_DOC_SESS_ID},
 			'onUploadSuccess' : function(file, data, response){
 				//alert(data);
@@ -276,8 +278,14 @@ $(function(){
 				XtuDoc.showJfList();
 			},
 			'onUploadError' : function(file, errorCode, errorMsg, errorString) {
-				alert('The file ' + file.name + ' could not be uploaded: ' + errorString + '\n' + errorCode + '\n' + errorMsg);
+				alert('文件 ' + file.name + ' 无法上传: ');
 			},
+			'onSelectError' : function(file, errorCode, errorMsg) {
+            	if(errorCode==SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {
+            		alert("选择的文件数量过多");
+            		return true;
+            	}
+        	} ,
 			'swf'      : '/static/swf/uploadify.swf',
 			'uploader' : '/home/upload_file',
 			
