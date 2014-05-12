@@ -215,7 +215,7 @@ enctype="multipart/form-data">
 		$this->xun->clean();
 		$this->load->database();
 		$sql = 'select fid, fname, extension, intro,catalog from '
-				.$this->db->dbprefix('files');
+				.$this->db->dbprefix('files').' where is_set=1';
 		$query = $this->db->query($sql);
 		foreach($query->result_array() as $m){
 			$doc =  array(
