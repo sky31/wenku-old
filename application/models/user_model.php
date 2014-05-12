@@ -96,7 +96,7 @@ class User_model extends CI_Model {
 			if($cauth==$this->calc_cauth($uid, $this->input->user_agent().'')) {
 				// 提取用户的信息
 				$this->db->select('nickname, password, face');
-				$result = $this->db->get_where('user', array('id'=>$uid));
+				$result = $this->db->get_where('user', array('id'=>$uid, 'is_del'=>0));
 				$row = $result->row_array();
 				$_SESSION['IS_LOGIN'] = 'YES';
 				$_SESSION['USER_ID'] = $uid;
