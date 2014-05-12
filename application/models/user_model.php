@@ -50,23 +50,28 @@ class User_model extends CI_Model {
 	 * @param string $password
 	 */
 	public function login($login_num, $password) {
-		$sql = 'select id, nickname,password, face from '.$this->db->dbprefix('user').' where `login_num`=?';
+		$sql = 'select id, nickname,password, face, is_del from '.$this->db->dbprefix('user').' where `login_num`=?';
 		$result = $this->db->query($sql , array($login_num));
 		if($result->num_rows()!=0) {
 			$row = $result->row_array(); 
 			if($row['password']===md5($password)) {
-				$_SESSION['IS_LOGIN'] = 'YES';
-				$_SESSION['USER_ID'] = $row['id'];
-				$_SESSION['USER_NICKNAME'] = $row['nickname'];
-				$_SESSION['USER_FACE'] = $row['face'];
-				$ret = array('ret'=>0, 'info'=>'ok');
+				if(!$row['is_del']){
+					$_SESSION['IS_LOGIN'] = 'YES';
+					$_SESSION['USER_ID'] = $row['id'];
+					$_SESSION['USER_NICKNAME'] = $row['nickname'];
+					$_SESSION['USER_FACE'] = $row['face'];
+					$ret = array('ret'=>0, 'info'=>'ok');
+					
+					//更新用户的登录信息
+					$this->db->where('id', $row['id']);
+					$this->db->update('user', array(
+							'last_login_time' => time(),
+							'last_login_ip'   => $this->input->ip_address()
+					));
+				} else {
+					$ret = array('ret'=>2, 'info'=> '该用户已被禁用');
+				}
 				
-				//更新用户的登录信息
-				$this->db->where('id', $row['id']);
-				$this->db->update('user', array(
-					'last_login_time' => time(),
-					'last_login_ip'   => $this->input->ip_address()
-				));
 				
 			} else {
 				$ret = array('ret'=>2, 'info'=>'密码错误');

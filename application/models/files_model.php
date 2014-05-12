@@ -169,6 +169,7 @@ class Files_model extends CI_Model {
 		$this->db->from('files');
 		$this->db->join('user', 'files.uid = user.id');
 		$this->db->where('is_set', 1);
+		$this->db->where('is_del', 0);
 		if($catalog!=='all') {
 			$this->db->where('catalog', $catalog);
 		}
