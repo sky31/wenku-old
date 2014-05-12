@@ -20,7 +20,7 @@ $(function(){
 			if(data.ret==0) {
 				window.setTimeout('location.href=location.href', 500);
 			}else if(data.ret==2){
-				alert("密码错误");
+				alert(data.info);
 			}else{
 				$("#m-access-info").html('<p class="text-center"><img src="/static/image/loading.gif"></p><p>这是你第一次登录文库系统，正在为你接入系统，需等待10秒左右……</p>');
 				$('#linkInModal').modal('show');
@@ -62,7 +62,7 @@ $(function(){
 			if(data.ret==0) {
 				window.setTimeout('location.href="/home";', 500);
 			} else if(data.ret==2){
-				$("#lpAccessAlert").html("密码错误");
+				$("#lpAccessAlert").html(data.info);
 			}else{ //返回1，未接入系统帐号密码都错
 				$("#m-access-info").html('<p class="text-center"><img src="/static/image/loading.gif"></p><p>这是你第一次登录文库系统，正在为你接入系统，需等待10秒左右……</p>');
 				$('#linkInModal').modal('show');
