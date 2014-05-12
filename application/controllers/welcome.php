@@ -209,6 +209,30 @@ enctype="multipart/form-data">
 		$this->load->model('files_model');
 		var_dump($this->files_model->have_file(180436, "b351788ead48a4f5aaef888be44336d0"));
 	}
+	
+	function rebuild_index(){
+		$this->load->library('xun');
+		$this->xun->clean();
+		$this->load->database();
+		$sql = 'select fid, fname, extension, intro,catalog from '
+				.$this->db->dbprefix('files');
+		$query = $this->db->query($sql);
+		foreach($query->result_array() as $m){
+			$doc =  array(
+					'fid' => $m['fid'],
+					'fname' => $m['fname'],
+					'ext'   => substr($m['extension'], 0, 3), //只允许3个字符，docx只能保留成doc
+					'intro' => $m['intro'],
+					'catalog' => $m['catalog']
+			);
+			// 添加搜索索引
+			try{
+				$this->xun->add($doc);
+			}catch (XSException $e) {
+				log_message('error', '添加索引失败：'.$e->getTraceAsString());
+			}
+		}
+	}
 }
 
 /* End of file welcome.php */
