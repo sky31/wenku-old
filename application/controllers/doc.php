@@ -32,6 +32,7 @@ class Doc extends MY_Controller {
 	 */
 	function index() {
 		$this->datas['nav'] = 'index';  //用来在导航上输出class="active"
+		$this->datas['head_description'] = '湘大文库，湘大人自己的文库！考试试卷，课堂PPT，课后习题，考试重点！';
 		
 		$this->load->model('rank_model');
 		$this->load->model('files_model');
