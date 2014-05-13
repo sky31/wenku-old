@@ -158,6 +158,10 @@ class Doc extends MY_Controller {
 		// 增加一次阅读量
 		$this->files_model->incr_view_times($fid, 1);
 		
+		//子标题
+		$this->datas['prefix_title'] = $this->datas['file']['fname'];
+		$this->datas['head_description'] = $this->datas['file']['intro'];
+		
 		$this->load->view('common/header.php', $this->datas);
 		$this->load->view('doc/view.php');
 		$this->load->view('common/upload_modal.php');

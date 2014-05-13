@@ -3,6 +3,9 @@
 	<head>
 		<meta charset="utf-8">
 		<title><?php echo empty($prefix_title)? '':$prefix_title; ?>湘大文库</title>
+		<?php if(!empty($head_description)) {?>
+		<meta name="description" content="<?php echo $head_description;?>" />
+		<?php }?>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/static/css/flatly/bootstrap.css" media="screen">
 		<link rel="stylesheet" href="/static/css/doc.style.css?v=4">

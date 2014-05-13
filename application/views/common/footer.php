@@ -8,7 +8,7 @@
 					<div class="col-lg-8">
 						<br>
 						<a href="#">三翼校园</a>&nbsp;&nbsp;<a href="#">翼工坊</a><br>
-						Copyright  ©  2004-2013    湘潭大学三翼工作室    All  Right  Reserved    湘ICP备05001193号
+						Copyright  ©  2004-2014    湘潭大学三翼工作室    All  Right  Reserved    湘ICP备05001193号
 					</div>
 				</div>
 				<br>
