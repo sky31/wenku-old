@@ -159,7 +159,7 @@ class Doc extends MY_Controller {
 		$this->files_model->incr_view_times($fid, 1);
 		
 		//子标题
-		$this->datas['prefix_title'] = $this->datas['file']['fname'];
+		$this->datas['prefix_title'] = $this->datas['file']['fname'].' | ';
 		$this->datas['head_description'] = $this->datas['file']['intro'];
 		
 		$this->load->view('common/header.php', $this->datas);
