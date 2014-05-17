@@ -237,9 +237,8 @@ $(function(){
 						$("#downFileBtn").attr('class', 'btn btn-success');
 						$("#downFileBtn").html('立即下载');
 						$("#downFileBtn").removeAttr('disabled')
-						$("body").on('click', '#downFileBtn', function(event) {
-							event.preventDefault();
-							/* Act on the event */
+						$("#downFileBtn").unbind('click');
+						$("#downFileBtn").click(function(event) {
 							$("#downFileBtn").attr("disabled", "disabled");
 							window.open('/down_file/'+fid);
 							$("#downFileBtn").html('已下载');
