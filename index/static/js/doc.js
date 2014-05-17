@@ -20,7 +20,7 @@ $(function(){
 			if(data.ret==0) {
 				window.setTimeout('location.href=location.href', 500);
 			}else if(data.ret==2){
-				alert(data.info);
+				alert("密码错误");
 			}else{
 				$("#m-access-info").html('<p class="text-center"><img src="/static/image/loading.gif"></p><p>这是你第一次登录文库系统，正在为你接入系统，需等待10秒左右……</p>');
 				$('#linkInModal').modal('show');
@@ -62,7 +62,7 @@ $(function(){
 			if(data.ret==0) {
 				window.setTimeout('location.href="/home";', 500);
 			} else if(data.ret==2){
-				$("#lpAccessAlert").html(data.info);
+				$("#lpAccessAlert").html("密码错误");
 			}else{ //返回1，未接入系统帐号密码都错
 				$("#m-access-info").html('<p class="text-center"><img src="/static/image/loading.gif"></p><p>这是你第一次登录文库系统，正在为你接入系统，需等待10秒左右……</p>');
 				$('#linkInModal').modal('show');
@@ -237,12 +237,6 @@ $(function(){
 						$("#downFileBtn").attr('class', 'btn btn-success');
 						$("#downFileBtn").html('立即下载');
 						$("#downFileBtn").removeAttr('disabled')
-						$("#downFileBtn").click(function(event) {
-							$("#downFileBtn").attr("disabled", "disabled");
-							window.open('/down_file/'+fid);
-							$("#downFileBtn").html('已下载');
-							$("#downFileBtn").attr('class', 'btn btn-danger');
-						});
 					}
 					$("#downModal").modal('show');
 				} else {
@@ -254,6 +248,13 @@ $(function(){
 		}
 		return false;
 	}
+
+	$("#downFileBtn").click(function(event) {
+			$("#downFileBtn").attr("disabled", "disabled");
+			window.open('/down_file/'+fid);
+			$("#downFileBtn").html('已下载');
+			$("#downFileBtn").attr('class', 'btn btn-danger');
+	});
 
 	if(typeof C_DOC_SESS_ID=='undefined') {
 		C_DOC_SESS_ID = "1";
@@ -278,7 +279,7 @@ $(function(){
 				XtuDoc.showJfList();
 			},
 			'onUploadError' : function(file, errorCode, errorMsg, errorString) {
-				alert('文件 ' + file.name + ' 无法上传: ');
+				alert('文件 ' + file.name + ' 无法上传: ' + errorString + '\n' + errorCode + '\n' + errorMsg);
 			},
 			'onSelectError' : function(file, errorCode, errorMsg) {
             	if(errorCode==SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {

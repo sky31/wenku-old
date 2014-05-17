@@ -1,4 +1,4 @@
-<image src="/static/image/docad/2.jpg" class="visible-lg" width="220" style="position:absolute; top:26px; right:38px; z-index:100;">
+<img src="/static/image/docad/2.jpg" class="visible-lg" width="220" style="position:absolute; top:26px; right:38px; z-index:100;">
 <div class="row" id="bannerSearch">
 	<div class="col-lg-3 text-center">
 		<img src="/static/image/logo.png" height="70">
