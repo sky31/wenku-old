@@ -237,6 +237,14 @@ $(function(){
 						$("#downFileBtn").attr('class', 'btn btn-success');
 						$("#downFileBtn").html('立即下载');
 						$("#downFileBtn").removeAttr('disabled')
+						$("body").on('click', '#downFileBtn', function(event) {
+							event.preventDefault();
+							/* Act on the event */
+							$("#downFileBtn").attr("disabled", "disabled");
+							window.open('/down_file/'+fid);
+							$("#downFileBtn").html('已下载');
+							$("#downFileBtn").attr('class', 'btn btn-danger');
+						});
 					}
 					$("#downModal").modal('show');
 				} else {
@@ -248,13 +256,6 @@ $(function(){
 		}
 		return false;
 	}
-
-	$("#downFileBtn").click(function(event) {
-			$("#downFileBtn").attr("disabled", "disabled");
-			window.open('/down_file/'+fid);
-			$("#downFileBtn").html('已下载');
-			$("#downFileBtn").attr('class', 'btn btn-danger');
-	});
 
 	if(typeof C_DOC_SESS_ID=='undefined') {
 		C_DOC_SESS_ID = "1";
