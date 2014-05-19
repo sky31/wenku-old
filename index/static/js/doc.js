@@ -358,6 +358,7 @@ $(function(){
 	$(".setFileInfoBtn").click(function(event) {
 		var fid = $(this).attr("target-data");
 		$("#alertDiv").html(" ");
+		$("#smBtnAlert").html("");
 		$.getJSON('/home/get_file_info/'+fid,{
 		}, function(json, textStatus) {
 				/*optional stuff to do after success */

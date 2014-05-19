@@ -214,6 +214,7 @@ class Home extends MY_Controller {
 			);
 			// 添加搜索索引
 			try{
+				$this->xun->del($key);
 				$this->xun->add($doc);
 			}catch (XSException $e) {
 				log_message('error', '添加索引失败：'.$e->getTraceAsString());
