@@ -74,7 +74,14 @@
     						&nbsp;<a href="/view/<?php echo $m['fid'];?>"><?php echo $m['fname'];?></a>
     					</h4>
     					<p class="list-group-item-text"><?php echo $m['intro'];?></p>
-    					<p class="list-group-info"><?php echo date('Y-m-d', $m['up_date']);?> | <?php  echo $m['pages']===NULL? '正在处理':'共'.$m['pages'].'页';?> | <?php echo $m['down_times'];?>次下载 | <?php echo $m['jf'];?>积分 | <a href="/lists/<?php echo $m['catalog'];?>"><?php echo $catalog_array[$m['catalog']];?></a> | 贡献者：<?php echo $m['nickname'];?></p>
+    					<p class="list-group-info"><?php echo date('Y-m-d', $m['up_date']);?> | <?php  
+    						if($m['pages']===NULL)
+    							echo '正在处理';
+    						else if($m['pages']<0)
+    							echo '只能下载';
+    						else
+    							echo '共'.$m['pages'].'页';
+    					?> | <?php echo $m['down_times'];?>次下载 | <?php echo $m['jf'];?>积分 | <a href="/lists/<?php echo $m['catalog'];?>"><?php echo $catalog_array[$m['catalog']];?></a> | 贡献者：<?php echo $m['nickname'];?></p>
   					</div>
   				<?php }?>
 				</div>

@@ -54,7 +54,15 @@
 					?>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="m-nav-face"><img src="/static/image/face/<?php echo $user_face; ?>.jpg" width="46" /></li>
-							<li><a href="/home"><?php echo $user_nickname; ?></a></li>
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="userCenter"><?php echo $user_nickname; ?> <span class="caret"></span></a>
+								<ul class="dropdown-menu" aria-labelledby="userCenter" style="min-width: 120px;">
+									<li><a href="/home"><span class="glyphicon glyphicon-user" ></span> 个人中心</a></li>
+									<li><a href="/home/collection"><span class="glyphicon glyphicon-file" ></span> 文档收藏</a></li>
+									<li class="divider"></li>
+									<li><a href="/home/logout"><span class="glyphicon glyphicon-off"></span> 退出登录</a></li>
+								</ul>
+							</li>
 						</ul>
 		    		<?php } else {?>
 					

@@ -84,6 +84,23 @@ class User_model extends CI_Model {
 	}
 	
 	/**
+	 * 更新用户信息
+	 */
+	function update($uid, $datas){
+		//更新用户信息
+		$this->db->where('id', $uid);
+		
+		$ret = $this->db->update('user', $datas);
+		if($ret) {
+			if(isset($datas['nickname']))
+				$_SESSION['USER_NICKNAME'] = $datas['nickname'];
+			if(isset($datas['face']))
+				$_SESSION['USER_FACE'] = $datas['face'];
+		}
+		return $ret;
+	}
+	
+	/**
 	 * cookie 登录
 	 */
 	function cookie_login() {
@@ -183,8 +200,19 @@ class User_model extends CI_Model {
 	/**
 	 * 返回当前登录的用户的信息
 	 */
-	public function user_info($field='all') {
+	public function user_info($field='all', $uid='') {
 		if(is_array($field)){
+			$select = '';
+			$length = count($field);
+			for($i=0; $i<$length; $i++) {
+				if($i!=$length-1)
+					$select .= $field[$i].',';
+				else
+					$select .= $field[$i];
+			}
+			$this->db->select($select);
+			$query = $this->db->get_where('user', array('id'=>$uid));
+			return $query->row_array();
 			
 		} else if(isset(
 				$_SESSION['USER_'.strtoupper($field)] )) {

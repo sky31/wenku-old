@@ -23,7 +23,7 @@
 				<td><?php echo date('Y-m-d H:i:s', $m['cot']);?></td>
 				<td><?php echo $m['nickname'];?></td>
 				<td>
-					<button class="btn btn-danger btn-sm">移除</button>
+					<button data-target="<?php echo $m['fid']?>" class="btn btn-danger btn-sm removeCollection">移除</button>
 				</td>
 			</tr>
 			<?php

@@ -75,9 +75,9 @@ class Home extends MY_Controller {
 			$this->user_model->user_collection_nums($this->datas['user_id']);
 		
 		// 获取用户收藏文件列表
-		$this->load->model('files_model');
+		$this->load->model('collection_model');
 		$this->datas['list'] = 
-			$this->files_model->user_collection_list($this->datas['user_id'], $page);
+			$this->collection_model->collection_list($this->datas['user_id'], $page);
 		
 		//进行分页
 		$this->load->library('pages');
@@ -89,6 +89,80 @@ class Home extends MY_Controller {
 		$this->load->view('common/header.php', $this->datas);
 		$this->load->view('home/home_top.php');
 		$this->load->view('home/collection.php');
+		$this->load->view('home/home_bottom.php');
+		$this->load->view('common/upload_modal.php');
+		$this->load->view('common/footer.php');
+	}
+	
+	
+	/**
+	 * 修改密码
+	 */
+	function cpass() {
+		$this->datas['action'] = 'cpass';
+		$this->datas['user_jf'] =
+		$this->user_model->user_jf($this->datas['user_id']);
+		$this->datas['user_doc_count'] =
+		$this->user_model->user_doc_count($this->datas['user_id']);
+		$this->datas['user_collection_nums'] =
+		$this->user_model->user_collection_nums($this->datas['user_id']);
+		
+		$this->load->view('common/header.php', $this->datas);
+		$this->load->view('home/home_top.php');
+		$this->load->view('home/cpass.php');
+		$this->load->view('home/home_bottom.php');
+		$this->load->view('common/upload_modal.php');
+		$this->load->view('common/footer.php');
+	}
+	
+	
+	/**
+	 * 修改用户密码
+	 */
+	function change_pass() {
+		$old_pass = $this->input->post('oldpass');
+		$new_pass = $this->input->post('newpass');
+		
+		$info = $this->user_model->user_info(array(
+			'password'
+		), $this->datas['user_id']);
+		
+		if(md5($old_pass) == $info['password']) {
+			$ret = $this->user_model->update($this->datas['user_id'], array(
+				'password' => md5($new_pass)
+			));
+			
+			if($ret){
+				$this->ajax_return(array('ret'=>0, 'info'=>'修改成功'));
+			} else {
+				$this->ajax_return(array('ret'=>1, 'info'=>'修改失败'));
+			}
+			
+		} else {
+			$this->ajax_return(array('ret'=>1, 'info'=>'旧密码不正确'));
+		}
+	}
+	
+	
+	/**
+	 * 修改用户信息
+	 */
+	function edit() {
+		$this->datas['action'] = 'edit';
+		$this->datas['user_jf'] =
+			$this->user_model->user_jf($this->datas['user_id']);
+		$this->datas['user_doc_count'] =
+			$this->user_model->user_doc_count($this->datas['user_id']);
+		$this->datas['user_collection_nums'] =
+			$this->user_model->user_collection_nums($this->datas['user_id']);
+		
+		$info = $this->user_model->user_info(array('name', 'email'), $this->datas['user_id']);
+		$this->datas['user_name'] = $info['name']; 
+		$this->datas['user_email'] = $info['email'];
+		
+		$this->load->view('common/header.php', $this->datas);
+		$this->load->view('home/home_top.php');
+		$this->load->view('home/edit.php');
 		$this->load->view('home/home_bottom.php');
 		$this->load->view('common/upload_modal.php');
 		$this->load->view('common/footer.php');
@@ -180,6 +254,8 @@ class Home extends MY_Controller {
 		return $this->ajax_return($res);
 	}
 	
+	
+	
 	/**
 	 * 设置文件信息
 	 */
@@ -248,6 +324,27 @@ class Home extends MY_Controller {
 			));
 		}
 		
+	}
+	
+	
+	/**
+	 * 修改用户信息
+	 */
+	function change_user_info() {
+		$nickname  = $this->input->post('nickname', true);
+		$face      = $this->input->post('face', true);
+		$email     = $this->input->post('email', true);
+		$ret = $this->user_model->update($this->datas['user_id'], array(
+				'nickname' => $nickname,
+				'face'     => $face,
+				'email'    => $email
+		));
+	
+		if($ret) {
+			$this->ajax_return(array('ret'=>0, 'info'=>'修改成功'));
+		} else {
+			$this->ajax_return(array('ret'=>1, 'info'=>'修改失败'));
+		}
 	}
 	
 	/**
@@ -380,6 +477,24 @@ class Home extends MY_Controller {
 		}
 		$this->ajax_return($res);
 	}
+	
+	/**
+	 * 移除一个用户的收藏文档
+	 */
+	public function remove_collection($fid=NULL) {
+		if($fid===NULL){
+			show_error( '您所请求的文档没有找到，<a href="/">前文库首页搜索</a>', 404, '文档未找到');
+		}
+		
+		$this->load->model('collection_model');
+		if($this->collection_model->remove($this->datas['user_id'], $fid)) {
+			$this->ajax_return(array('ret'=>0, 'info'=>'ok'));
+		} else {
+			$this->ajax_return(array('ret'=>1, 'info'=>'没有该收藏文档'));
+		}
+		
+	}
+	
 	
 	/**
 	 * 处理文件信息

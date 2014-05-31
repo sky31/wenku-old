@@ -233,6 +233,13 @@ enctype="multipart/form-data">
 			}
 		}
 	}
+	
+	/**
+	 * 将错误队列里面的文件全部设置为-1
+	 */
+	function anayse_error() {
+		
+	}
 }
 
 /* End of file welcome.php */

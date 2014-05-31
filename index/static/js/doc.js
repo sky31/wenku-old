@@ -96,16 +96,26 @@ $(function(){
 			$("#accessAlert").html("必须选择头像");
 			return false;
 		}
+		var nickName =  $("#inputNickname").val().replace(/(^\s*)|(\s*$)/g,"");
+		if(nickName.length==0) {
+			$("#accessAlert").html("昵称不能为空");
+			return false;
+		} else if(nickName.length>16){
+			$("#accessAlert").html("昵称不能超过16个字符");
+			return false;
+		}
+
+
 		var isemail=/^\w+([-\.]\w+)*@\w+([\.-]\w+)*\.\w{2,4}$/;
 		if(!isemail.test($("#inputEmail").val())) {
-			$("#inputEmail").focus().val();
+			$("#inputEmail").focus();
 			$("#accessAlert").html("邮箱格式错误");
 			return false;
 		}
 
 		$.post('/register', {
 			'email': $("#inputEmail").val(),
-			'nickname': $("#inputNickname").val(),
+			'nickname': nickName,
 			'face':  $('input[name="faceInput"]:checked').val()
 		}, function(data, textStatus, xhr) {
 			if(data.ret==0){
@@ -121,6 +131,9 @@ $(function(){
 	$("#openUploadModal").click(function(event) {
 		/* Act on the event */
 		if(DOC_IS_LOGIN) {
+			$("#uploadModal").modal({
+				keyboard: false
+			});
 			$("#uploadModal").modal("show");
 			// 监听上传模态框是否关闭
 			$('#uploadModal').on('hidden.bs.modal', function (e) {
@@ -287,6 +300,7 @@ $(function(){
             		return true;
             	}
         	} ,
+        	'prevent_swf_caching': false,
 			'swf'      : '/static/swf/uploadify.swf',
 			'uploader' : '/home/upload_file',
 			
@@ -341,7 +355,7 @@ $(function(){
 	});
 
 	$("#mainSearchBtn").click(function(event) {
-		var isStr = $("#inputSearch").val().replace(/(^\s*)|(\s*$)/g,"")
+		var isStr = $("#inputSearch").val().replace(/(^\s*)|(\s*$)/g,"");
 		if(isStr=="") {
 			$("#inputSearch").focus();
 			return false;
@@ -355,6 +369,87 @@ $(function(){
 		return false;
 	});
 
+	// 移除收藏的文件的按钮
+	$(".removeCollection").click(function(event) {
+		var fid = $(this).attr("data-target");
+		if(confirm('确定要移除吗？')) {
+			$.getJSON('/home/remove_collection/'+fid,{
+			}, function(json, textStatus) {
+				if(json.ret==0) {
+					window.setTimeout("location.href=location.href", 1);
+				} else {
+					alert(json.info);
+				}
+			});
+		}
+	});
+
+	// 修改用户信息
+	$("#cuUpBtn").click(function(event) {
+		$("#cuAlert").attr('class', 'text-danger');
+		var nickName =  $("#icuNickname").val().replace(/(^\s*)|(\s*$)/g,"");
+		if(nickName.length==0) {
+			$("#cuAlert").html("昵称不能为空");
+			return false;
+		} else if(nickName.length>16){
+			$("#cuAlert").html("昵称不能超过16个字符");
+			return false;
+		}
+
+		var isemail=/^\w+([-\.]\w+)*@\w+([\.-]\w+)*\.\w{2,4}$/;
+		if(!isemail.test($("#icuEmail").val())) {
+			$("#icuEmail").focus();
+			$("#cuAlert").html("邮箱格式错误");
+			return false;
+		}
+
+		$.post('/home/change_user_info', {
+			'nickname': nickName,
+			'email': $("#icuEmail").val(),
+			'face':  $('input[name="faceInput"]:checked').val()
+		}, function(data, textStatus, xhr) {
+			$("#cuAlert").html(data.info);
+			if(data.ret==0) {
+				$("#cuAlert").attr('class', 'text-success');
+				window.setTimeout('location.href=location.href', 600);
+			} else {
+				$("#cuAlert").attr('class', 'text-danger');
+			}
+
+		});
+
+	});
+
+	$("#cpsUpBtn").click(function(event) {
+		$("#cpsAlert").attr('class', 'text-danger');
+		if($('#cpsOldPass').val().length==0){
+			$('#cpsAlert').html('旧密码不能为空');
+			return false;
+		}
+		if($('#cpsNewPass').val().length==0) {
+			$('#cpsAlert').html('新密码不能为空');
+			return false;
+		}else if($('#cpsNewPass').val().length<6){
+			$('#cpsAlert').html('新密码少于6位')
+			return false;
+		} else if($('#cpsNewPass').val()!=$('#cpsNewPassConfirm').val()) {
+			$('#cpsAlert').html('两次输入的新密码不相等')
+			return false;
+		}
+		$.post('/home/change_pass', {
+			'newpass': $('#cpsNewPass').val(),
+			'oldpass': $('#cpsOldPass').val()
+		}, function(data, textStatus, xhr) {
+			$("#cpsAlert").html(data.info);
+			if(data.ret==0) {
+				$("#cpsAlert").attr('class', 'text-success');
+			} else {
+				$("#cpsAlert").attr('class', 'text-danger');
+			}
+		});
+	});
+
+	// 编辑个人上传的文件的按钮
 	$(".setFileInfoBtn").click(function(event) {
 		var fid = $(this).attr("target-data");
 		$("#alertDiv").html(" ");

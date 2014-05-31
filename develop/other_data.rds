@@ -4,7 +4,7 @@
 
 -- DOC.{$fid}   VIEW -- 文档的浏览数
 -- DOC.{$fid}   DOWN -- 下载次数
--- DOC.{$fid}   PAGE -- 文档页数
+-- DOC.{$fid}   PAGE -- 文档页数  0表示未转换，-1表示转换失败无法在线预览
 
 
 

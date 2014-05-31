@@ -34,7 +34,7 @@ public class MainServer {
 			Properties props=System.getProperties();
 			if(props.getProperty("os.name").toLowerCase().startsWith("win")) {
 				PDF2SWF_PATH = "/server/SWFTools/pdf2swf.exe";
-				OFFICE_HOME = "C:\\Program Files (x86)\\OpenOffice.org 3";
+				OFFICE_HOME = "C:\\Program Files\\OpenOffice.org 3";
 				SWF_LANG_DIR = "/project/svn/sky31.com/doc.sky31.com/server/xpdf-chinese-simplified-windows";
 			} else {
 				PDF2SWF_PATH = "/usr/local/bin/pdf2swf";
@@ -156,7 +156,14 @@ public class MainServer {
 								System.out.println("");
 								
 							}catch(OfficeException e){
+								//虽然失败了，但是还是要表示这个文件已经处理过
+								jedis.lpush("Q.SUCCESS", fid); 
 								jedis.lpush("Q.ERROR.DOC", fid);
+								// 将页数保存为负数，表示转换失败
+								jedis.hset("DOC."+fid, "PAGE", 
+												String.valueOf(-1));
+								System.out.println(fid+" 转换处理失败！！！ "+e.getMessage());
+								logger.error(fid + " 转换处理失败！！！ "+e.getMessage());
 							}catch (IOException e){
 								jedis.lpush("Q.TRANS", fid);
 								throw e;
