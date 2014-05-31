@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * 文库的主控制类
+ * 文库的个人中心主控制类
  * @author heimonsy
  *
  */

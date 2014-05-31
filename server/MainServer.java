@@ -34,7 +34,7 @@ public class MainServer {
 			Properties props=System.getProperties();
 			if(props.getProperty("os.name").toLowerCase().startsWith("win")) {
 				PDF2SWF_PATH = "/server/SWFTools/pdf2swf.exe";
-				OFFICE_HOME = "C:\\Program Files\\OpenOffice.org 3";
+				OFFICE_HOME = "C:\\Program Files (x86)\\OpenOffice.org 3";
 				SWF_LANG_DIR = "/project/svn/sky31.com/doc.sky31.com/server/xpdf-chinese-simplified-windows";
 			} else {
 				PDF2SWF_PATH = "/usr/local/bin/pdf2swf";

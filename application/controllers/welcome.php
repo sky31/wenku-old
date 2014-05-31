@@ -238,7 +238,13 @@ enctype="multipart/form-data">
 	 * 将错误队列里面的文件全部设置为-1
 	 */
 	function anayse_error() {
-		
+		$this->load->library('redis');
+		$list = $this->redis->lrange('Q.ERROR.DOC', 0, -1);
+		//$len = count($list);
+		foreach($list as $fid) {
+			$this->redis->hset('DOC.'.$fid, 'PAGE', -1);
+		}
+		echo "ok";
 	}
 }
 
