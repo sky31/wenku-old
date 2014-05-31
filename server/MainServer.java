@@ -114,7 +114,8 @@ public class MainServer {
 								Process pcs = Runtime.getRuntime().exec(cmd);
 								logger.info("正在执行转换swf命令..");
 								try{
-									logger.info("转换完成，返回代码：" + pcs.waitFor());	
+									int resCode = pcs.waitFor();
+									logger.info("转换完成，返回代码：" + resCode);
 								} catch(InterruptedException e) {
 									logger.error("转换SWF出错：InterruptedException"+cmd);
 									continue;
@@ -138,6 +139,13 @@ public class MainServer {
 									jedis.lpush("Q.SUCCESS", fid);
 									
 								} else {
+									//虽然失败了，但是还是要表示这个文件已经处理过
+									jedis.lpush("Q.SUCCESS", fid); 
+									jedis.lpush("Q.ERROR.DOC", fid);
+									// 将页数保存为负数，表示转换失败
+									jedis.hset("DOC."+fid, "PAGE", 
+										String.valueOf(-1));
+									System.out.println("SWF转换失败！fid=" + fid + " -- cmd = " + cmd);
 									logger.error("SWF转换失败！fid=" + fid + " -- cmd = " + cmd);
 								}
 								InputStream stderr = pcs.getErrorStream();
