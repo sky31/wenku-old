@@ -8,7 +8,7 @@
 		<?php }?>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/static/css/flatly/bootstrap.css" media="screen">
-		<link rel="stylesheet" href="/static/css/doc.style.css?v=4">
+		<link rel="stylesheet" href="/static/css/doc.style.css?v=5">
 		<link rel="stylesheet" href="/static/css/uploadify.css">
 		<!--[if IE 8]>
 		<script type="text/javascript">
