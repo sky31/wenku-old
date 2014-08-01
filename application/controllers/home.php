@@ -251,6 +251,9 @@ class Home extends MY_Controller {
 				$res['info']['msg'] = '文件类型错误';	
 			}
 		}
+        else {
+            log_message('error', '上传内容为空');
+        }
 		return $this->ajax_return($res);
 	}
 	
