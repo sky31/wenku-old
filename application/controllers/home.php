@@ -253,7 +253,8 @@ class Home extends MY_Controller {
 		}
         else {
             $str = json_encode($_FILES);
-            log_message('error', '上传内容为空 : ' . $str);
+            $str .= ' -- POST:'.json_encode($_POST);
+            log_message('error', '上传内容为空，FILES: ' . $str);
             $res['ret'] = 1;
             $res['info'] = array();
             $res['info']['fname'] = '找不到文件';
