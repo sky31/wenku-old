@@ -10,6 +10,10 @@ class Welcome extends MY_Controller {
 		}
 	}
 
+    function ini_info(){
+        phpinfo();
+    }
+
 	/**
 	 * Index Page for this controller.
 	 *
