@@ -252,7 +252,12 @@ class Home extends MY_Controller {
 			}
 		}
         else {
-            log_message('error', '上传内容为空');
+            $str = json_encode($_FILES);
+            log_message('error', '上传内容为空 : ' . $str);
+            $res['ret'] = 1;
+            $res['info'] = array();
+            $res['info']['fname'] = '找不到文件';
+            $res['info']['msg'] = '找不到文件';
         }
 		return $this->ajax_return($res);
 	}
