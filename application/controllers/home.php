@@ -10,6 +10,8 @@ class Home extends MY_Controller {
 	
 	public function __construct() {
 		parent::__construct();
+		$this->datas['nav'] = 'home';  //用来在导航上输出class="active"
+		
 		// 此处非常重要
 		// uploadify上传时用的是swf(as3的库)，没有将SESSION ID 传过来
 		// 所以必须这样认证
