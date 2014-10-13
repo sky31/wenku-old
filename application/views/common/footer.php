@@ -7,7 +7,7 @@
 					</div>
 					<div class="col-lg-8">
 						<br>
-						<a href="http://www.sky31.com">三翼校园</a>&nbsp;&nbsp;<a href="http://blog.sky31.com">翼工坊</a>&nbsp;&nbsp;<a href="http://heimonsy.xtuers.com">heimonsy的博客</a><br>
+						<a href="http://www.sky31.com">三翼校园</a>&nbsp;&nbsp;<a href="http://blog.sky31.com">翼工坊</a>&nbsp;&nbsp;<a href="http://www.heimonsy.com">heimonsy的博客</a><br>
 						Copyright  ©  2004-2014    湘潭大学三翼工作室    All  Right  Reserved    湘ICP备05001193号
 					</div>
 				</div>
