@@ -11,7 +11,7 @@ class Catalog_model extends CI_Model {
 			'chemical'=>'化工', 'physical'=>'物理', 'histophilo'=>'哲史', 'political'=>'思想政治', 'ba'=>'工商管理',
 			'economic'=>'经济/经融', 'newsspread'=>'新闻/传播', 'advfilm'=>'广告/影视', 'art'=>'艺术/美学',
 			'music'=>'音乐', 'mechanics'=>'机械', 'material'=>'材料', 'civilbuild'=>'土木/建筑', 'computer'=>'计算机科学',
-			'electronic'=>'电子技术', 'notice'=>'通知公告', 'table'=>'表格', 'other'=> '其他'
+			'electronic'=>'电子技术', 'notice'=>'通知公告', 'table'=>'表格', 'zk'=>'国家职考', 'tszx'=>'通识/自修','other'=> '其他'
 	);
 	
 	private $catalog_re_array = NULL;
